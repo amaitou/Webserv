@@ -51,3 +51,18 @@ HTTPS is the secure version of HTTP. It adds a layer of encryption using SSL/TLS
 
 	- Content Rendering (The browser renders the response)
 		> The browser receives the HTTP response and interprets the received data. It may render HTML, execute scripts, and fetch additional resources (such as images, stylesheets, and scripts) referenced in the HTML.
+
+- ### HTTP Headers
+
+	The HTTP headers are used to pass additional information between the clients and the server through the `request` and `response` header. All the headers are case-insensitive, headers fields are separated by colon, key-value pairs in clear-text string format. The end of the header section denoted by an empty field header. There are a few header fields that can contain the comments. And a few headers can contain quality(q) key-value pairs that separated by an equal sign.
+
+	There are four kinds of headers context-wise
+	- **General Header** -> This type of headers applied on Request and Response headers both but with out affecting the database body.
+
+	---
+	- **Request Header** -> This type of headers contains information about the fetched request by the client.
+	---
+	- **Response Header** -> This type of headers contains the location of the source that has been requested by the client.
+	---
+	- **Entity Header** -> This type of headers contains the information about the body of the resources like MIME type, Content-length.
+	---
