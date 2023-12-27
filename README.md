@@ -50,7 +50,7 @@ HTTPS is the secure version of HTTP. It adds a layer of encryption using SSL/TLS
 		---
 
 	- Content Rendering (The browser renders the response)
-		> The browser receives the HTTP response and interprets the received data. It may render HTML, execute scripts, and fetch additional resources (such as images, stylesheets, and scripts) referenced in the HTML.
+		> The browser receives the HTTP response and interprets the received data. It may render HTML, execute scripts, and fetch additional resources (such as images, stylesheets, and scripts) referenced in the HTML .
 
 - ### HTTP Headers
 
