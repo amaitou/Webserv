@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 07:25:44 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/18 08:26:39 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,33 @@ void    HTTP_Request::printHeaders(void) const
     std::cout << "\n";
 }
 
+void    HTTP_Request::parseGet(std::string &__temp_path, std::stringstream &stream, std::string &__request_line)
+{
+    method.__method = _GET;
+    if (__temp_path.find("?") != std::string::npos)
+    {
+        size_t position = __temp_path.find("?");
+        method.__path = __temp_path.substr(0, position);
+        method.__query = __temp_path.substr(position + 1, __temp_path.length());
+    }
+    else
+    {
+        method.__path = __temp_path;
+        method.__query = "";
+    }
+    while (std::getline(stream, __request_line))
+    {
+        std::string _key;
+        std::string _value;
+        if (__request_line == "\r")
+            continue;
+        size_t position = __request_line.find(":");
+        _key = __request_line.substr(0, position);
+        _value = __request_line.substr(position + 2, __request_line.length());
+        method.__headers.insert(std::make_pair(_key, _value));
+    }
+    method.__body = "";
+}
 
 void    HTTP_Request::parseRequest(void)
 {
@@ -90,32 +117,7 @@ void    HTTP_Request::parseRequest(void)
     std::stringstream __temp(__request_line);
     __temp >> __method >> __temp_path >> method.__version;
     if (__method == "GET")
-    {
-        method.__method = _GET;
-        if (__temp_path.find("?") != std::string::npos)
-        {
-            size_t position = __temp_path.find("?");
-            method.__path = __temp_path.substr(0, position);
-            method.__query = __temp_path.substr(position + 1, __temp_path.length());
-        }
-        else
-        {
-            method.__path = __temp_path;
-            method.__query = "";
-        }
-        while (std::getline(stream, __request_line))
-        {
-            std::string _key;
-            std::string _value;
-            if (__request_line == "\r")
-                continue;
-            size_t position = __request_line.find(":");
-            _key = __request_line.substr(0, position);
-            _value = __request_line.substr(position + 2, __request_line.length());
-            method.__headers.insert(std::make_pair(_key, _value));
-        }
-        method.__body = "";
-    }
+        parseGet(__temp_path, stream, __request_line);
     else if (__method == "POST")
         method.__method = _POST;
     else if (__method == "DELETE")

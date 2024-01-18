@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:58 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 07:25:58 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/18 08:21:54 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ class HTTP_Request
 
         // Parser
         void    parseRequest(void);
-
-
+        void    parseGet(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
 };
 
 #endif
