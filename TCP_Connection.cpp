@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 07:19:15 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/18 07:27:13 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,39 +30,22 @@ int TCP_Connection::getSocketFd(void) const
 	return (server_fd);
 }
 
+socklen_t TCP_Connection::getAddressLen(void) const
+{
+	return (address_len);
+}
+
 struct sockaddr_in TCP_Connection::getStructSockAddrIn(void) const
 {
 	return (address_s);
 }
+
 
 void	TCP_Connection::socketBind(void)
 {
 	int __bind = bind(server_fd, (struct sockaddr *)&(address_s), sizeof(address_s));
 	if (__bind < 0)
 		throw TCP_Exception::FailedToBindSocket();
-}
-
-socklen_t TCP_Connection::getAddressLen(void) const
-{
-	return (address_len);
-}
-
-void TCP_Connection::printListener(void) const
-{
-	std::cout 	<< "\n[.] "
-				<< GREEN
-				<< "Listening for upcoming connections on: \n"
-				<< RESET
-				<< "\n\t>> Port -> "
-				<< GREEN
-				<< ntohs(address_s.sin_port)
-				<< RESET
-				<< "\n\t>> Host -> "
-				<< GREEN
-				<< ntohs(address_s.sin_addr.s_addr)
-				<< "\n"
-				<< RESET
-				<< std::endl;
 }
 
 void	TCP_Connection::socketListen(void)
@@ -110,3 +93,23 @@ void TCP_Connection::socketSetOptions(void)
 	if (__options < 0)
 		throw TCP_Exception::FailedToSetOptions();
 }
+
+void TCP_Connection::printListener(void) const
+{
+	std::cout 	<< "\n[.] "
+				<< GREEN
+				<< "Listening for upcoming connections on: \n"
+				<< RESET
+				<< "\n\t>> Port -> "
+				<< GREEN
+				<< ntohs(address_s.sin_port)
+				<< RESET
+				<< "\n\t>> Host -> "
+				<< GREEN
+				<< ntohs(address_s.sin_addr.s_addr)
+				<< "\n"
+				<< RESET
+				<< std::endl;
+}
+
+

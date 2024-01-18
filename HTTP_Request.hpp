@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:58 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 07:19:35 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/18 07:25:58 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ class HTTP_Request
 
         // Printers
         void    printHeaders(void) const;
+        void    printRequestLine(void) const;
 
         // Parser
-        void    printRequestLine(void) const;
         void    parseRequest(void);
 
 

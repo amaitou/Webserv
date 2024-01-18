@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 07:19:34 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/18 07:25:44 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ e_method HTTP_Request::getMethod(void) const
     return (method.__method);
 }
 
-void    HTTP_Request::setRequest(char *request)
-{
-    this->request = std::string(request);
-}
-
 std::map<std::string, std::string> HTTP_Request::getHeaders(void) const
 {
     return (method.__headers);
+}
+
+void    HTTP_Request::setRequest(char *request)
+{
+    this->request = std::string(request);
 }
 
 void    HTTP_Request::printRequestLine(void) const
