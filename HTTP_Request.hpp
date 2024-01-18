@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:58 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 05:40:59 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/18 07:19:35 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct _s_method
     std::string __path;
     std::string __version;
     std::string __query;
+    std::string __body;
     e_method __method;
     std::map<std::string, std::string> __headers;
 } s_method;
@@ -56,8 +57,13 @@ class HTTP_Request
         // Setters
         void    setRequest(char *s);
 
+        // Printers
+        void    printHeaders(void) const;
+
         // Parser
+        void    printRequestLine(void) const;
         void    parseRequest(void);
+
 
 };
 

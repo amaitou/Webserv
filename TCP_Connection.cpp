@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 05:38:50 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/18 07:19:15 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,12 @@ void	TCP_Connection::socketAccept(void)
 		Request.setRequest(buffer);
 		Request.parseRequest();
 		std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
-		send(client_fd, http_res.c_str(), http_res.length(), 0);
 		std::cout << buffer << RESET << std::endl;
+		std::cout << CYAN << "___________REQUEST LINE__________\n" << RESET << std::endl;
+		Request.printRequestLine();
+		std::cout << GREEN << "___________HEADERS__________\n" << RESET << std::endl;
+		Request.printHeaders();
+		send(client_fd, http_res.c_str(), http_res.length(), 0);
 		close(client_fd);
 	}
 }
