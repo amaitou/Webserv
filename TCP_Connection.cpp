@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 00:02:10 by amaitou          ###   ########.fr       */
+/*   Updated: 2024/01/18 03:03:58 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void TCP_Connection::socketSetOptions(void)
 	int		opt = 1;
 	int __options = setsockopt(server_fd,
 					SOL_SOCKET,
-					SO_REUSEADDR | SO_REUSEPORT,
+					SO_REUSEADDR,
 					&opt,
 					sizeof(opt));
 	if (__options < 0)

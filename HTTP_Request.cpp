@@ -38,9 +38,10 @@ void    HTTP_Request::parseRequest(void)
     std::string __method;
     std::string __request_line;
 
-    std::istringstream stream(request);
+    std::stringstream stream(request);
     std::getline(stream, __request_line);
-    std::istringstream(__request_line) >> __method >> method.__path >> method.__version; 
+    std::stringstream __temp(__request_line);
+    __temp >> __method >> method.__path >> method.__version;
     if (__method == "GET")
         method.__method = _GET;
     else if (__method == "POST")

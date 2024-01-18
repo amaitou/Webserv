@@ -1,4 +1,4 @@
-#ifndef HTPP_REQUEST_HPP
+#ifndef HTTP_REQUEST_HPP
 #define HTTP_REQUEST_HPP
 
 #include <string>
