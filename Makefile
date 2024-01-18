@@ -17,4 +17,7 @@ $(NAME): $(SRCS)
 fclean:
 	rm -rf $(NAME) $(SRCS)
 
+run:
+	make && clear && ./server
+
 re: fclean all

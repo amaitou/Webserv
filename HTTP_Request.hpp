@@ -35,9 +35,10 @@ class HTTP_Request
         HTTP_Request(char *request);
 
         // Getters
-        e_method getMethod(void) const;
         std::string getPath(void) const;
         std::string getVersion(void) const;
+        std::string getQuery(void) const;
+        e_method getMethod(void) const;
         std::map<std::string, std::string> getHeaders(void) const;
 
         // Setters
