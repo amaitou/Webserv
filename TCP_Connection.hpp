@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 00:01:38 by amaitou          ###   ########.fr       */
+/*   Updated: 2024/01/18 05:41:15 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TCP_CONNECTION
-#define TCP_CONNECTION
+#ifndef TCP_CONNECTION_HPP
+#define TCP_CONNECTION_HPP
 
 #include "TCP_Exceptions.hpp"
 #include "HTTP_Request.hpp"
