@@ -4,7 +4,7 @@ int main(void)
 {
 	try
 	{
-		TCP_Connection HTTP(AF_INET, SOCK_STREAM, 0, 8080, INADDR_ANY);
+		TCP_Connection HTTP(AF_INET, SOCK_STREAM, 0, 80, INADDR_ANY);
 		HTTP.socketSetOptions();
 		HTTP.socketBind();
 		HTTP.socketListen();
