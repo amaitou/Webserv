@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/19 18:08:47 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/19 21:20:01 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,10 @@ void TCP_Connection::printListener(void) const
 				<< std::endl;
 }
 
-
+void TCP_Connection::serve(void)
+{
+	socketSetOptions();
+	socketBind();
+	socketListen();
+	socketAccept();
+}

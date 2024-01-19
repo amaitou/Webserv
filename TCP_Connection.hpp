@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/18 07:18:46 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/19 21:19:33 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ class TCP_Connection
 		// Printers
 		void			printListener(void) const;
 		void			printBanner(void) const;
+
+		// Server
+		void			serve(void);
 };
 
 #endif
