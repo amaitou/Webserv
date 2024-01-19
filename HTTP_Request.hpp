@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:58 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/19 18:04:04 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/19 19:24:10 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,34 @@ typedef enum _e_method
     _NONE
 } e_method;
 
-typedef struct _s_method
+typedef struct _s_get
+{
+    std::string __path;
+    std::string __version;
+    std::string __query;
+    std::map<std::string, std::string> __headers;
+} s_get;
+
+typedef struct _s_post
 {
     std::string __path;
     std::string __version;
     std::string __query;
     std::string __body;
-    e_method __method;
     std::map<std::string, std::string> __headers;
+} s_post;
+
+typedef struct _s_method
+{
+    s_get __get;
+    s_post __post;
 } s_method;
 
 class HTTP_Request
 {
     private:
         s_method method;
+        e_method methodType;
         std::string request;
     
     public:
@@ -48,18 +62,31 @@ class HTTP_Request
         HTTP_Request(char *request);
 
         // Getters
-        std::string getPath(void) const;
-        std::string getVersion(void) const;
-        std::string getQuery(void) const;
-        e_method getMethod(void) const;
-        std::map<std::string, std::string> getHeaders(void) const;
+        e_method getMethodType(void) const;
+        
+        std::string getGetPath(void) const;
+        std::string getGetVersion(void) const;
+        std::string getGetQuery(void) const;
+        std::map<std::string, std::string> getGetHeaders(void) const;
+
+        std::string getPostPath(void) const;
+        std::string getPostVersion(void) const;
+        std::string getPostQuery(void) const;
+        std::string getPostBody(void) const;
+        std::map<std::string, std::string> getPostHeaders(void) const;
 
         // Setters
         void    setRequest(char *s);
 
-        // Printers
-        void    printHeaders(void) const;
+        // Get Printers
+        void    printGetRequestLine(void) const;
+        void    printGetHeaders(void) const;
+
+        void    printPostRequestLine(void) const;
+        void    printPostHeaders(void) const;
+
         void    printRequestLine(void) const;
+        void    printHeaders(void) const;
         void    printBody(void) const;
 
         // Parser
