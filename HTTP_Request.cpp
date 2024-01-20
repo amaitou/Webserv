@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/19 19:38:02 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/21 00:44:13 by amaitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,11 @@ void    HTTP_Request::parseGet(std::string &__temp_path, std::stringstream &stre
             continue;
         size_t position = __request_line.find(":");
         _key = __request_line.substr(0, position);
+        if (_key.find("\r") != std::string::npos)
+            _key = _key.substr(0, _key.find("\r"));
         _value = __request_line.substr(position + 2, __request_line.length());
+        if (_value.find("\r") != std::string::npos)
+            _value = _value.substr(0, _value.find("\r"));
         method.__get.__headers.insert(std::make_pair(_key, _value));
     }
 }
@@ -181,22 +185,42 @@ void    HTTP_Request::parsePost(std::string &__temp_path, std::stringstream &str
         method.__post.__path = __temp_path;
         method.__post.__query = "";
     }
-    while (std::getline(stream, __request_line))
+    while (std::getline(stream, __request_line) && __request_line != "\r")
     {
         std::string _key;
         std::string _value;
-        if (__request_line == "\r")
+
+        size_t position = __request_line.find(":");
+        _key = __request_line.substr(0, position);
+        if (_key.find("\r") != std::string::npos)
+            _key = _key.substr(0, _key.find("\r"));
+        _value = __request_line.substr(position + 2, __request_line.length());
+        if (_value.find("\r") != std::string::npos)
+            _value = _value.substr(0, _value.find("\r"));
+        method.__post.__headers.insert(std::make_pair(_key, _value));
+        std::cout << "Request Line -> " << __request_line << "\n"; 
+    }
+    if (__request_line == "\r")
+        std::cout << "FOUND \\r\n";
+    if (method.__post.__headers.find("Transfer-Encoding") != method.__post.__headers.end()
+        && method.__post.__headers["Transfer-Encoding"] == "chunked")
+    {
+        std::cout << "FOUND CHUNKED\n";
+        std::getline(stream, __request_line);
+        while (std::getline(stream, __request_line))
         {
-            while (std::getline(stream, __request_line))
-                method.__post.__body += __request_line;
-            break;
+            if (__request_line.find("\r") != std::string::npos)
+                __request_line = __request_line.substr(0, __request_line.find("\r"));
+            std::cout << "Request Line -> " << __request_line << "\n";
         }
-        else
+    }
+    else
+    {
+        while (std::getline(stream, __request_line))
         {
-            size_t position = __request_line.find(":");
-            _key = __request_line.substr(0, position);
-            _value = __request_line.substr(position + 2, __request_line.length());
-            method.__post.__headers.insert(std::make_pair(_key, _value));
+            if (__request_line.find("\r") != std::string::npos)
+                __request_line = __request_line.substr(0, __request_line.find("\r"));
+            method.__post.__body += __request_line;
         }
     }
 }
@@ -228,4 +252,18 @@ void    HTTP_Request::parseRequest(void)
         methodType = _DELETE;
     else
         methodType = _NONE;
+}
+
+void    HTTP_Request::clearMembers(void)
+{
+    method.__get.__headers.clear();
+    method.__post.__headers.clear();
+    method.__get.__path.clear();
+    method.__post.__path.clear();
+    method.__get.__query.clear();
+    method.__post.__query.clear();
+    method.__get.__version.clear();
+    method.__post.__version.clear();
+    method.__post.__body.clear();
+    methodType = _NONE;
 }

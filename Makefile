@@ -1,6 +1,6 @@
 GPP = c++
 CFLAGS = -Wall -Wextra -Werror
-VFLAG = -std=c++98
+VFLAG = -std=c++11
 NAME = server
 CPPF = HTTP_Request.cpp TCP_Connection.cpp TCP_Exceptions.cpp main.cpp
 

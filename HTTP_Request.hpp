@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:58 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/19 19:24:10 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/21 00:37:20 by amaitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ class HTTP_Request
         void    parseRequest(void);
         void    parseGet(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
         void    parsePost(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
+
+        // Free
+        void clearMembers(void);
 };
 
 #endif

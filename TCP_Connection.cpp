@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/19 21:20:01 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/21 00:37:04 by amaitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	TCP_Connection::socketAccept(void)
 		Request.printBody();
 		send(client_fd, http_res.c_str(), http_res.length(), 0);
 		close(client_fd);
+		Request.clearMembers();
 	}
 }
 
