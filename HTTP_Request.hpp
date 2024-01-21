@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:58 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/21 18:30:09 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/21 20:44:23 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <iostream>
 #include <map>
 
+// Method Enum
 typedef enum _e_method
 {
     _GET,
@@ -27,6 +28,7 @@ typedef enum _e_method
     _NONE
 } e_method;
 
+// GET Structure
 typedef struct _s_get
 {
     std::string __path;
@@ -34,6 +36,8 @@ typedef struct _s_get
     std::string __query;
     std::map<std::string, std::string> __headers;
 } s_get;
+
+// POST Structure
 
 typedef struct _s_post
 {
@@ -44,12 +48,15 @@ typedef struct _s_post
     std::map<std::string, std::string> __headers;
 } s_post;
 
+// Method Structure
+
 typedef struct _s_method
 {
     s_get __get;
     s_post __post;
 } s_method;
 
+// HTTP Request Class
 class HTTP_Request
 {
     private:
@@ -58,6 +65,8 @@ class HTTP_Request
         std::string request;
     
     public:
+
+        // Constructors
         HTTP_Request();
         HTTP_Request(char *request);
 
