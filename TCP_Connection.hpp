@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/21 20:45:25 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/22 00:43:15 by amaitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "TCP_Exceptions.hpp"
 #include "HTTP_Request.hpp"
+#include "ClientSide.hpp"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -50,9 +51,9 @@ class TCP_Connection
 		char			buffer[BUFFER_SIZE];
 		int				server_fd;
 		int				client_fd;
-		HTTP_Request	Request;
 		_sockaddr_in	address_s;
 		socklen_t		address_len;
+		std::map<int, Client>	client;
 	
 	public:
 		// Constructors

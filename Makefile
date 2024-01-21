@@ -2,7 +2,7 @@ GPP = c++
 CFLAGS = -Wall -Wextra -Werror
 VFLAG = -std=c++11
 NAME = server
-CPPF = HTTP_Request.cpp TCP_Connection.cpp TCP_Exceptions.cpp main.cpp
+CPPF = HTTP_Request.cpp TCP_Connection.cpp TCP_Exceptions.cpp ClientSide.cpp main.cpp
 
 SRCS = $(CPPF:.cpp=.o)
 

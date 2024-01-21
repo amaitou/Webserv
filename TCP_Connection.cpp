@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/21 18:41:51 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/22 00:56:52 by amaitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,22 @@ void	TCP_Connection::socketAccept(void)
 			continue;	
 		}
 		read(client_fd, buffer, BUFFER_SIZE);
-		Request.setRequest(buffer);
-		Request.parseRequest();
+		if (client.find(client_fd) == client.end())
+			client.insert(std::pair<int, Client>(client_fd, Client(buffer)));
+		client[client_fd].request.setRequest(buffer);
+		client[client_fd].request.parseRequest();
 		std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
 		std::cout << buffer << RESET << std::endl;
 		std::cout << CYAN << "___________REQUEST LINE__________\n" << RESET << std::endl;
-		Request.printRequestLine();
+		client[client_fd].request.printRequestLine();
 		std::cout << GREEN << "___________HEADERS__________\n" << RESET << std::endl;
-		Request.printHeaders();
+		client[client_fd].request.printHeaders();
 		std::cout << GREY << "___________BODY__________\n" << RESET << std::endl;
-		Request.printBody();
+		client[client_fd].request.printBody();
 		send(client_fd, http_res.c_str(), http_res.length(), 0);
-		Request.clearMembers();
+		client[client_fd].request.clearMembers();
 		close(client_fd);
+		std::cout << "Number of clients: " << client.size() << std::endl;
 	}
 }
 
