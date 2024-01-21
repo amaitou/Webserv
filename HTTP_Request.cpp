@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/21 00:44:13 by amaitou          ###   ########.fr       */
+/*   Updated: 2024/01/21 01:58:02 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,12 +206,12 @@ void    HTTP_Request::parsePost(std::string &__temp_path, std::stringstream &str
         && method.__post.__headers["Transfer-Encoding"] == "chunked")
     {
         std::cout << "FOUND CHUNKED\n";
-        std::getline(stream, __request_line);
+        // std::getline(stream, __request_line);
         while (std::getline(stream, __request_line))
         {
             if (__request_line.find("\r") != std::string::npos)
                 __request_line = __request_line.substr(0, __request_line.find("\r"));
-            std::cout << "Request Line -> " << __request_line << "\n";
+            method.__post.__body += __request_line;
         }
     }
     else
