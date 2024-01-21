@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/21 18:32:11 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:43:09 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void    HTTP_Request::parseGet(std::string &__temp_path, std::stringstream &stre
         std::string _key;
         std::string _value;
         if (__request_line == "\r")
-            continue;
+            break;
         size_t position = __request_line.find(":");
         _key = __request_line.substr(0, position);
         if (_key.find("\r") != std::string::npos)
