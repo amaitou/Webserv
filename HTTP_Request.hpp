@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:58 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/21 00:37:20 by amaitou          ###   ########.fr       */
+/*   Updated: 2024/01/21 18:30:09 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ class HTTP_Request
         // Setters
         void    setRequest(char *s);
 
+        // Parser
+        void    parseRequest(void);
+        void    parseGet(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
+        void    parsePost(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
+        void    parsePostChunkedData(std::stringstream &stream, std::string &__request_line);
+        bool    checkChunkedData(void);
+
         // Get Printers
         void    printGetRequestLine(void) const;
         void    printGetHeaders(void) const;
@@ -89,12 +96,8 @@ class HTTP_Request
         void    printHeaders(void) const;
         void    printBody(void) const;
 
-        // Parser
-        void    parseRequest(void);
-        void    parseGet(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
-        void    parsePost(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
 
-        // Free
+        // Cleaners
         void clearMembers(void);
 };
 

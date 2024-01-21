@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 05:40:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/21 03:54:06 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:32:11 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,136 @@ void    HTTP_Request::setRequest(char *request)
     this->request = std::string(request);
 }
 
+void    HTTP_Request::parseRequest(void)
+{
+    std::string request_line;
+
+    std::string _method;
+    std::string _version;
+    std::string _path;
+
+    std::stringstream stream(request);
+    std::getline(stream, request_line);
+    std::stringstream __temp(request_line);
+
+    __temp >> _method >> _path >> _version;
+    if (_method == "GET")
+    {
+        method.__get.__version = _version;
+        parseGet(_path, stream, request_line);
+    }
+    else if (_method == "POST")
+    {
+        method.__post.__version = _version;
+        parsePost(_path, stream, request_line);
+    }
+    else if (_method == "DELETE")
+        methodType = _DELETE;
+    else
+        methodType = _NONE;
+}
+
+void    HTTP_Request::parseGet(std::string &__temp_path, std::stringstream &stream, std::string &__request_line)
+{
+    methodType = _GET;
+    if (__temp_path.find("?") != std::string::npos)
+    {
+        size_t position = __temp_path.find("?");
+        method.__get.__path = __temp_path.substr(0, position);
+        method.__get.__query = __temp_path.substr(position + 1, __temp_path.length());
+    }
+    else
+    {
+        method.__get.__path = __temp_path;
+        method.__get.__query = "";
+    }
+    while (std::getline(stream, __request_line))
+    {
+        std::string _key;
+        std::string _value;
+        if (__request_line == "\r")
+            continue;
+        size_t position = __request_line.find(":");
+        _key = __request_line.substr(0, position);
+        if (_key.find("\r") != std::string::npos)
+            _key = _key.substr(0, _key.find("\r"));
+        _value = __request_line.substr(position + 2, __request_line.length());
+        if (_value.find("\r") != std::string::npos)
+            _value = _value.substr(0, _value.find("\r"));
+        method.__get.__headers.insert(std::make_pair(_key, _value));
+    }
+}
+
+void    HTTP_Request::parsePost(std::string &__temp_path, std::stringstream &stream, std::string &__request_line)
+{
+    methodType = _POST;
+    if (__temp_path.find("?") != std::string::npos)
+    {
+        size_t position = __temp_path.find("?");
+        method.__post.__path = __temp_path.substr(0, position);
+        method.__post.__query = __temp_path.substr(position + 1, __temp_path.length());
+    }
+    else
+    {
+        method.__post.__path = __temp_path;
+        method.__post.__query = "";
+    }
+    while (std::getline(stream, __request_line) && __request_line != "\r")
+    {
+        std::string _key;
+        std::string _value;
+
+        size_t position = __request_line.find(":");
+        _key = __request_line.substr(0, position);
+        if (_key.find("\r") != std::string::npos)
+            _key = _key.substr(0, _key.find("\r"));
+        _value = __request_line.substr(position + 2, __request_line.length());
+        if (_value.find("\r") != std::string::npos)
+            _value = _value.substr(0, _value.find("\r"));
+        method.__post.__headers.insert(std::make_pair(_key, _value));
+    }
+    if (checkChunkedData())
+    {
+        std::getline(stream, __request_line);
+        parsePostChunkedData(stream, __request_line);
+    }
+    else
+    {
+        while (std::getline(stream, __request_line))
+        {
+            if (__request_line.find("\r") != std::string::npos)
+                __request_line = __request_line.substr(0, __request_line.find("\r"));
+            method.__post.__body += __request_line;
+        }
+    }
+}
+
+void    HTTP_Request::parsePostChunkedData(std::stringstream &stream, std::string &__request_line)
+{
+    while (std::getline(stream, __request_line))
+    {
+        if (__request_line.find("\\r") != std::string::npos)
+            __request_line = __request_line.substr(0, __request_line.find("\\r"));
+        if (__request_line == "0")
+            break;
+        std::getline(stream, __request_line);
+        if (__request_line.find("\\r") != std::string::npos)
+            __request_line = __request_line.substr(0, __request_line.find("\\r"));
+        method.__post.__body += __request_line;
+    }
+}
+
+bool HTTP_Request::checkChunkedData(void)
+{
+    if (methodType == _POST)
+    {
+        if (method.__post.__headers.find("Transfer-Encoding") != method.__post.__headers.end()
+            && method.__post.__headers["Transfer-Encoding"] == "chunked")
+            return (true);
+    }
+    return (false);
+}
+
 void    HTTP_Request::printGetRequestLine(void) const
 {
     std::cout << "[+] Method -> GET\n";
@@ -140,121 +270,6 @@ void    HTTP_Request::printBody(void) const
         std::cout << "No Body\n";
 }
 
-void    HTTP_Request::parseGet(std::string &__temp_path, std::stringstream &stream, std::string &__request_line)
-{
-    methodType = _GET;
-    if (__temp_path.find("?") != std::string::npos)
-    {
-        size_t position = __temp_path.find("?");
-        method.__get.__path = __temp_path.substr(0, position);
-        method.__get.__query = __temp_path.substr(position + 1, __temp_path.length());
-    }
-    else
-    {
-        method.__get.__path = __temp_path;
-        method.__get.__query = "";
-    }
-    while (std::getline(stream, __request_line))
-    {
-        std::string _key;
-        std::string _value;
-        if (__request_line == "\r")
-            continue;
-        size_t position = __request_line.find(":");
-        _key = __request_line.substr(0, position);
-        if (_key.find("\r") != std::string::npos)
-            _key = _key.substr(0, _key.find("\r"));
-        _value = __request_line.substr(position + 2, __request_line.length());
-        if (_value.find("\r") != std::string::npos)
-            _value = _value.substr(0, _value.find("\r"));
-        method.__get.__headers.insert(std::make_pair(_key, _value));
-    }
-}
-
-void    HTTP_Request::parsePost(std::string &__temp_path, std::stringstream &stream, std::string &__request_line)
-{
-    methodType = _POST;
-    if (__temp_path.find("?") != std::string::npos)
-    {
-        size_t position = __temp_path.find("?");
-        method.__post.__path = __temp_path.substr(0, position);
-        method.__post.__query = __temp_path.substr(position + 1, __temp_path.length());
-    }
-    else
-    {
-        method.__post.__path = __temp_path;
-        method.__post.__query = "";
-    }
-    while (std::getline(stream, __request_line) && __request_line != "\r")
-    {
-        std::string _key;
-        std::string _value;
-
-        size_t position = __request_line.find(":");
-        _key = __request_line.substr(0, position);
-        if (_key.find("\r") != std::string::npos)
-            _key = _key.substr(0, _key.find("\r"));
-        _value = __request_line.substr(position + 2, __request_line.length());
-        if (_value.find("\r") != std::string::npos)
-            _value = _value.substr(0, _value.find("\r"));
-        method.__post.__headers.insert(std::make_pair(_key, _value));
-    }
-    if (method.__post.__headers.find("Transfer-Encoding") != method.__post.__headers.end() && method.__post.__headers["Transfer-Encoding"] == "chunked")
-    {
-        std::getline(stream, __request_line);
-
-        while (std::getline(stream, __request_line))
-        {
-            if (__request_line.find("\\r") != std::string::npos)
-                __request_line = __request_line.substr(0, __request_line.find("\\r"));
-            if (__request_line == "0")
-                break;
-            std::getline(stream, __request_line);
-            if (__request_line.find("\\r") != std::string::npos)
-                __request_line = __request_line.substr(0, __request_line.find("\\r"));
-            method.__post.__body += __request_line;
-        }
-    }
-    else
-    {
-        while (std::getline(stream, __request_line))
-        {
-            if (__request_line.find("\r") != std::string::npos)
-                __request_line = __request_line.substr(0, __request_line.find("\r"));
-            method.__post.__body += __request_line;
-        }
-    }
-}
-
-void    HTTP_Request::parseRequest(void)
-{
-    std::string request_line;
-
-    std::string _method;
-    std::string _version;
-    std::string _path;
-
-    std::stringstream stream(request);
-    std::getline(stream, request_line);
-    std::stringstream __temp(request_line);
-
-    __temp >> _method >> _path >> _version;
-    if (_method == "GET")
-    {
-        method.__get.__version = _version;
-        parseGet(_path, stream, request_line);
-    }
-    else if (_method == "POST")
-    {
-        method.__post.__version = _version;
-        parsePost(_path, stream, request_line);
-    }
-    else if (_method == "DELETE")
-        methodType = _DELETE;
-    else
-        methodType = _NONE;
-}
-
 void    HTTP_Request::clearMembers(void)
 {
     method.__get.__headers.clear();
@@ -266,5 +281,6 @@ void    HTTP_Request::clearMembers(void)
     method.__get.__version.clear();
     method.__post.__version.clear();
     method.__post.__body.clear();
+    request.clear();
     methodType = _NONE;
 }
