@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/22 19:42:51 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:55:30 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	TCP_Connection::socketAccept(void)
 		send(client_fd, http_res.c_str(), http_res.length(), 0);
 		client[client_fd].request.clearMembers();
 		memset(buffer, 0, BUFFER_SIZE);
-		close(client_fd);
+		// close(client_fd);
 		std::cout << "Number of clients: " << client.size() << std::endl;
 	}
 }
