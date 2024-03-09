@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/08 06:49:46 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/09 04:04:51 by amaitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cstring>
 #include <map>
 
 // Enum for the type of the request
@@ -29,7 +30,8 @@ typedef enum e_post_content_type
 {
 	CHUNKED,
 	BODY,
-	BOUNDRY
+	BOUNDRY,
+	_NONE
 }	t_content_type;
 
 // Struct for the get request
@@ -67,6 +69,7 @@ class HTTP_Request
 	
 	public:
 		HTTP_Request(char *content);
+		HTTP_Request(void);
 		~HTTP_Request(void);
 
 		// Getters
@@ -81,4 +84,13 @@ class HTTP_Request
 		void			checkMethodType(void);
 		void			parseRequestLine(void);
 		int				parseGetRequest(void);
+
+		// Printers
+
+		void	printRequestLine(void) const;
+		void	printHeaders(void) const;
+		void	printBody(void) const;
+
+		// Cleaner
+		void cleanMembers(void);
 };

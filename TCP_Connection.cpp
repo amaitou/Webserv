@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/08 05:49:56 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/09 04:06:50 by amaitou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ void	TCP_Connection::socketAccept(void)
 			continue;	
 		}
 		read(client_fd, buffer, BUFFER_SIZE);
-		request.setRequest(buffer);
-		request.parseRequest();
+		request.setContent(buffer);
+		request.checkMethodType();
+		request.parseRequestLine();
+		request.parseGetRequest();
 		std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
 		std::cout << buffer << RESET << std::endl;
 		std::cout << CYAN << "___________REQUEST LINE__________\n" << RESET << std::endl;
@@ -80,10 +82,9 @@ void	TCP_Connection::socketAccept(void)
 		std::cout << GREY << "___________BODY__________\n" << RESET << std::endl;
 		request.printBody();
 		send(client_fd, http_res.c_str(), http_res.length(), 0);
-		request.clearMembers();
 		memset(buffer, 0, BUFFER_SIZE);
-		// close(client_fd);
-		std::cout << "Number of clients: " << client.size() << std::endl;
+		request.cleanMembers();
+		close(client_fd);
 	}
 }
 

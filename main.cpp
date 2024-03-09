@@ -5,7 +5,7 @@ int main(void)
 	try
 	{
 		system("clear");
-		TCP_Connection HTTP(AF_INET, SOCK_STREAM, 0, 80, INADDR_ANY);
+		TCP_Connection HTTP(AF_INET, SOCK_STREAM, 0, 8080, INADDR_ANY);
 		HTTP.serve();
 	}
 	catch (std::exception &e)
