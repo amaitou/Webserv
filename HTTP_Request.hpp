@@ -3,111 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 05:40:58 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/22 00:17:27 by amaitou          ###   ########.fr       */
+/*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
+/*   Updated: 2024/03/08 06:49:46 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HTTP_REQUEST_HPP
-#define HTTP_REQUEST_HPP
-
-#include <string>
-#include <cstring>
-#include <sstream>
 #include <iostream>
+#include <sstream>
+#include <string>
 #include <map>
 
-// Method Enum
-typedef enum _e_method
+// Enum for the type of the request
+typedef enum e_method_type
 {
-    _GET,
-    _POST,
-    _DELETE,
-    _NONE
-} e_method;
+	GET,
+	POST,
+	DELETE,
+	NONE
+}	t_method_type;
 
-// GET Structure
-typedef struct _s_get
+// Enum for the type of the post request
+typedef enum e_post_content_type
 {
-    std::string __path;
-    std::string __version;
-    std::string __query;
-    std::map<std::string, std::string> __headers;
-} s_get;
+	CHUNKED,
+	BODY,
+	BOUNDRY
+}	t_content_type;
 
-// POST Structure
-
-typedef struct _s_post
+// Struct for the get request
+typedef struct s_get_request
 {
-    std::string __path;
-    std::string __version;
-    std::string __query;
-    std::string __body;
-    std::map<std::string, std::string> __headers;
-} s_post;
+	std::string		path;
+	std::string		query;
+	std::string 	version;
+	std::map<std::string, std::string> headers;
+}	t_get_request;
 
-// Method Structure
-
-typedef struct _s_method
+// Struct for the post request
+typedef struct s_post_request
 {
-    s_get __get;
-    s_post __post;
-} s_method;
+	std::string		path;
+	std::string		query;
+	std::string 	version;
+	t_content_type	content_type;
+	std::map<std::string, std::string> headers;
+}	t_post_request;
 
-// HTTP Request Class
+// Struct for the request
+typedef struct s_request
+{
+	t_method_type	method;
+	t_get_request	get;
+	t_post_request	post;
+}	t_request;
+
 class HTTP_Request
 {
-    private:
-        s_method method;
-        e_method methodType;
-        std::string request;
-    
-    public:
+	private:
+		std::string	content;
+		t_request	request;
+	
+	public:
+		HTTP_Request(char *content);
+		~HTTP_Request(void);
 
-        // Constructors
-        HTTP_Request();
-        HTTP_Request(char *request);
+		// Getters
+		t_method_type	getMethodType(void) const;
+		std::string		getContent(void) const;
 
-        // Getters
-        e_method getMethodType(void) const;
-        
-        std::string getGetPath(void) const;
-        std::string getGetVersion(void) const;
-        std::string getGetQuery(void) const;
-        std::map<std::string, std::string> getGetHeaders(void) const;
+		// Setters
+		void			setMethodType(t_method_type method);
+		void			setContent(char *content);
 
-        std::string getPostPath(void) const;
-        std::string getPostVersion(void) const;
-        std::string getPostQuery(void) const;
-        std::string getPostBody(void) const;
-        std::map<std::string, std::string> getPostHeaders(void) const;
-
-        // Setters
-        void    setRequest(char *s);
-
-        // Parser
-        void    parseRequest(void);
-        void    parseGet(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
-        void    parsePost(std::string &__temp_path, std::stringstream &stream, std::string &__request_line);
-        void    parsePostChunkedData(std::stringstream &stream, std::string &__request_line);
-        bool    checkChunkedData(void);
-
-        // Get Printers
-        void    printGetRequestLine(void) const;
-        void    printGetHeaders(void) const;
-
-        void    printPostRequestLine(void) const;
-        void    printPostHeaders(void) const;
-
-        void    printRequestLine(void) const;
-        void    printHeaders(void) const;
-        void    printBody(void) const;
-
-
-        // Cleaners
-        void clearMembers(void);
+		// Parser
+		void			checkMethodType(void);
+		void			parseRequestLine(void);
+		int				parseGetRequest(void);
 };
-
-#endif
