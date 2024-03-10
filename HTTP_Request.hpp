@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/10 02:54:56 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/10 03:26:35 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_post_request
 	std::string		path;
 	std::string		query;
 	std::string 	version;
+	std::string		body;
+	size_t			return_value;
 	t_content_type	content_type;
 	std::map<std::string, std::string> headers;
 }	t_post_request;
@@ -88,7 +90,9 @@ class HTTP_Request
 		int				isContentLength(void) const;
 		int				isChunked(void) const;
 		void			setPostType(void);
-		void			parsePostRequest(void);
+		int				parsePostRequest(void);
+		int				parseChunkedPostRequest(char *content);
+		int				isDataEnded(void) const;
 
 		// Printers
 		void		printRequestLine(void) const;

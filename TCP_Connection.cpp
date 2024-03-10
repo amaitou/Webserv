@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/10 02:39:55 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/10 03:31:48 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,8 @@ void	TCP_Connection::socketAccept(void)
 			request.parseGetRequest();
 		else if (request.getMethodType() == POST)
 		{
-			request.parsePostRequest();
-			std::cout << GREY << "___________POST_TYPE__________\n" << RESET << std::endl;
-			request.printTypeOfPostRequest();
+			if (request.isDataEnded())
+				request.parsePostRequest();
 		}
 		std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
 		std::cout << buffer << RESET << std::endl;

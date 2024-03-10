@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/10 02:55:13 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/10 03:40:30 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,12 +185,12 @@ void	HTTP_Request::setPostType(void)
 		this->request.post.content_type = _NONE;
 }
 
-void HTTP_Request::parsePostRequest(void)
+int HTTP_Request::parsePostRequest(void)
 {
 	std::string line;
 	std::string _content_type;
 	
-	std::stringstream ss(content);
+	std::stringstream ss(this->content);
 	std::getline(ss, line);
 	while (std::getline(ss, line) && line != "\r")
 	{
@@ -203,6 +203,39 @@ void HTTP_Request::parsePostRequest(void)
 		this->request.post.headers.insert(pair);
 	}
 	this->setPostType();
+	if (this->isDataEnded())
+	{
+		while (std::getline(ss, line))
+		{
+			if (line.find("\r") != std::string::npos)
+				line = line.substr(0, line.find("\r"));
+			if (line == "0")
+				return (0);
+			std::getline(ss, line);
+			if (line.find("\r") != std::string::npos)
+				line = line.substr(0, line.find("\r"));
+			this->request.post.body += line;
+		}
+	}
+	return (1);
+}
+
+int HTTP_Request::isDataEnded(void) const
+{
+	if (this->content.find("\r\n0\r\n") != std::string::npos)
+		return (1);
+	return (0);
+}
+
+int	HTTP_Request::parseChunkedPostRequest(char *content)
+{
+	if (isDataEnded())
+	{
+		(void)content;
+		this->request.post.body = this->content.substr(0, this->content.find("\r\n0\r\n"));
+		return (1);
+	}
+	return (0);
 }
 
 void HTTP_Request::printTypeOfPostRequest(void) const
@@ -218,7 +251,7 @@ void HTTP_Request::printTypeOfPostRequest(void) const
 
 void HTTP_Request::printBody(void) const
 {
-	std::cout << "Body: not implemented yet" << std::endl;
+	std::cout << this->request.post.body << std::endl;
 	std::cout << std::endl;
 }
 
@@ -235,4 +268,5 @@ void HTTP_Request::cleanMembers(void)
 	this->request.post.version.clear();
 	this->request.post.content_type = _NONE;
 	this->request.post.headers.clear();
+	this->request.post.body.clear();
 }
