@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/10 03:31:48 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/10 03:54:14 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,18 @@ void	TCP_Connection::socketAccept(void)
 		{
 			if (request.isDataEnded())
 				request.parsePostRequest();
+			else
+			{
+				std::cout << "I'm in the chunked post request\n";
+				request.parsePostRequest();
+				while (!request.isDataEnded())
+				{
+					memset(buffer, 0, BUFFER_SIZE);
+					read(client_fd, buffer, BUFFER_SIZE);
+					request.setContent(buffer);
+					request.parseChunkedPostRequest(buffer);
+				}
+			}
 		}
 		std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
 		std::cout << buffer << RESET << std::endl;

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/10 03:40:30 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/10 03:52:49 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,11 +229,14 @@ int HTTP_Request::isDataEnded(void) const
 
 int	HTTP_Request::parseChunkedPostRequest(char *content)
 {
-	if (isDataEnded())
+	std::string line;
+	std::stringstream ss(content);
+	while (std::getline(ss, line))
 	{
-		(void)content;
-		this->request.post.body = this->content.substr(0, this->content.find("\r\n0\r\n"));
-		return (1);
+		std::getline(ss, line);
+		if (line.find("\r") != std::string::npos)
+			line = line.substr(0, line.find("\r"));
+		this->request.post.body += line;
 	}
 	return (0);
 }
