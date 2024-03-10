@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/10 03:52:49 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/10 04:15:55 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,10 @@ void HTTP_Request::printTypeOfPostRequest(void) const
 
 void HTTP_Request::printBody(void) const
 {
-	std::cout << this->request.post.body << std::endl;
+	if (this->request.method == POST)
+		std::cout << this->request.post.body << std::endl;
+	else
+		std::cout << "No Body" << std::endl;
 	std::cout << std::endl;
 }
 
