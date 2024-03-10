@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/09 04:15:20 by amaitou          ###   ########.fr       */
+/*   Updated: 2024/03/10 02:55:13 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,73 @@ void HTTP_Request::printHeaders(void) const
 			it++;
 		}
 	}
+	else if (this->request.method == POST)
+	{
+		std::map<std::string, std::string>::const_iterator it = this->request.post.headers.begin();
+		while (it != this->request.post.headers.end())
+		{
+			std::cout << it->first << ": " << it->second << std::endl;
+			it++;
+		}
+	}
+	std::cout << std::endl;
+}
+
+int	HTTP_Request::isContentLength(void) const
+{
+	if (this->request.post.headers.find("Content-Length") != this->request.post.headers.end())
+		return (1);
+	return (0);
+}
+
+int	HTTP_Request::isChunked(void) const
+{
+	if (this->request.post.headers.find("Transfer-Encoding") != this->request.post.headers.end())
+	{
+		if (this->request.post.headers.find("Transfer-Encoding")->second == "chunked")
+			return (1);
+	}
+	return (0);
+}
+
+void	HTTP_Request::setPostType(void)
+{
+	if (this->isChunked())
+		this->request.post.content_type = CHUNKED;
+	else if (this->isContentLength())
+		this->request.post.content_type = BODY;
+	else
+		this->request.post.content_type = _NONE;
+}
+
+void HTTP_Request::parsePostRequest(void)
+{
+	std::string line;
+	std::string _content_type;
+	
+	std::stringstream ss(content);
+	std::getline(ss, line);
+	while (std::getline(ss, line) && line != "\r")
+	{
+		int position = line.find(":");
+		std::string key = line.substr(0, position);
+		std::string value = line.substr(position + 2);
+		if (value.find("\r") != std::string::npos)
+			value = value.substr(0, value.find("\r"));
+		std::pair<std::string, std::string> pair(key, value);
+		this->request.post.headers.insert(pair);
+	}
+	this->setPostType();
+}
+
+void HTTP_Request::printTypeOfPostRequest(void) const
+{
+	if (this->request.post.content_type == BODY)
+		std::cout << "Content-Type: BODY" << std::endl;
+	else if (this->request.post.content_type == CHUNKED)
+		std::cout << "Content-Type: CHUNKED" << std::endl;
+	else
+		std::cout << "Content-Type: _NONE" << std::endl;
 	std::cout << std::endl;
 }
 

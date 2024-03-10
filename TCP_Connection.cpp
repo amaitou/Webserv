@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/09 04:20:16 by amaitou          ###   ########.fr       */
+/*   Updated: 2024/03/10 02:39:55 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,14 @@ void	TCP_Connection::socketAccept(void)
 		request.setContent(buffer);
 		request.checkMethodType();
 		request.parseRequestLine();
-		request.parseGetRequest();
+		if (request.getMethodType() == GET)
+			request.parseGetRequest();
+		else if (request.getMethodType() == POST)
+		{
+			request.parsePostRequest();
+			std::cout << GREY << "___________POST_TYPE__________\n" << RESET << std::endl;
+			request.printTypeOfPostRequest();
+		}
 		std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
 		std::cout << buffer << RESET << std::endl;
 		std::cout << CYAN << "___________REQUEST LINE__________\n" << RESET << std::endl;

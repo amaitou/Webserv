@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaitou <amaitou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/09 04:04:51 by amaitou          ###   ########.fr       */
+/*   Updated: 2024/03/10 02:54:56 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,16 @@ class HTTP_Request
 		void			parseRequestLine(void);
 		int				parseGetRequest(void);
 
-		// Printers
+		int				isContentLength(void) const;
+		int				isChunked(void) const;
+		void			setPostType(void);
+		void			parsePostRequest(void);
 
-		void	printRequestLine(void) const;
-		void	printHeaders(void) const;
-		void	printBody(void) const;
+		// Printers
+		void		printRequestLine(void) const;
+		void		printHeaders(void) const;
+		void		printBody(void) const;
+		void		printTypeOfPostRequest(void) const;
 
 		// Cleaner
 		void cleanMembers(void);
