@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/12 04:12:45 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/12 04:46:56 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,12 @@ class HTTP_Request
 		void			parseRequestLine(void);
 		int				parseGetRequest(void);
 
+		void			parsePostRequest(char *buffer, int fd, int size);
+		void			parseForFullChunked(std::stringstream &ss);
+		void			parseForNonFullChunked(char *buffer, int fd, int size);
+		void			setPostType(void);
 		int				isContentLength(void) const;
 		int				isChunked(void) const;
-		void			setPostType(void);
-		int				parsePostRequest(char *buffer, int fd, int size);
-		int				parseChunkedPostRequest(char *content);
 		int				isDataEnded(void) const;
 
 		// Printers
