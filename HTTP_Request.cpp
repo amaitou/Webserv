@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/12 04:46:02 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/12 04:49:07 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,10 +243,13 @@ void HTTP_Request::parsePostRequest(char *buffer, int fd, int size)
 		this->request.post.headers.insert(pair);
 	}
 	this->setPostType();
-	if (this->isDataEnded())
-		this->parseForFullChunked(ss);
-	else
-		this->parseForNonFullChunked(buffer, fd, size);
+	if (this->request.post.content_type == CHUNKED)
+	{
+		if (this->isDataEnded())
+			this->parseForFullChunked(ss);
+		else
+			this->parseForNonFullChunked(buffer, fd, size);
+	}
 	return;
 }
 
