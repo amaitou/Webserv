@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/10 04:15:55 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/12 04:18:10 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void	HTTP_Request::setPostType(void)
 		this->request.post.content_type = _NONE;
 }
 
-int HTTP_Request::parsePostRequest(void)
+int HTTP_Request::parsePostRequest(char *buffer, int fd, int size)
 {
 	std::string line;
 	std::string _content_type;
@@ -215,6 +215,27 @@ int HTTP_Request::parsePostRequest(void)
 			if (line.find("\r") != std::string::npos)
 				line = line.substr(0, line.find("\r"));
 			this->request.post.body += line;
+		}
+	}
+	else
+	{
+		while (!this->isDataEnded())
+		{
+			memset(buffer, 0, size);
+			read(fd, buffer, size);
+			this->setContent(buffer);
+			std::stringstream ss(this->content);
+			while (std::getline(ss, line))
+			{
+				if (line.find("\r") != std::string::npos)
+					line = line.substr(0, line.find("\r"));
+				if (line == "0")
+					return (0);
+				std::getline(ss, line);
+				if (line.find("\r") != std::string::npos)
+					line = line.substr(0, line.find("\r"));
+				this->request.post.body += line;
+			}
 		}
 	}
 	return (1);

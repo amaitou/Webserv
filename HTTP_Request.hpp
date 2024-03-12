@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/10 03:26:35 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/12 04:12:45 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <sstream>
 #include <string>
 #include <cstring>
+#include <unistd.h>
 #include <map>
 
 // Enum for the type of the request
@@ -90,7 +91,7 @@ class HTTP_Request
 		int				isContentLength(void) const;
 		int				isChunked(void) const;
 		void			setPostType(void);
-		int				parsePostRequest(void);
+		int				parsePostRequest(char *buffer, int fd, int size);
 		int				parseChunkedPostRequest(char *content);
 		int				isDataEnded(void) const;
 
