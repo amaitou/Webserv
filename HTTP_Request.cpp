@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/12 04:49:07 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/12 06:01:48 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,22 @@ void	HTTP_Request::parseForNonFullChunked(char *buffer, int fd, int size)
 	}
 }
 
+void HTTP_Request::parseForBody(std::stringstream &ss, int fd, char *buffer, int size)
+{
+	std::string line;
+	while (std::getline(ss, line))
+		this->request.post.body += line + "\n";
+	while ((int)this->request.post.body.length() < std::stoi(this->request.post.headers.find("Content-Length")->second))
+	{
+		memset(buffer, 0, size);
+		read(fd, buffer, size);
+		this->setContent(buffer);
+		std::stringstream ss(this->content);
+		while (std::getline(ss, line))
+			this->request.post.body += line + "\n";
+	}
+}
+
 void HTTP_Request::parsePostRequest(char *buffer, int fd, int size)
 {
 	std::string line;
@@ -250,6 +266,8 @@ void HTTP_Request::parsePostRequest(char *buffer, int fd, int size)
 		else
 			this->parseForNonFullChunked(buffer, fd, size);
 	}
+	else if (this->request.post.content_type == BODY)
+		this->parseForBody(ss, fd, buffer, size);
 	return;
 }
 
