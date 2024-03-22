@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/12 06:01:48 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/22 03:52:55 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,9 +178,9 @@ int	HTTP_Request::isChunked(void) const
 void	HTTP_Request::setPostType(void)
 {
 	if (this->isChunked())
-		this->request.post.content_type = CHUNKED;
+		this->request.post.content_type = CHUNKED_TRANSFER_ENCODING;
 	else if (this->isContentLength())
-		this->request.post.content_type = BODY;
+		this->request.post.content_type = CUSTOM_DATA;
 	else
 		this->request.post.content_type = _NONE;
 }
@@ -259,14 +259,14 @@ void HTTP_Request::parsePostRequest(char *buffer, int fd, int size)
 		this->request.post.headers.insert(pair);
 	}
 	this->setPostType();
-	if (this->request.post.content_type == CHUNKED)
+	if (this->request.post.content_type == CHUNKED_TRANSFER_ENCODING)
 	{
 		if (this->isDataEnded())
 			this->parseForFullChunked(ss);
 		else
 			this->parseForNonFullChunked(buffer, fd, size);
 	}
-	else if (this->request.post.content_type == BODY)
+	else if (this->request.post.content_type == CUSTOM_DATA)
 		this->parseForBody(ss, fd, buffer, size);
 	return;
 }
@@ -280,9 +280,9 @@ int HTTP_Request::isDataEnded(void) const
 
 void HTTP_Request::printTypeOfPostRequest(void) const
 {
-	if (this->request.post.content_type == BODY)
+	if (this->request.post.content_type == CUSTOM_DATA)
 		std::cout << "Content-Type: BODY" << std::endl;
-	else if (this->request.post.content_type == CHUNKED)
+	else if (this->request.post.content_type == CHUNKED_TRANSFER_ENCODING)
 		std::cout << "Content-Type: CHUNKED" << std::endl;
 	else
 		std::cout << "Content-Type: _NONE" << std::endl;

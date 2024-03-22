@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/08 05:49:45 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/22 03:57:39 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 // Buffer Size for reading from socket
 
-#define BUFFER_SIZE 1000
+#define BUFFER_SIZE 1024
 
 // Typedefs for readability
 

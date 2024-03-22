@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/12 06:01:38 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/22 03:51:50 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ typedef enum e_method_type
 // Enum for the type of the post request
 typedef enum e_post_content_type
 {
-	CHUNKED,
-	BODY,
-	BOUNDRY,
+	CHUNKED_TRANSFER_ENCODING,
+	MULTIPART_FORM_DATA,
+	BINARY_DATA,
+	CUSTOM_DATA,
 	_NONE
 }	t_content_type;
 
