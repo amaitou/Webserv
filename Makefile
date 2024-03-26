@@ -17,6 +17,10 @@ $(SOURCE_DIR)/%.o: $(SOURCE_DIR)/%.cpp
 	@echo "\033[0;33m[*] compiling $<\033[0m"
 	@$(GPP) $(CFLAGS) $(VFLAG) -c $< -o $@
 
+main.o: main.cpp
+	@echo "\033[0;33m[*] compiling $<\033[0m"
+	@$(GPP) $(CFLAGS) $(VFLAG) -c $< -o $@
+
 clean:
 	@echo "\033[0;31m[*] cleaning from object files\033[0m"
 	@rm -rf $(OBJECTS)
