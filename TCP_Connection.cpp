@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/22 03:55:45 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/26 05:42:37 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,11 @@ void	TCP_Connection::socketAccept(void)
 		read(client_fd, buffer, BUFFER_SIZE);
 		std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
 		std::cout << buffer << RESET << std::endl;
-		request.setContent(buffer);
-		request.checkMethodType();
-		request.parseRequestLine();
+		request.initRequest(client_fd, buffer);
 		if (request.getMethodType() == GET)
 			request.parseGetRequest();
 		else if (request.getMethodType() == POST)
-			request.parsePostRequest(buffer, client_fd, BUFFER_SIZE);
+			request.parsePostRequest(buffer, BUFFER_SIZE);
 		std::cout << CYAN << "___________REQUEST LINE__________\n" << RESET << std::endl;
 		request.printRequestLine();
 		std::cout << GREEN << "___________HEADERS__________\n" << RESET << std::endl;

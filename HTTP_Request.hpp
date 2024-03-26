@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/22 03:51:50 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/26 05:48:01 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,40 +70,46 @@ class HTTP_Request
 	private:
 		std::string	content;
 		t_request	request;
+		int			fd;
 	
 	public:
 		HTTP_Request(char *content);
 		HTTP_Request(void);
 		~HTTP_Request(void);
 
+		// Initialize
+		void			initRequest(int fd, char *buffer);
+
 		// Getters
 		t_method_type	getMethodType(void) const;
 		std::string		getContent(void) const;
+		int				getFd(void) const;
 
 		// Setters
 		void			setMethodType(t_method_type method);
 		void			setContent(char *content);
+		void			setFd(int fd);
 
 		// Parser
 		void			checkMethodType(void);
 		void			parseRequestLine(void);
 		int				parseGetRequest(void);
 
-		void			parsePostRequest(char *buffer, int fd, int size);
+		void			parsePostRequest(char *buffer, int size);
 		void			parseForFullChunked(std::stringstream &ss);
-		void			parseForNonFullChunked(char *buffer, int fd, int size);
-		void			parseForBody(std::stringstream &ss, int fd, char *buffer, int size);
+		void			parseForNonFullChunked(char *buffer, int size);
+		void			parseForBody(std::stringstream &ss, char *buffer, int size);
 		void			setPostType(void);
 		int				isContentLength(void) const;
 		int				isChunked(void) const;
 		int				isDataEnded(void) const;
 
 		// Printers
-		void		printRequestLine(void) const;
-		void		printHeaders(void) const;
-		void		printBody(void) const;
-		void		printTypeOfPostRequest(void) const;
+		void			printRequestLine(void) const;
+		void			printHeaders(void) const;
+		void			printBody(void) const;
+		void			printTypeOfPostRequest(void) const;
 
 		// Cleaner
-		void cleanMembers(void);
+		void			cleanMembers(void);
 };

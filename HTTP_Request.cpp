@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/22 03:52:55 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/26 05:48:22 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	HTTP_Request::parseRequestLine(void)
 		_path = _path.substr(0, _path.find("?"));
 	}
 	else
-		_query = "";
+		_query = "No Query";
 	if (this->request.method == GET)
 	{
 		this->request.get.path = _path;
@@ -202,13 +202,13 @@ void HTTP_Request::parseForFullChunked(std::stringstream &ss)
 	}
 }
 
-void	HTTP_Request::parseForNonFullChunked(char *buffer, int fd, int size)
+void	HTTP_Request::parseForNonFullChunked(char *buffer, int size)
 {
 	std::string line;
 	while (!this->isDataEnded())
 	{
 		memset(buffer, 0, size);
-		read(fd, buffer, size);
+		read(this->getFd(), buffer, size);
 		this->setContent(buffer);
 		std::stringstream ss(this->content);
 		while (std::getline(ss, line))
@@ -225,15 +225,16 @@ void	HTTP_Request::parseForNonFullChunked(char *buffer, int fd, int size)
 	}
 }
 
-void HTTP_Request::parseForBody(std::stringstream &ss, int fd, char *buffer, int size)
+void HTTP_Request::parseForBody(std::stringstream &ss, char *buffer, int size)
 {
 	std::string line;
 	while (std::getline(ss, line))
 		this->request.post.body += line + "\n";
-	while ((int)this->request.post.body.length() < std::stoi(this->request.post.headers.find("Content-Length")->second))
+	while ((int)this->request.post.body.length()
+		< std::stoi(this->request.post.headers.find("Content-Length")->second))
 	{
 		memset(buffer, 0, size);
-		read(fd, buffer, size);
+		read(this->getFd(), buffer, size);
 		this->setContent(buffer);
 		std::stringstream ss(this->content);
 		while (std::getline(ss, line))
@@ -241,7 +242,7 @@ void HTTP_Request::parseForBody(std::stringstream &ss, int fd, char *buffer, int
 	}
 }
 
-void HTTP_Request::parsePostRequest(char *buffer, int fd, int size)
+void HTTP_Request::parsePostRequest(char *buffer, int size)
 {
 	std::string line;
 	std::string _content_type;
@@ -264,10 +265,10 @@ void HTTP_Request::parsePostRequest(char *buffer, int fd, int size)
 		if (this->isDataEnded())
 			this->parseForFullChunked(ss);
 		else
-			this->parseForNonFullChunked(buffer, fd, size);
+			this->parseForNonFullChunked(buffer, size);
 	}
 	else if (this->request.post.content_type == CUSTOM_DATA)
-		this->parseForBody(ss, fd, buffer, size);
+		this->parseForBody(ss, buffer, size);
 	return;
 }
 
@@ -296,6 +297,24 @@ void HTTP_Request::printBody(void) const
 	else
 		std::cout << "No Body" << std::endl;
 	std::cout << std::endl;
+}
+
+int HTTP_Request::getFd(void) const
+{
+	return (this->fd);
+}
+
+void HTTP_Request::setFd(int fd)
+{
+	this->fd = fd;
+}
+
+void HTTP_Request::initRequest(int fd, char *buffer)
+{
+	this->setFd(fd);
+	this->setContent(buffer);
+	this->checkMethodType();
+	this->parseRequestLine();
 }
 
 void HTTP_Request::cleanMembers(void)
