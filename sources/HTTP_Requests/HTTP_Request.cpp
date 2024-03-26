@@ -6,11 +6,11 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/26 05:48:22 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/26 06:32:35 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HTTP_Request.hpp"
+#include "../../includes/HTTP_Request.hpp"
 
 HTTP_Request::HTTP_Request(char *content)
 {

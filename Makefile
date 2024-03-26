@@ -1,23 +1,31 @@
-GPP = c++
+GPP = g++
 CFLAGS = -Wall -Wextra -Werror
 VFLAG = -std=c++11
-NAME = server
-CPPF = TCP_Connection.cpp TCP_Exceptions.cpp main.cpp HTTP_Request.cpp
+NAME = webserv
+SOURCE_DIR = ./sources
 
-SRCS = $(CPPF:.cpp=.o)
+CPPFILES = $(wildcard $(SOURCE_DIR)/*/*.cpp) main.cpp
+OBJECTS = $(CPPFILES:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME): $(SRCS)
-	$(GPP) $(VFLAG) $(CFLAGS) $^ -o $@
+$(NAME): $(OBJECTS)
+	@echo "\033[0;32m[*] linking $@\033[0m"
+	@$(GPP) $(CFLAGS) $(VFLAG) $^ -o $@
 
-%.o : %.cpp
-	$(GPP) $(CFLAGS) $(VFLAG) -c $^
+$(SOURCE_DIR)/%.o: $(SOURCE_DIR)/%.cpp
+	@echo "\033[0;33m[*] compiling $<\033[0m"
+	@$(GPP) $(CFLAGS) $(VFLAG) -c $< -o $@
 
-fclean:
-	rm -rf $(NAME) $(SRCS)
+clean:
+	@echo "\033[0;31m[*] cleaning from object files\033[0m"
+	@rm -rf $(OBJECTS)
+fclean: clean
+	@echo "\033[0;31m[*] remove the executable file\033[0m"
+	@rm -rf $(NAME)
 
-run:
-	make && clear && ./server
+run: $(NAME)
+	@echo "\033[0;32m[*] running the $<\033[0m"
+	@clear && ./$(NAME)
 
-re: fclean all
+re: clean all run fclean

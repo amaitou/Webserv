@@ -6,11 +6,11 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/26 05:42:37 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/26 06:33:02 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "TCP_Connection.hpp"
+#include "../../includes/TCP_Connection.hpp"
 
 TCP_Connection::TCP_Connection(int domain, int service, int protocol, int port, t_ul interface)
 {
