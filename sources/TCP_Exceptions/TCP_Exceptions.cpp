@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:26:26 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/26 06:33:15 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/27 02:25:32 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,9 @@ const char* TCP_Exception::FailedToAcceptConnections::what() const throw()
 const char* TCP_Exception::FailedToSetOptions::what() const throw()
 {
     return ("Failed to set socket options");
+}
+
+const char* TCP_Exception::FailedToSetNonBlocking::what() const throw()
+{
+    return ("Failed to set socket to non-blocking mode");
 }

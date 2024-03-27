@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/26 06:32:35 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/27 02:26:20 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,9 +312,19 @@ void HTTP_Request::setFd(int fd)
 void HTTP_Request::initRequest(int fd, char *buffer)
 {
 	this->setFd(fd);
+	this->setNonBlocking();
 	this->setContent(buffer);
 	this->checkMethodType();
 	this->parseRequestLine();
+}
+
+void HTTP_Request::setNonBlocking(void)
+{
+	int flags = fcntl(this->getFd(), F_GETFL, 0);
+	if (flags == -1)
+		throw TCP_Exception::FailedToSetNonBlocking();
+	if (fcntl(this->getFd(), F_SETFL, flags | O_NONBLOCK) == -1)
+		throw TCP_Exception::FailedToSetNonBlocking();
 }
 
 void HTTP_Request::cleanMembers(void)

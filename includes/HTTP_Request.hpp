@@ -6,16 +6,18 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/26 05:48:01 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/27 02:27:25 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <cstring>
-#include <unistd.h>
+#include <fcntl.h>
 #include <map>
+#include "./TCP_Exceptions.hpp"
 
 // Enum for the type of the request
 typedef enum e_method_type
@@ -89,6 +91,7 @@ class HTTP_Request
 		void			setMethodType(t_method_type method);
 		void			setContent(char *content);
 		void			setFd(int fd);
+		void			setNonBlocking(void);
 
 		// Parser
 		void			checkMethodType(void);

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:26:33 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/01/21 20:46:14 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/27 02:25:26 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ class TCP_Exception
 
 		// Exception for Socket Reading
 		class FailedToSetOptions: public std::exception
+		{
+			public:
+				virtual const char *what() const throw();
+		};
+		
+		class FailedToSetNonBlocking: public std::exception
 		{
 			public:
 				virtual const char *what() const throw();
