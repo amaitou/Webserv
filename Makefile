@@ -1,5 +1,5 @@
 GPP = g++
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 VFLAG = -std=c++11
 NAME = webserv
 SOURCE_DIR = ./sources

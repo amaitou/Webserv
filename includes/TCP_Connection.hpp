@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/27 02:21:40 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/03/27 05:53:51 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <unistd.h>
 #include <iostream>
 #include <cstring>
+#include <map>
+#include <poll.h>
 
 // Colors
 
@@ -34,7 +36,12 @@
 
 // Buffer Size for reading from socket
 
-#define BUFFER_SIZE 1024
+#ifndef BUFFER_SIZE
+	#define BUFFER_SIZE 1024
+#endif
+#ifndef NUMBER_OF_CLIENTS
+	#define NUMBER_OF_CLIENTS 1024
+#endif
 
 // Typedefs for readability
 
@@ -47,12 +54,13 @@ typedef struct sockaddr_in _sockaddr_in;
 class TCP_Connection
 {
 	private:
-		char			buffer[BUFFER_SIZE];
-		int				server_fd;
-		int				client_fd;
-		_sockaddr_in	address_s;
-		socklen_t		address_len;
-		HTTP_Request	request;
+		std::map<int, HTTP_Request> clients;
+		char						buffer[BUFFER_SIZE];
+		socklen_t					address_len;
+		struct pollfd				fds[NUMBER_OF_CLIENTS];
+		_sockaddr_in				address_s;
+		int							server_fd;
+		int							client_fd;
 		
 	
 	public:
