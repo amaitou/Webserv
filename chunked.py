@@ -5,7 +5,7 @@ def send_chunked_request():
     url = "http://localhost:8080"
 
     # Define your payload data
-    payload_data ="26\r\nname=mohamed amine amazzal&Developer=4111\r\n20\r\nNetwork=1337&value=42\r\n0\r\n\r\n"
+    payload_data ="26\r\nname=ِAmine Ait Ouazghour&Developer=4111\r\n20\r\nNetwork=1337&value=42\r\n0\r\n\r\n"
 
     # Split the payload into chunks
     chunk_size = 5

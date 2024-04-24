@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/27 06:07:08 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:02:12 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,69 +60,34 @@ void TCP_Connection::socketAccept(void)
 {
     std::string p = "<h1>Response Has Been Sent Successfully</h1>";
     std::string http_res = "HTTP/1.1 200 OK Content-Type: text/html\nContent-Length:" + std::to_string(p.length()) + "\n\n" + p + "\n";
-    int nfds = 1;
-
-    // Initialize the pollfd structure for the server socket
-    fds[0].fd = server_fd;
-    fds[0].events = POLLIN;
 
     while (true)
     {
-        int poll_count = poll(fds, nfds, 2500);
-
-        if (poll_count < 0)
+        int client_fd = accept(this->getSocketFd(), (struct sockaddr *)&address_s, &address_len);
+        if (client_fd < 0)
         {
-            std::cout << "Failed to poll" << std::endl;
-            continue;
+            std::cout << "Failed to accept connection" << std::endl;
+            continue;  
         }
-
-        for (int i = 0; i < nfds; ++i)
-        {
-            if (fds[i].revents & POLLIN)
-            {
-                if (fds[i].fd == this->getSocketFd())
-                {
-                    // New connection on the server socket
-                    client_fd = accept(this->getSocketFd(), (struct sockaddr *)&address_s, &address_len);
-                    if (client_fd < 0)
-                    {
-                        std::cout << "Failed to accept connection" << std::endl;
-                        continue;  
-                    }
-
-                    // Add the new client to the pollfd array and to the clients map
-                    fds[nfds].fd = client_fd;
-                    fds[nfds].events = POLLIN;
-                    nfds++;
-                    clients[client_fd] = HTTP_Request();
-					std::cout << "[ New Connection Accepted ]\n" << std::endl;
-                }
-                else
-                {
-                    // Data available on a client socket
-                    clients[fds[i].fd].initRequest(fds[i].fd, buffer);
-                    read(fds[i].fd, buffer, BUFFER_SIZE);
-                    std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
-                    std::cout << buffer << RESET << std::endl;
-                    clients[fds[i].fd].initRequest(fds[i].fd, buffer);
-                    if (clients[fds[i].fd].getMethodType() == GET)
-                        clients[fds[i].fd].parseGetRequest();
-                    else if (clients[fds[i].fd].getMethodType() == POST)
-                        clients[fds[i].fd].parsePostRequest(buffer, BUFFER_SIZE);
-                    std::cout << CYAN << "___________REQUEST LINE__________\n" << RESET << std::endl;
-                    clients[fds[i].fd].printRequestLine();
-                    std::cout << GREEN << "___________HEADERS__________\n" << RESET << std::endl;
-                    clients[fds[i].fd].printHeaders();
-                    std::cout << GREY << "___________BODY__________\n" << RESET << std::endl;
-                    clients[fds[i].fd].printBody();
-                    send(fds[i].fd, http_res.c_str(), http_res.length(), 0);
-                    memset(buffer, 0, BUFFER_SIZE);
-                    clients[fds[i].fd].cleanMembers();
-                    std::cout << CYAN << "___________FDS__________\n" << RESET << std::endl;
-                    std::cout << "Number of FDS : " << clients.size() << "\n" << std::endl;
-                }
-            }
-        }
+        read(client_fd, buffer, BUFFER_SIZE);
+        clients.initRequest(client_fd, buffer);
+        std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
+        std::cout << buffer << RESET << std::endl;
+        clients.initRequest(client_fd, buffer);
+        if (clients.getMethodType() == GET)
+            clients.parseGetRequest();
+        else if (clients.getMethodType() == POST)
+            clients.parsePostRequest(buffer, BUFFER_SIZE);
+        std::cout << CYAN << "___________REQUEST LINE__________\n" << RESET << std::endl;
+        clients.printRequestLine();
+        std::cout << GREEN << "___________HEADERS__________\n" << RESET << std::endl;
+        clients.printHeaders();
+        std::cout << GREY << "___________BODY__________\n" << RESET << std::endl;
+        clients.printBody();
+        send(client_fd, http_res.c_str(), http_res.length(), 0);
+        memset(buffer, 0, BUFFER_SIZE);
+        clients.cleanMembers();
+        close(client_fd);
     }
 }
 

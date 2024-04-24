@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/03/27 05:53:51 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:02:05 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 #include <unistd.h>
 #include <iostream>
 #include <cstring>
-#include <map>
 #include <poll.h>
+#include <vector>
 
 // Colors
 
@@ -54,13 +54,11 @@ typedef struct sockaddr_in _sockaddr_in;
 class TCP_Connection
 {
 	private:
-		std::map<int, HTTP_Request> clients;
+		HTTP_Request				clients;
 		char						buffer[BUFFER_SIZE];
 		socklen_t					address_len;
-		struct pollfd				fds[NUMBER_OF_CLIENTS];
 		_sockaddr_in				address_s;
 		int							server_fd;
-		int							client_fd;
 		
 	
 	public:
