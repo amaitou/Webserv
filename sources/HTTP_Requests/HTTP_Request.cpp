@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/26 19:25:18 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:33:33 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	HTTP_Request::setPostType(void)
 void HTTP_Request::parseFullChunked(std::stringstream &ss)
 {
 	std::string line;
+	int			size;
 
 	while (std::getline(ss, line))
 	{
@@ -195,16 +196,16 @@ void HTTP_Request::parseFullChunked(std::stringstream &ss)
 			line = line.substr(0, line.find("\r"));
 		if (line == "0")
 			break;
+		size = std::stoi(line, 0, 16);
 		std::getline(ss, line);
-		if (line.find("\r") != std::string::npos)
-			line = line.substr(0, line.find("\r"));
-		this->request.post.body += line;
+		this->request.post.body += line.substr(0, size);
 	}
 }
 
 void	HTTP_Request::parseNonFullChunked(char *buffer, int size)
 {
 	std::string line;
+	int			_size;
 	while (!this->isDataEnded())
 	{
 		memset(buffer, 0, size);
@@ -217,10 +218,9 @@ void	HTTP_Request::parseNonFullChunked(char *buffer, int size)
 				line = line.substr(0, line.find("\r"));
 			if (line == "0")
 				break;
+			_size = std::stoi(line, 0, 16);
 			std::getline(ss, line);
-			if (line.find("\r") != std::string::npos)
-				line = line.substr(0, line.find("\r"));
-			this->request.post.body += line;
+			this->request.post.body += line.substr(0, size);
 		}
 	}
 }
