@@ -6,15 +6,14 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/24 18:02:05 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:05:57 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TCP_CONNECTION_HPP
 #define TCP_CONNECTION_HPP
 
-#include "TCP_Exceptions.hpp"
-#include "HTTP_Request.hpp"
+#include "Client.hpp"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -54,7 +53,7 @@ typedef struct sockaddr_in _sockaddr_in;
 class TCP_Connection
 {
 	private:
-		HTTP_Request				clients;
+		Client						clients;
 		char						buffer[BUFFER_SIZE];
 		socklen_t					address_len;
 		_sockaddr_in				address_s;

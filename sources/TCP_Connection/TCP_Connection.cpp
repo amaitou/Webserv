@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/24 18:02:12 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:07:25 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,24 @@ void TCP_Connection::socketAccept(void)
             continue;  
         }
         read(client_fd, buffer, BUFFER_SIZE);
-        clients.initRequest(client_fd, buffer);
+        clients.setClientFd(client_fd);
         std::cout << YELLOW << "___________REQUEST__________\n" << RESET << std::endl;
         std::cout << buffer << RESET << std::endl;
-        clients.initRequest(client_fd, buffer);
-        if (clients.getMethodType() == GET)
-            clients.parseGetRequest();
-        else if (clients.getMethodType() == POST)
-            clients.parsePostRequest(buffer, BUFFER_SIZE);
+        clients.request.initRequest(clients.getClientFd(), buffer);
+        if (clients.request.getMethodType() == GET)
+            clients.request.parseGetRequest();
+        else if (clients.request.getMethodType() == POST)
+            clients.request.parsePostRequest(buffer, BUFFER_SIZE);
         std::cout << CYAN << "___________REQUEST LINE__________\n" << RESET << std::endl;
-        clients.printRequestLine();
+        clients.request.printRequestLine();
         std::cout << GREEN << "___________HEADERS__________\n" << RESET << std::endl;
-        clients.printHeaders();
+        clients.request.printHeaders();
         std::cout << GREY << "___________BODY__________\n" << RESET << std::endl;
-        clients.printBody();
+        clients.request.printBody();
         send(client_fd, http_res.c_str(), http_res.length(), 0);
         memset(buffer, 0, BUFFER_SIZE);
-        clients.cleanMembers();
-        close(client_fd);
+        clients.request.cleanMembers();
+        close(clients.request.getFd());
     }
 }
 

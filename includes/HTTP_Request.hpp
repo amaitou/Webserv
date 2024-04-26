@@ -6,10 +6,11 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/24 17:56:37 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:05:18 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "TCP_Exceptions.hpp"
 #include <unistd.h>
 #include <iostream>
 #include <sstream>
@@ -17,7 +18,6 @@
 #include <cstring>
 #include <fcntl.h>
 #include <map>
-#include "./TCP_Exceptions.hpp"
 
 // Enum for the type of the request
 typedef enum e_method_type
