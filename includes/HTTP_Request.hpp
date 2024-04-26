@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/26 19:05:18 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:24:07 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ class HTTP_Request
 		int				parseGetRequest(void);
 
 		void			parsePostRequest(char *buffer, int size);
-		void			parseForFullChunked(std::stringstream &ss);
-		void			parseForNonFullChunked(char *buffer, int size);
-		void			parseForBody(std::stringstream &ss, char *buffer, int size);
+		void			parseFullChunked(std::stringstream &ss);
+		void			parseNonFullChunked(char *buffer, int size);
+		void			parseContentLength(std::stringstream &ss, char *buffer, int size);
 		void			setPostType(void);
 		int				isContentLength(void) const;
 		int				isChunked(void) const;

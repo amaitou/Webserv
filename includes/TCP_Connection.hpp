@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/26 19:05:57 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:26:58 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 // Buffer Size for reading from socket
 
 #ifndef BUFFER_SIZE
-	#define BUFFER_SIZE 1024
+	#define BUFFER_SIZE 8192
 #endif
 #ifndef NUMBER_OF_CLIENTS
 	#define NUMBER_OF_CLIENTS 1024

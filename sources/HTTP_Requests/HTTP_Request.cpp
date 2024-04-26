@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/24 17:56:50 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:25:18 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ void	HTTP_Request::setPostType(void)
 		this->request.post.content_type = _NONE;
 }
 
-void HTTP_Request::parseForFullChunked(std::stringstream &ss)
+void HTTP_Request::parseFullChunked(std::stringstream &ss)
 {
 	std::string line;
 
@@ -202,7 +202,7 @@ void HTTP_Request::parseForFullChunked(std::stringstream &ss)
 	}
 }
 
-void	HTTP_Request::parseForNonFullChunked(char *buffer, int size)
+void	HTTP_Request::parseNonFullChunked(char *buffer, int size)
 {
 	std::string line;
 	while (!this->isDataEnded())
@@ -225,7 +225,7 @@ void	HTTP_Request::parseForNonFullChunked(char *buffer, int size)
 	}
 }
 
-void HTTP_Request::parseForBody(std::stringstream &ss, char *buffer, int size)
+void HTTP_Request::parseContentLength(std::stringstream &ss, char *buffer, int size)
 {
 	std::string line;
 	while (std::getline(ss, line))
@@ -263,12 +263,12 @@ void HTTP_Request::parsePostRequest(char *buffer, int size)
 	if (this->request.post.content_type == CHUNKED_TRANSFER_ENCODING)
 	{
 		if (this->isDataEnded())
-			this->parseForFullChunked(ss);
+			this->parseFullChunked(ss);
 		else
-			this->parseForNonFullChunked(buffer, size);
+			this->parseNonFullChunked(buffer, size);
 	}
 	else if (this->request.post.content_type == CUSTOM_DATA)
-		this->parseForBody(ss, buffer, size);
+		this->parseContentLength(ss, buffer, size);
 	return;
 }
 
