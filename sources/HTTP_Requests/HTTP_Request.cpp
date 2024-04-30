@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Request.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/26 23:33:33 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/04/30 12:00:30 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,14 @@ int	HTTP_Request::parseGetRequest(void)
 	return (0);
 }
 
+/*
+	note: 
+		I dont understand why you use the request.get if method is get and use the request.post if method is post
+		while the both have the path, query and version, I think you should use just request.path, request.query and request.version
+		just for readabalty of code therefor no need to use request.get or request.post while the request.method specify the method we reciev from the client.
+		if you stilling using this structure, evrey time we want to access to the path, query or version we have to check if method what is,
+		and I think we dont need to know what is method used if we want to check or access to these attributes.		
+*/
 void HTTP_Request::printRequestLine(void) const
 {
 	if (this->request.method == GET)
