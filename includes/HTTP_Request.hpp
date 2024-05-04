@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/04 05:48:28 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 00:33:57 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ class HTTP_Request
 		int				parseChunkedBody(std::string &content);
 		int				parseWhenDataIsCompleted(std::string &content);
 		int				parseWhenDataIsNotCompleted(std::string &content);
-		std::string		retrieveRegularChunkedBody(void);
+		std::string		retrieveBodyFromChunkedData(void);
 
 		// Printers
 		void			printRequestLine(void) const;

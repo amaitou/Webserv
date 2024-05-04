@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:27 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/04 06:00:52 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 00:40:05 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int HTTP_Request::parseChunkedBody(std::string &content)
 	this->request.post.body += content;
 	if (this->request.post.body.find("\r\n0\r\n\r\n") != std::string::npos)
 	{
-		this->request.post.body += content;
+		this->request.post.body = this->retrieveBodyFromChunkedData();
 		return (0);
 	}
 	else
@@ -164,13 +164,20 @@ int HTTP_Request::parseWhenDataIsNotCompleted(std::string &content)
 	return (1);
 }
 
-/* TODO:
- * 1. retrieve data from the regular chunked data
- * 2. retrieve data from the multipart data form with chunked data
- * 3. Task retrieve data from multipart data form with regular data
- */
-
-std::string HTTP_Request::retrieveRegularChunkedBody(void)
+std::string HTTP_Request::retrieveBodyFromChunkedData(void)
 {
-	return ("");
+	std::string body;
+	std::string chunked_data = this->request.post.body;
+
+	while (chunked_data.find("\r\n") != std::string::npos)
+	{
+		std::string chunk_size = chunked_data.substr(0, chunked_data.find("\r\n"));
+		int size = std::stoi(chunk_size, 0, 16);
+		if (size == 0)
+			break;
+		chunked_data = chunked_data.substr(chunked_data.find("\r\n") + 2);
+		body += chunked_data.substr(0, size);
+		chunked_data = chunked_data.substr(size + 2);
+	}
+	return (body);
 }
