@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/04/26 19:24:07 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/04 05:48:28 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ typedef enum e_method_type
 // Enum for the type of the post request
 typedef enum e_post_content_type
 {
-	CHUNKED_TRANSFER_ENCODING,
+	REGULAR_CHUNKED_BODY,
 	MULTIPART_FORM_DATA,
-	CUSTOM_DATA,
+	MUTIPART_DATA_FORM_WITH_CHUNKED_BODY,
+	REGULAR_BODY,
 	_NONE
 }	t_content_type;
 
@@ -49,11 +50,11 @@ typedef struct s_get_request
 // Struct for the post request
 typedef struct s_post_request
 {
+	bool			return_value;
 	std::string		path;
 	std::string		query;
 	std::string 	version;
 	std::string		body;
-	size_t			return_value;
 	t_content_type	content_type;
 	std::map<std::string, std::string> headers;
 }	t_post_request;
@@ -78,7 +79,7 @@ class HTTP_Request
 		HTTP_Request(void);
 		~HTTP_Request(void);
 
-		// Initialize
+		// Initializers
 		void			initRequest(int fd, char *buffer);
 
 		// Getters
@@ -87,31 +88,36 @@ class HTTP_Request
 		int				getFd(void) const;
 
 		// Setters
-		void			setMethodType(t_method_type method);
-		void			setContent(char *content);
 		void			setFd(int fd);
 		void			setNonBlocking(void);
+		void			setContent(char *content);
+		void			setMethodType(std::string &request_line);
+		void			setPostMethodType(void);
 
-		// Parser
-		void			checkMethodType(void);
-		void			parseRequestLine(void);
+		// Checkers
+		bool			checkCRLF(void) const;
+		bool			checkContentLength(void) const;
+		bool 			checkChunked(void) const;
+		bool			checkMultipartDataForm(void) const;
+
+		// Parsers
+		int				parseRequestLine(void);
 		int				parseGetRequest(void);
-
-		void			parsePostRequest(char *buffer, int size);
-		void			parseFullChunked(std::stringstream &ss);
-		void			parseNonFullChunked(char *buffer, int size);
-		void			parseContentLength(std::stringstream &ss, char *buffer, int size);
-		void			setPostType(void);
-		int				isContentLength(void) const;
-		int				isChunked(void) const;
-		int				isDataEnded(void) const;
+		int				parsePostRequest(void);
+		void			parsePostHeaders(void);
+		int 			parseRegularBody(std::string &content);
+		int				parseChunkedBody(std::string &content);
+		int				parseWhenDataIsCompleted(std::string &content);
+		int				parseWhenDataIsNotCompleted(std::string &content);
+		std::string		retrieveRegularChunkedBody(void);
 
 		// Printers
 		void			printRequestLine(void) const;
 		void			printHeaders(void) const;
 		void			printBody(void) const;
-		void			printTypeOfPostRequest(void) const;
+		void			printMethodType(void) const;
+		void			printPostMethodType(void) const;
 
-		// Cleaner
+		// Cleaners
 		void			cleanMembers(void);
 };

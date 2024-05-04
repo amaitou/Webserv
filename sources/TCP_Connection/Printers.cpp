@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   Printers.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 21:02:48 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/04 03:54:43 by amait-ou         ###   ########.fr       */
+/*   Created: 2024/05/04 04:10:48 by amait-ou          #+#    #+#             */
+/*   Updated: 2024/05/04 04:10:52 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HTTP_Request.hpp"
+#include "../../includes/TCP_Connection.hpp"
 
-#ifndef CLIENT_HPP
-#define CLIENT_HPP
-
-class Client
+void TCP_Connection::printListener(void) const
 {
-	private:
-		int fd;
-
-	public:
-		Client(void);
-		Client(int fd);
-
-		void	setClientFd(int fd);
-		int		getClientFd(void) const;
-		
-		HTTP_Request request;
-};
-
-#endif
+	std::cout 	<< "\n[.] "
+				<< GREEN
+				<< "Listening for upcoming connections on: \n"
+				<< RESET
+				<< "\n\t>> Port -> "
+				<< GREEN
+				<< ntohs(address_s.sin_port)
+				<< RESET
+				<< "\n\t>> Host -> "
+				<< GREEN
+				<< ntohs(address_s.sin_addr.s_addr)
+				<< "\n"
+				<< RESET
+				<< std::endl;
+}

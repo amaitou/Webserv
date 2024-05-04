@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.hpp                                         :+:      :+:    :+:   */
+/*   Getters.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 21:02:48 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/04 03:54:43 by amait-ou         ###   ########.fr       */
+/*   Created: 2024/05/04 03:57:24 by amait-ou          #+#    #+#             */
+/*   Updated: 2024/05/04 03:57:51 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HTTP_Request.hpp"
+#include "../../includes/HTTP_Request.hpp"
 
-#ifndef CLIENT_HPP
-#define CLIENT_HPP
-
-class Client
+t_method_type	HTTP_Request::getMethodType(void) const
 {
-	private:
-		int fd;
+	return (this->request.method);
+}
 
-	public:
-		Client(void);
-		Client(int fd);
+std::string	HTTP_Request::getContent(void) const
+{
+	return (this->content);
+}
 
-		void	setClientFd(int fd);
-		int		getClientFd(void) const;
-		
-		HTTP_Request request;
-};
-
-#endif
+int HTTP_Request::getFd(void) const
+{
+	return (this->fd);
+}

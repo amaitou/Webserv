@@ -4,7 +4,7 @@ VFLAG = -std=c++11
 NAME = webserv
 SOURCE_DIR = ./sources
 
-CPPFILES = $(wildcard $(SOURCE_DIR)/*/*.cpp) main.cpp
+CPPFILES = $(wildcard $(SOURCE_DIR)/*/*.cpp) $(wildcard $(SOURCE_DIR)/main.cpp)
 OBJECTS = $(CPPFILES:.cpp=.o)
 
 all: $(NAME)
