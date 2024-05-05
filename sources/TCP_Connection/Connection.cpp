@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/04 04:11:07 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 00:58:01 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,10 @@ void TCP_Connection::socketAccept(void)
 				clients.request.printBody();
 			}
 		}
-		else
+		else if (clients.request.getMethodType() == GET)
 			clients.request.parseGetRequest();
+		else if (clients.request.getMethodType() == DELETE)
+			clients.request.parseDeleteRequest();
 		std::cout << GREY << "___________METHOD_TYPE____________\n" << RESET << std::endl;
 		clients.request.printMethodType();
 		clients.request.printPostMethodType();

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:27 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 00:40:05 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 00:59:27 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ int	HTTP_Request::parseRequestLine(void)
 			this->request.post.query = _query;
 			this->request.post.version = _version;
 			this->request.post.return_value = false;
+		}
+		else if (this->request.method == DELETE)
+		{
+			this->request.delete_.path = _path;
+			this->request.delete_.query = _query;
+			this->request.delete_.version = _version;
 		}
 	}
 	return (0);
@@ -107,6 +113,26 @@ void HTTP_Request::parsePostHeaders(void)
 		std::pair<std::string, std::string> pair(key, value);
 		this->request.post.headers.insert(pair);
 	}
+}
+
+int HTTP_Request::parseDeleteRequest(void)
+{
+	std::string line;
+	
+	std::stringstream ss(content);
+	std::getline(ss, line);
+
+	while (std::getline(ss, line) && line != "\r")
+	{
+		int position = line.find(":");
+		std::string key = line.substr(0, position);
+		std::string value = line.substr(position + 2);
+		if (value.find("\r") != std::string::npos)
+			value = value.substr(0, value.find("\r"));
+		std::pair<std::string, std::string> pair(key, value);
+		this->request.delete_.headers.insert(pair);
+	}
+	return (0);
 }
 
 int	HTTP_Request::parseRegularBody(std::string &content)

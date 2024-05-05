@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 04:00:07 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/04 04:00:12 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 01:02:06 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ void HTTP_Request::printRequestLine(void) const
 			std::cout << "Query: NONE" << std::endl;
 		std::cout << "Version: " << this->request.post.version << std::endl;
 	}
+	else if (this->request.method == DELETE)
+	{
+		std::cout << "Method: DELETE" << std::endl;
+		std::cout << "Path: " << this->request.delete_.path << std::endl;
+		if (this->request.delete_.query != "")
+			std::cout << "Query: " << this->request.delete_.query << std::endl;
+		else
+			std::cout << "Query: NONE" << std::endl;
+		std::cout << "Version: " << this->request.delete_.version << std::endl;
+	}
+	else
+		std::cout << "Method: NONE" << std::endl;
 	std::cout << std::endl;
 }
 
@@ -52,6 +64,15 @@ void HTTP_Request::printHeaders(void) const
 	{
 		std::map<std::string, std::string>::const_iterator it = this->request.post.headers.begin();
 		while (it != this->request.post.headers.end())
+		{
+			std::cout << it->first << ": " << it->second << std::endl;
+			it++;
+		}
+	}
+	else if (this->request.method == DELETE)
+	{
+		std::map<std::string, std::string>::const_iterator it = this->request.delete_.headers.begin();
+		while (it != this->request.delete_.headers.end())
 		{
 			std::cout << it->first << ": " << it->second << std::endl;
 			it++;

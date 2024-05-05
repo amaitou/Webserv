@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 00:33:57 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 00:57:41 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@
 // Enum for the type of the request
 typedef enum e_method_type
 {
+	NONE,
 	GET,
 	POST,
-	DELETE,
-	NONE
+	DELETE
 }	t_method_type;
 
 // Enum for the type of the post request
 typedef enum e_post_content_type
 {
+	_NONE,
 	REGULAR_CHUNKED_BODY,
 	MULTIPART_FORM_DATA,
 	MUTIPART_DATA_FORM_WITH_CHUNKED_BODY,
-	REGULAR_BODY,
-	_NONE
+	REGULAR_BODY
 }	t_content_type;
 
 // Struct for the get request
@@ -59,12 +59,21 @@ typedef struct s_post_request
 	std::map<std::string, std::string> headers;
 }	t_post_request;
 
+typedef struct s_delete_request
+{
+	std::string		path;
+	std::string		query;
+	std::string 	version;
+	std::map<std::string, std::string> headers;
+}	t_delete_request;
+
 // Struct for the request
 typedef struct s_request
 {
 	t_method_type	method;
 	t_get_request	get;
 	t_post_request	post;
+	t_delete_request delete_;
 }	t_request;
 
 class HTTP_Request
@@ -104,6 +113,7 @@ class HTTP_Request
 		int				parseRequestLine(void);
 		int				parseGetRequest(void);
 		int				parsePostRequest(void);
+		int				parseDeleteRequest(void);
 		void			parsePostHeaders(void);
 		int 			parseRegularBody(std::string &content);
 		int				parseChunkedBody(std::string &content);
