@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:57:24 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 03:42:19 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 06:14:54 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,15 @@ t_content_type HTTP_Request::getPostContentType(void) const
 	if (this->request.method == POST)
 		return (this->request.post.content_type);
 	return (_NONE);
+}
+
+std::string HTTP_Request::getFileExtension(void) const
+{
+	if (this->request.method == GET)
+		return (this->request.get.extension);
+	else if (this->request.method == POST)
+		return (this->request.post.extension);
+	else if (this->request.method == DELETE)
+		return (this->request.delete_.extension);
+	return ("");
 }

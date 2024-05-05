@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:27 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 03:40:20 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 06:13:59 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,19 @@ void HTTP_Request::setParamsOfRequestLine(std::string &path, std::string &query,
 	{
 		this->request.get.path = path;
 		this->request.get.query = query;
+		if (path.find_last_of(".") != std::string::npos)
+			this->request.get.extension = path.substr(path.find_last_of(".") + 1);
+		else
+			this->request.get.extension = "";
 		this->request.get.version = version;
 	}
 	else if (this->getMethodType() == POST)
 	{
 		this->request.post.path = path;
+		if (path.find_last_of(".") != std::string::npos)
+			this->request.post.extension = path.substr(path.find_last_of(".") + 1);
+		else
+			this->request.post.extension = "";
 		this->request.post.query = query;
 		this->request.post.version = version;
 		this->request.post.return_value = false;
@@ -60,6 +68,10 @@ void HTTP_Request::setParamsOfRequestLine(std::string &path, std::string &query,
 	else if (this->getMethodType() == DELETE)
 	{
 		this->request.delete_.path = path;
+		if (path.find_last_of(".") != std::string::npos)
+			this->request.delete_.extension = path.substr(path.find_last_of(".") + 1);
+		else
+			this->request.delete_.extension = "";
 		this->request.delete_.query = query;
 		this->request.delete_.version = version;
 	}

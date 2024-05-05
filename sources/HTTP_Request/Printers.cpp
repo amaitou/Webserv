@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 04:00:07 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 03:40:04 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 06:14:18 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void HTTP_Request::printRequestLine(void) const
 {
 	this->printMethodType();
 	std::cout << "Path: " << this->getPath() << std::endl;
+	std::cout << "Extension: " << this->getFileExtension() << std::endl;
 	std::cout << "Query: " << this->getQuery() << std::endl;
 	std::cout << "Version: " << this->getVersion() << std::endl;
 	std::cout << std::endl;

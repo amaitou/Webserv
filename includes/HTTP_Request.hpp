@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 03:39:47 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 06:27:46 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum e_post_content_type
 typedef struct s_get_request
 {
 	std::string		path;
+	std::string		extension;
 	std::string		query;
 	std::string 	version;
 	std::map<std::string, std::string> headers;
@@ -52,6 +53,7 @@ typedef struct s_post_request
 {
 	bool			return_value;
 	std::string		path;
+	std::string		extension;
 	std::string		query;
 	std::string 	version;
 	std::string		body;
@@ -62,6 +64,7 @@ typedef struct s_post_request
 typedef struct s_delete_request
 {
 	std::string		path;
+	std::string		extension;
 	std::string		query;
 	std::string 	version;
 	std::map<std::string, std::string> headers;
@@ -101,6 +104,7 @@ class HTTP_Request
 		std::string		getBody(void) const;
 		std::map<std::string, std::string> getHeaders(void) const;
 		t_content_type	getPostContentType(void) const;
+		std::string		getFileExtension(void) const;
 
 		// Setters
 		void			setFd(int fd);
