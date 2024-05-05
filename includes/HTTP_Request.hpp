@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 01:07:45 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 03:33:01 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,17 @@ class HTTP_Request
 		~HTTP_Request(void);
 
 		// Initializers
-		void			initRequest(int fd, char *buffer);
+		void			initializeRequest(int fd, char *buffer);
 
 		// Getters
 		t_method_type	getMethodType(void) const;
 		std::string		getContent(void) const;
 		int				getFd(void) const;
+		std::string		getPath(void) const;
+		std::string		getQuery(void) const;
+		std::string		getVersion(void) const;
+		std::string		getBody(void) const;
+		std::map<std::string, std::string> getHeaders(void) const;
 
 		// Setters
 		void			setFd(int fd);

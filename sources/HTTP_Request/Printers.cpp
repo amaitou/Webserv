@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 04:00:07 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 01:02:06 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 03:32:57 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,10 @@
 
 void HTTP_Request::printRequestLine(void) const
 {
-	if (this->request.method == GET)
-	{
-		std::cout << "Method: GET" << std::endl;
-		std::cout << "Path: " << this->request.get.path << std::endl;
-		if (this->request.get.query != "")
-			std::cout << "Query: " << this->request.get.query << std::endl;
-		else
-			std::cout << "Query: NONE" << std::endl;
-		std::cout << "Version: " << this->request.get.version << std::endl;
-	}
-	else if (this->request.method == POST)
-	{
-		std::cout << "Method: POST" << std::endl;
-		std::cout << "Path: " << this->request.post.path << std::endl;
-		if (this->request.post.query != "")
-			std::cout << "Query: " << this->request.post.query << std::endl;
-		else
-			std::cout << "Query: NONE" << std::endl;
-		std::cout << "Version: " << this->request.post.version << std::endl;
-	}
-	else if (this->request.method == DELETE)
-	{
-		std::cout << "Method: DELETE" << std::endl;
-		std::cout << "Path: " << this->request.delete_.path << std::endl;
-		if (this->request.delete_.query != "")
-			std::cout << "Query: " << this->request.delete_.query << std::endl;
-		else
-			std::cout << "Query: NONE" << std::endl;
-		std::cout << "Version: " << this->request.delete_.version << std::endl;
-	}
-	else
-		std::cout << "Method: NONE" << std::endl;
+	this->printMethodType();
+	std::cout << "Path: " << this->getPath() << std::endl;
+	std::cout << "Query: " << this->getQuery() << std::endl;
+	std::cout << "Version: " << this->getVersion() << std::endl;
 	std::cout << std::endl;
 }
 
@@ -83,10 +55,7 @@ void HTTP_Request::printHeaders(void) const
 
 void HTTP_Request::printBody(void) const
 {
-	if (this->request.method == POST)
-		std::cout << this->request.post.body << std::endl;
-	else
-		std::cout << "No Body" << std::endl;
+	std::cout << this->getBody() << std::endl;
 	std::cout << std::endl;
 }
 
