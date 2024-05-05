@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:27 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 00:59:27 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 01:08:31 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,32 @@ int	HTTP_Request::parseRequestLine(void)
 		else
 			_query = "";
 		this->setMethodType(request_line);
-		if (this->request.method == GET)
-		{
-			this->request.get.path = _path;
-			this->request.get.query = _query;
-			this->request.get.version = _version;
-		}
-		else if (this->request.method == POST)
-		{
-			this->request.post.path = _path;
-			this->request.post.query = _query;
-			this->request.post.version = _version;
-			this->request.post.return_value = false;
-		}
-		else if (this->request.method == DELETE)
-		{
-			this->request.delete_.path = _path;
-			this->request.delete_.query = _query;
-			this->request.delete_.version = _version;
-		}
+		this->setParamsOfRequestLine(_path, _query, _version);
 	}
 	return (0);
+}
+
+void HTTP_Request::setParamsOfRequestLine(std::string &path, std::string &query, std::string &version)
+{
+	if (this->request.method == GET)
+	{
+		this->request.get.path = path;
+		this->request.get.query = query;
+		this->request.get.version = version;
+	}
+	else if (this->request.method == POST)
+	{
+		this->request.post.path = path;
+		this->request.post.query = query;
+		this->request.post.version = version;
+		this->request.post.return_value = false;
+	}
+	else if (this->request.method == DELETE)
+	{
+		this->request.delete_.path = path;
+		this->request.delete_.query = query;
+		this->request.delete_.version = version;
+	}
 }
 
 int HTTP_Request::parseGetRequest(void)

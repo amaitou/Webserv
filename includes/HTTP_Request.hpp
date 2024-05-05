@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 00:57:41 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 01:07:45 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ class HTTP_Request
 
 		// Parsers
 		int				parseRequestLine(void);
+		void			setParamsOfRequestLine(std::string &path, std::string &query, std::string &version);
 		int				parseGetRequest(void);
 		int				parsePostRequest(void);
 		int				parseDeleteRequest(void);
