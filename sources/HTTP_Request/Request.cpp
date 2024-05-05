@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:34:21 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 03:11:02 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 06:33:03 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ HTTP_Request::HTTP_Request(char *content)
 	this->request.method = NONE;
 	this->request.method = NONE;
 	this->request.post.content_type = _NONE;
-	this->request.post.return_value = false;
+	this->request.post.tracker = false;
 }
 
 HTTP_Request::HTTP_Request(void)
@@ -27,7 +27,7 @@ HTTP_Request::HTTP_Request(void)
 	this->request.method = NONE;
 	this->request.method = NONE;
 	this->request.post.content_type = _NONE;
-	this->request.post.return_value = false;
+	this->request.post.tracker = false;
 }
 
 HTTP_Request::~HTTP_Request(void) {}

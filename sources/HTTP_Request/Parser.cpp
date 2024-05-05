@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:27 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 06:13:59 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 06:32:38 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void HTTP_Request::setParamsOfRequestLine(std::string &path, std::string &query,
 			this->request.post.extension = "";
 		this->request.post.query = query;
 		this->request.post.version = version;
-		this->request.post.return_value = false;
+		this->request.post.tracker = false;
 	}
 	else if (this->getMethodType() == DELETE)
 	{
@@ -102,7 +102,7 @@ int HTTP_Request::parsePostRequest(void)
 	std::string line;
 	std::stringstream ss(content);
 
-	if (this->request.post.return_value == false)
+	if (this->request.post.tracker == false)
 	{	
 		if (!this->parseWhenDataIsCompleted(content))
 			return (0);
@@ -194,7 +194,7 @@ int HTTP_Request::parseWhenDataIsCompleted(std::string &content)
 		if (!this->parseChunkedBody(_content))
 			return (0);
 	}
-	this->request.post.return_value = true;
+	this->request.post.tracker = true;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 06:27:46 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 06:32:20 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_get_request
 // Struct for the post request
 typedef struct s_post_request
 {
-	bool			return_value;
+	bool			tracker;
 	std::string		path;
 	std::string		extension;
 	std::string		query;
