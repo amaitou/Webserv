@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:27 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 01:08:31 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 03:40:20 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,20 @@ int	HTTP_Request::parseRequestLine(void)
 
 void HTTP_Request::setParamsOfRequestLine(std::string &path, std::string &query, std::string &version)
 {
-	if (this->request.method == GET)
+	if (this->getMethodType() == GET)
 	{
 		this->request.get.path = path;
 		this->request.get.query = query;
 		this->request.get.version = version;
 	}
-	else if (this->request.method == POST)
+	else if (this->getMethodType() == POST)
 	{
 		this->request.post.path = path;
 		this->request.post.query = query;
 		this->request.post.version = version;
 		this->request.post.return_value = false;
 	}
-	else if (this->request.method == DELETE)
+	else if (this->getMethodType() == DELETE)
 	{
 		this->request.delete_.path = path;
 		this->request.delete_.query = query;
@@ -170,7 +170,7 @@ int HTTP_Request::parseChunkedBody(std::string &content)
 int HTTP_Request::parseWhenDataIsCompleted(std::string &content)
 {
 	this->parsePostHeaders();
-	this->setPostMethodType();
+	this->setPostContentType();
 	if (this->checkContentLength())
 	{
 		std::string _content = content.substr(content.find("\r\n\r\n") + 4);

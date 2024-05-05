@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:57:24 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 03:24:35 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 03:42:19 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,11 @@ std::map<std::string, std::string> HTTP_Request::getHeaders(void) const
 	else if (this->request.method == DELETE)
 		return (this->request.delete_.headers);
 	return (std::map<std::string, std::string>());
+}
+
+t_content_type HTTP_Request::getPostContentType(void) const
+{
+	if (this->request.method == POST)
+		return (this->request.post.content_type);
+	return (_NONE);
 }

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 04:00:07 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 03:32:57 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 03:40:04 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ void HTTP_Request::printMethodType(void) const
 
 void HTTP_Request::printPostMethodType(void) const
 {
-	if (this->request.post.content_type == REGULAR_CHUNKED_BODY)
+	if (this->getPostContentType() == REGULAR_CHUNKED_BODY)
 		std::cout << "Content-Type: Regular Chunked Body" << std::endl;
-	else if (this->request.post.content_type == MULTIPART_FORM_DATA)
+	else if (this->getPostContentType() == MULTIPART_FORM_DATA)
 		std::cout << "Content-Type: Multipart Form Data" << std::endl;
-	else if (this->request.post.content_type == MUTIPART_DATA_FORM_WITH_CHUNKED_BODY)
+	else if (this->getPostContentType() == MUTIPART_DATA_FORM_WITH_CHUNKED_BODY)
 		std::cout << "Content-Type: Multipart Data Form With Chunked Body" << std::endl;
-	else if (this->request.post.content_type == REGULAR_BODY)
+	else if (this->getPostContentType() == REGULAR_BODY)
 		std::cout << "Content-Type: Regular Body" << std::endl;
 	else
 		std::cout << "Content-Type: NONE" << std::endl;

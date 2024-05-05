@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 03:33:01 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 03:39:47 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,14 @@ class HTTP_Request
 		std::string		getVersion(void) const;
 		std::string		getBody(void) const;
 		std::map<std::string, std::string> getHeaders(void) const;
+		t_content_type	getPostContentType(void) const;
 
 		// Setters
 		void			setFd(int fd);
 		void			setNonBlocking(void);
 		void			setContent(char *content);
 		void			setMethodType(std::string &request_line);
-		void			setPostMethodType(void);
+		void			setPostContentType(void);
 
 		// Checkers
 		bool			checkCRLF(void) const;

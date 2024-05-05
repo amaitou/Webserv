@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:58:18 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/04 03:58:45 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/05 03:39:10 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	HTTP_Request::setMethodType(std::string &request_line)
 		this->request.method = NONE;
 }
 
-void HTTP_Request::setPostMethodType(void)
+void HTTP_Request::setPostContentType(void)
 {
 	if (this->checkChunked() && this->checkMultipartDataForm())
 		this->request.post.content_type = MUTIPART_DATA_FORM_WITH_CHUNKED_BODY;
