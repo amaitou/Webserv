@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/03 05:56:21 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/06 04:21:36 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct sockaddr_in _sockaddr_in;
 class TCP_Connection
 {
 	private:
-		Client						clients;
+		std::map<int, Client>		clients;
 		char						buffer[BUFFER_SIZE];
 		socklen_t					address_len;
 		_sockaddr_in				address_s;
