@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/06 04:21:36 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/07 03:58:26 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ class TCP_Connection
 		socklen_t					address_len;
 		_sockaddr_in				address_s;
 		int							server_fd;
+		fd_set						ready_read_fds;
+		fd_set						ready_write_fds;
+		fd_set						current_read_fds;
+		fd_set						current_write_fds;
+		int							client_fd;
 		
 	
 	public:
