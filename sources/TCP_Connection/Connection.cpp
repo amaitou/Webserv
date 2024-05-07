@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/07 04:28:55 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/07 06:47:42 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ TCP_Connection::TCP_Connection(int domain, int service, int protocol, int port, 
 	address_s.sin_port = htons(port);
 	address_s.sin_addr.s_addr = htonl(interface);
 	address_len = sizeof(address_s);
-	server_fd = socket(domain, service, protocol);
+	this->server_fd = socket(domain, service, protocol);
 	if (server_fd < 0)
 		throw TCP_Exception::FailedToCreateSocket();
-	fcntl(server_fd, F_SETFL, O_NONBLOCK);
+	this->setSocketNonBlocking();
 	FD_ZERO(&this->current_read_fds);
 	FD_ZERO(&this->current_write_fds);
 	FD_SET(server_fd, &this->current_read_fds);
@@ -114,7 +114,7 @@ void TCP_Connection::socketAccept(void)
 
 void TCP_Connection::serve(void)
 {
-	socketSetOptions();
+	setSocketOptions();
 	socketBind();
 	socketListen();
 	socketAccept();

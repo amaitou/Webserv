@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/07 03:58:26 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/07 06:44:12 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ class TCP_Connection
 		void			socketAccept(void);
 
 		// Setters
-		void			socketSetOptions(void);
+		void			setSocketOptions(void);
+		void			setSocketNonBlocking(void);
 
 		// Printers
 		void			printListener(void) const;
