@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/07 06:50:09 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/07 06:53:38 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@
 #endif
 
 // Typedefs for readability
-
 typedef unsigned long t_ul;
 typedef struct sockaddr _sockaddr;
 typedef struct sockaddr_in _sockaddr_in;
 
+// File Descriptors for select
 typedef struct fds
 {
 	fd_set						ready_read_fds;
@@ -57,7 +57,6 @@ typedef struct fds
 } 	t_fds;
 
 // TCP Connection Class
-
 class TCP_Connection
 {
 	private:
