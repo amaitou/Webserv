@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/07 06:44:12 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/07 06:50:09 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ typedef unsigned long t_ul;
 typedef struct sockaddr _sockaddr;
 typedef struct sockaddr_in _sockaddr_in;
 
+typedef struct fds
+{
+	fd_set						ready_read_fds;
+	fd_set						ready_write_fds;
+	fd_set						current_read_fds;
+	fd_set						current_write_fds;
+} 	t_fds;
+
 // TCP Connection Class
 
 class TCP_Connection
@@ -58,10 +66,7 @@ class TCP_Connection
 		socklen_t					address_len;
 		_sockaddr_in				address_s;
 		int							server_fd;
-		fd_set						ready_read_fds;
-		fd_set						ready_write_fds;
-		fd_set						current_read_fds;
-		fd_set						current_write_fds;
+		t_fds						fds;
 		int							client_fd;
 		
 	

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/07 06:47:42 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/07 06:52:19 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ TCP_Connection::TCP_Connection(int domain, int service, int protocol, int port, 
 	if (server_fd < 0)
 		throw TCP_Exception::FailedToCreateSocket();
 	this->setSocketNonBlocking();
-	FD_ZERO(&this->current_read_fds);
-	FD_ZERO(&this->current_write_fds);
-	FD_SET(server_fd, &this->current_read_fds);
-	FD_SET(server_fd, &this->current_write_fds);
+	FD_ZERO(&this->fds.current_read_fds);
+	FD_ZERO(&this->fds.current_write_fds);
+	FD_SET(server_fd, &this->fds.current_read_fds);
+	FD_SET(server_fd, &this->fds.current_write_fds);
 	
 }
 
@@ -38,16 +38,16 @@ void TCP_Connection::socketAccept(void)
 
     while (true)
     {
-		this->ready_read_fds = this->current_read_fds;
-		this->ready_write_fds = this->current_write_fds;
-		if (select(FD_SETSIZE, &this->ready_read_fds, &this->ready_write_fds, NULL, NULL) < 0)
+		this->fds.ready_read_fds = this->fds.current_read_fds;
+		this->fds.ready_write_fds = this->fds.current_write_fds;
+		if (select(FD_SETSIZE, &this->fds.ready_read_fds, &this->fds.ready_write_fds, NULL, NULL) < 0)
 		{
 			std::cout << "Failed to select" << std::endl;
 			continue;
 		}
 		for (int i = 0; i < FD_SETSIZE; i++)
 		{
-			if (FD_ISSET(i, &this->ready_read_fds))
+			if (FD_ISSET(i, &this->fds.ready_read_fds))
 			{
 				if (i == this->getSocketFd())
 				{
@@ -58,7 +58,7 @@ void TCP_Connection::socketAccept(void)
 						std::cout << "Failed to accept connection" << std::endl;
 						continue;  
 					}
-					FD_SET(this->client_fd, &this->current_read_fds);
+					FD_SET(this->client_fd, &this->fds.current_read_fds);
 					clients[this->client_fd].setClientFd(this->client_fd);
 					clients[i].setClientFd(this->client_fd);
 				}
@@ -96,16 +96,16 @@ void TCP_Connection::socketAccept(void)
 					clients[client_fd].request.printPostMethodType();
 					std::cout << BLUE << "___________HEADERS__________\n" << RESET << std::endl;
 					clients[client_fd].request.printHeaders();
-					FD_CLR(i, &this->current_read_fds);
-					FD_SET(i, &this->current_write_fds);
+					FD_CLR(i, &this->fds.current_read_fds);
+					FD_SET(i, &this->fds.current_write_fds);
 				}
 			}
-			if (FD_ISSET(i, &this->ready_write_fds))
+			if (FD_ISSET(i, &this->fds.ready_write_fds))
 			{
 				send(i, http_res.c_str(), http_res.length(), 0);
 				memset(buffer, 0, BUFFER_SIZE);
 				clients[client_fd].request.cleanMembers();
-				FD_CLR(i, &this->current_write_fds);
+				FD_CLR(i, &this->fds.current_write_fds);
 				close(clients[client_fd].request.getFd());
 			}
 		}
