@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:27 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 06:32:38 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:58:24 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,7 @@ int HTTP_Request::parsePostRequest(void)
 	std::stringstream ss(content);
 
 	if (this->request.post.tracker == false)
-	{	
-		if (!this->parseWhenDataIsCompleted(content))
-			return (0);
-	}
+		return (this->parseWhenDataIsCompleted(content));
 	else
 		return (this->parseWhenDataIsNotCompleted(content));
 	content.clear();

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/07 06:52:19 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/08 10:45:54 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void TCP_Connection::socketAccept(void)
 				{
 					memset(buffer, 0, BUFFER_SIZE);
 					read(i, buffer, BUFFER_SIZE);
-					clients[client_fd].setClientFd(i);
 					std::cout << GREEN << "___________ACCEPTED_REQUEST__________\n" << RESET << std::endl;
 					std::cout << buffer << RESET << std::endl;
 					clients[client_fd].request.initializeRequest(clients[client_fd].getClientFd(), buffer);
