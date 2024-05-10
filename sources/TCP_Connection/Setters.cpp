@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 06:41:35 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/07 06:45:28 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:47:54 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void TCP_Connection::setSocketOptions(void)
 		throw TCP_Exception::FailedToSetOptions();
 }
 
-void TCP_Connection::setSocketNonBlocking(void)
+void TCP_Connection::setServerNonBlocking(void)
 {
-	int flags = fcntl(this->getSocketFd(), F_GETFL, 0);
+	int flags = fcntl(this->getServerFd(), F_GETFL, 0);
 	if (flags == -1)
 		throw TCP_Exception::FailedToSetNonBlocking();
-	if (fcntl(this->getSocketFd(), F_SETFL, flags | O_NONBLOCK) == -1)
+	if (fcntl(this->getServerFd(), F_SETFL, flags | O_NONBLOCK) == -1)
 		throw TCP_Exception::FailedToSetNonBlocking();
 }

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/09 03:59:32 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:47:15 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ class TCP_Connection
 		TCP_Connection(int domain, int service, int protocol, int port, t_ul interface);
 		
 		// Getters
-		int				getSocketFd(void) const;
+		int				getServerFd(void) const;
 		socklen_t		getAddressLen(void) const;
 		_sockaddr_in	getStructSockAddrIn(void) const;
 		
@@ -85,11 +85,17 @@ class TCP_Connection
 
 		// Setters
 		void			setSocketOptions(void);
-		void			setSocketNonBlocking(void);
+		void			setServerNonBlocking(void);
 
 		// Printers
 		void			printListener(void) const;
 		void			printBanner(void) const;
+
+		// Multiplexer
+		void			setMultiplexer(void);
+		int				addClient(void);
+		void			readClient(int fd);
+		void			writeClient(int fd);
 
 		// Server
 		void			serve(void);

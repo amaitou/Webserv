@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 05:33:19 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 09:47:20 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,13 @@ TCP_Connection::TCP_Connection(int domain, int service, int protocol, int port, 
 	this->server_fd = socket(domain, service, protocol);
 	if (server_fd < 0)
 		throw TCP_Exception::FailedToCreateSocket();
-	this->setSocketNonBlocking();
-	FD_ZERO(&this->fds.current_read_fds);
-	FD_ZERO(&this->fds.current_write_fds);
-	FD_SET(server_fd, &this->fds.current_read_fds);
-	FD_SET(server_fd, &this->fds.current_write_fds);
+	this->setServerNonBlocking();
+	this->setMultiplexer();
 	
 }
 
 void TCP_Connection::socketAccept(void)
 {
-    std::string p = "<h1>Response Has Been Sent Successfully</h1>";
-    std::string http_res = "HTTP/1.1 200 OK Content-Type: text/html\nContent-Length:" + std::to_string(p.length()) + "\n\n" + p + "\n";
-
     while (true)
     {
 		this->fds.ready_read_fds = this->fds.current_read_fds;
@@ -49,39 +43,16 @@ void TCP_Connection::socketAccept(void)
 		{
 			if (FD_ISSET(i, &this->fds.ready_read_fds))
 			{
-				if (i == this->getSocketFd())
+				if (i == this->getServerFd())
 				{
-					std::cout << "New Connection\n" << std::endl;
-					this->client_fd = accept(this->getSocketFd(), (struct sockaddr *)&address_s, &address_len);
-					if (this->client_fd < 0)
-					{
-						std::cout << "Failed to accept connection" << std::endl;
-						continue;  
-					}
-					FD_SET(this->client_fd, &this->fds.current_read_fds);
-					clients[client_fd] = Client(client_fd);
+					if (this->addClient())
+						std::cout << "Failed to add client" << std::endl;
 				}
 				else
-				{
-					memset(buffer, 0, BUFFER_SIZE);
-					read(i, buffer, BUFFER_SIZE);
-					int v = this->clients[i].request.addContent(buffer);
-					if (!v)
-					{
-						clients[i].request.parseRequest();
-						clients[i].request.printRequest();
-						FD_CLR(i, &this->fds.current_read_fds);
-						FD_SET(i, &this->fds.current_write_fds);
-					}
-				}
+					this->readClient(i);
 			}
 			else if (FD_ISSET(i, &this->fds.ready_write_fds))
-			{
-				write(i, http_res.c_str(), http_res.length());
-				memset(buffer, 0, BUFFER_SIZE);
-				FD_CLR(i, &this->fds.current_write_fds);
-				close(i);
-			}
+				this->writeClient(i);
 		}
     }
 }
