@@ -17,6 +17,7 @@
 #include <string>
 #include <fcntl.h>
 #include <map>
+#include <cstring>
 
 // Colors
 
