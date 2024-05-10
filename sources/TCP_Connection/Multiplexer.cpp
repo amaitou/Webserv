@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 17:14:51 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:18:40 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,33 @@ void	TCP_Connection::writeClient(int fd)
 	FD_CLR(fd, &this->fds.current_write_fds);
 	this->clients.erase(fd);
 	close(fd);
+}
+
+void	TCP_Connection::serversMonitoring(void)
+{
+	while (true)
+    {
+		this->fds.ready_read_fds = this->fds.current_read_fds;
+		this->fds.ready_write_fds = this->fds.current_write_fds;
+		if (select(FD_SETSIZE, &this->fds.ready_read_fds, &this->fds.ready_write_fds, NULL, NULL) < 0)
+		{
+			std::cout << "Failed to select" << std::endl;
+			continue;
+		}
+		for (int i = 0; i < FD_SETSIZE; i++)
+		{
+			if (FD_ISSET(i, &this->fds.ready_read_fds))
+			{
+				if (i == this->getServerFd())
+				{
+					if (this->addClient())
+						std::cout << "Failed to add client" << std::endl;
+				}
+				else
+					this->readClient(i);
+			}
+			else if (FD_ISSET(i, &this->fds.ready_write_fds))
+				this->writeClient(i);
+		}
+    }
 }

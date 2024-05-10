@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 17:14:19 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:18:11 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ class TCP_Connection
 		int				addClient(void);
 		void			readClient(int fd);
 		void			writeClient(int fd);
+		void			serversMonitoring(void);
 
 		// Server
 		void			serve(void);
