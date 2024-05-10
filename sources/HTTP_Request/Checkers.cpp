@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:00 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 06:02:16 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:44:06 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ bool HTTP_Request::checkChunked(void) const
 
 bool HTTP_Request::checkPostRequest(void) const
 {
-	return (this->content.find("POST") != std::string::npos && (this->checkChunked() || this->checkContentLength()));
+	return (this->content.find("POST") != std::string::npos
+		&& (this->checkChunked() || this->checkContentLength()));
 }

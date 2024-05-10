@@ -6,15 +6,16 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:58:18 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 06:48:03 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:38:11 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/HTTP_Request.hpp"
 
-bool	HTTP_Request::addContent(char *content)
+bool	HTTP_Request::addContent(char *buffer, int size)
 {
-	this->content += std::string(content);
+	std::string _buffer(buffer, size);
+	this->content += _buffer;
 	if (this->checkGetRequest() || this->checkDeleteRequest()
 		|| this->checkPostRequest())
 		return (false);

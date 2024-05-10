@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 12:22:36 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 16:23:09 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ int		TCP_Connection::addClient(void)
 void	TCP_Connection::readClient(int fd)
 {
 	memset(buffer, 0, BUFFER_SIZE);
-	read(fd, buffer, BUFFER_SIZE);
-	int v = this->clients[fd].request.addContent(buffer);
+	int r = read(fd, buffer, BUFFER_SIZE);
+	buffer[r] = '\0';
+	int v = this->clients[fd].request.addContent(buffer, r);
 	if (!v)
 	{
 		clients[fd].request.parseRequest();

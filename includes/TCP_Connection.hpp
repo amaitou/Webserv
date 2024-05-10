@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 12:05:18 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:34:27 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@
 
 #ifndef BUFFER_SIZE
 	#define BUFFER_SIZE 1024
-#endif
-#ifndef NUMBER_OF_CLIENTS
-	#define NUMBER_OF_CLIENTS 1024
 #endif
 
 // Typedefs for readability

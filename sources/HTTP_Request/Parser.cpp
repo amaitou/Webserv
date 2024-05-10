@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:59:27 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 06:36:29 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 15:50:00 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,29 @@ void	HTTP_Request::parseHeaders(void)
 
 void	HTTP_Request::parseBody(void)
 {
-	std::cout << "TODO" << std::endl;
+	if (this->checkChunked())
+	{
+		std::string body = "";
+		size_t pos = 0;
+		while (pos < this->request.body.size()) {
+			size_t chunkSizeEnd = this->request.body.find("\r\n", pos);
+			u_long hexa_chunked_size = std::stoul(this->request.body.substr(pos, chunkSizeEnd - pos), nullptr, 16);
+			
+			if (hexa_chunked_size == 0)
+				break;
+			pos = chunkSizeEnd + 2; 
+			
+			std::string chunk = this->request.body.substr(pos, hexa_chunked_size);
+			body += chunk;
+			
+			pos += hexa_chunked_size + 2;
+
+			if (this->request.body.substr(pos, 2) == "\r\n")
+			pos += 2;
+		}
+		
+		this->request.body = body;
+	}
 }
 
 void	HTTP_Request::parseRequest(void)
@@ -65,5 +87,5 @@ void	HTTP_Request::parseRequest(void)
 	this->parseRequestLine();
 	this->parseHeaders();
 	this->setBody();
-	// this->parseBody();
+	this->parseBody();
 }
