@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:34 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 03:46:06 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:53:49 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 Client::Client(void)
 {
-	this->fd = INT_MIN;
+	this->fd = -1;
 }
 
 Client::Client(int fd)
