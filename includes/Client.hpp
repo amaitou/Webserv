@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:48 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/04 03:54:43 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 03:11:04 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Client
 		Client(int fd);
 
 		void	setClientFd(int fd);
+		void	setClientNonBlocking(void);
 		int		getClientFd(void) const;
 		
 		HTTP_Request request;

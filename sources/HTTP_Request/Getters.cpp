@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:57:24 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 06:14:54 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 03:09:06 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,76 +22,32 @@ std::string	HTTP_Request::getContent(void) const
 	return (this->content);
 }
 
-int HTTP_Request::getFd(void) const
-{
-	return (this->fd);
-}
-
 std::string	HTTP_Request::getPath(void) const
 {
-	if (this->request.method == GET)
-		return (this->request.get.path);
-	else if (this->request.method == POST)
-		return (this->request.post.path);
-	else if (this->request.method == DELETE)
-		return (this->request.delete_.path);
-	return ("");
+	return (this->request.path);
 }
 
 std::string HTTP_Request::getQuery(void) const
 {
-	if (this->request.method == GET)
-		return (this->request.get.query);
-	else if (this->request.method == POST)
-		return (this->request.post.query);
-	else if (this->request.method == DELETE)
-		return (this->request.delete_.query);
-	return ("");
+	return (this->request.query);
 }
 
 std::string HTTP_Request::getVersion(void) const
 {
-	if (this->request.method == GET)
-		return (this->request.get.version);
-	else if (this->request.method == POST)
-		return (this->request.post.version);
-	else if (this->request.method == DELETE)
-		return (this->request.delete_.version);
-	return ("");
+	return (this->request.version);
 }
 
 std::string HTTP_Request::getBody(void) const
 {
-	if (this->request.method == POST)
-		return (this->request.post.body);
-	return ("");
+	return (this->request.body);
 }
 
 std::map<std::string, std::string> HTTP_Request::getHeaders(void) const
 {
-	if (this->request.method == GET)
-		return (this->request.get.headers);
-	else if (this->request.method == POST)
-		return (this->request.post.headers);
-	else if (this->request.method == DELETE)
-		return (this->request.delete_.headers);
-	return (std::map<std::string, std::string>());
-}
-
-t_content_type HTTP_Request::getPostContentType(void) const
-{
-	if (this->request.method == POST)
-		return (this->request.post.content_type);
-	return (_NONE);
+	return (this->request.headers);
 }
 
 std::string HTTP_Request::getFileExtension(void) const
 {
-	if (this->request.method == GET)
-		return (this->request.get.extension);
-	else if (this->request.method == POST)
-		return (this->request.post.extension);
-	else if (this->request.method == DELETE)
-		return (this->request.delete_.extension);
-	return ("");
+	return (this->request.extension);
 }

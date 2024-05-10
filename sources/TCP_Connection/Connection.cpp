@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/08 10:45:54 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 05:33:19 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,53 +59,28 @@ void TCP_Connection::socketAccept(void)
 						continue;  
 					}
 					FD_SET(this->client_fd, &this->fds.current_read_fds);
-					clients[this->client_fd].setClientFd(this->client_fd);
-					clients[i].setClientFd(this->client_fd);
+					clients[client_fd] = Client(client_fd);
 				}
 				else
 				{
 					memset(buffer, 0, BUFFER_SIZE);
 					read(i, buffer, BUFFER_SIZE);
-					std::cout << GREEN << "___________ACCEPTED_REQUEST__________\n" << RESET << std::endl;
-					std::cout << buffer << RESET << std::endl;
-					clients[client_fd].request.initializeRequest(clients[client_fd].getClientFd(), buffer);
-					std::cout << YELLOW << "___________CONTENT__________\n" << RESET << std::endl;
-					std::cout << clients[client_fd].request.getContent() << "\n" << std::endl;
-					std::cout << RED << "___________REQUEST_LINE__________\n" << RESET << std::endl;
-					clients[client_fd].request.printRequestLine();
-					if (clients[client_fd].request.getMethodType() == POST)
+					int v = this->clients[i].request.addContent(buffer);
+					if (!v)
 					{
-						int val = clients[client_fd].request.parsePostRequest();
-						while (val)
-						{
-							memset(buffer, 0, BUFFER_SIZE);
-							read(client_fd, buffer, BUFFER_SIZE);
-							clients[client_fd].request.setContent(buffer);
-							val = clients[client_fd].request.parsePostRequest();
-						}
-						std::cout << GREEN << "___________BODY___________\n" << RESET << std::endl;
-						clients[client_fd].request.printBody();
+						clients[i].request.parseRequest();
+						clients[i].request.printRequest();
+						FD_CLR(i, &this->fds.current_read_fds);
+						FD_SET(i, &this->fds.current_write_fds);
 					}
-					else if (clients[client_fd].request.getMethodType() == GET)
-						clients[client_fd].request.parseGetRequest();
-					else if (clients[client_fd].request.getMethodType() == DELETE)
-						clients[client_fd].request.parseDeleteRequest();
-					std::cout << GREY << "___________METHOD_TYPE____________\n" << RESET << std::endl;
-					clients[client_fd].request.printMethodType();
-					clients[client_fd].request.printPostMethodType();
-					std::cout << BLUE << "___________HEADERS__________\n" << RESET << std::endl;
-					clients[client_fd].request.printHeaders();
-					FD_CLR(i, &this->fds.current_read_fds);
-					FD_SET(i, &this->fds.current_write_fds);
 				}
 			}
-			if (FD_ISSET(i, &this->fds.ready_write_fds))
+			else if (FD_ISSET(i, &this->fds.ready_write_fds))
 			{
-				send(i, http_res.c_str(), http_res.length(), 0);
+				write(i, http_res.c_str(), http_res.length());
 				memset(buffer, 0, BUFFER_SIZE);
-				clients[client_fd].request.cleanMembers();
 				FD_CLR(i, &this->fds.current_write_fds);
-				close(clients[client_fd].request.getFd());
+				close(i);
 			}
 		}
     }

@@ -6,38 +6,23 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:58:18 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/05 06:27:17 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 06:48:03 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/HTTP_Request.hpp"
 
-void	HTTP_Request::setContent(char *content)
+bool	HTTP_Request::addContent(char *content)
 {
-	this->content = std::string(content);
+	this->content += std::string(content);
+	if (this->checkGetRequest() || this->checkDeleteRequest()
+		|| this->checkPostRequest())
+		return (false);
+	return (true);
 }
 
-void HTTP_Request::setFd(int fd)
+void   HTTP_Request::setMethod(std::string &method)
 {
-	this->fd = fd;
-}
-
-void HTTP_Request::setNonBlocking(void)
-{
-	int flags = fcntl(this->getFd(), F_GETFL, 0);
-	if (flags == -1)
-		throw TCP_Exception::FailedToSetNonBlocking();
-	if (fcntl(this->getFd(), F_SETFL, flags | O_NONBLOCK) == -1)
-		throw TCP_Exception::FailedToSetNonBlocking();
-}
-
-void	HTTP_Request::setMethodType(std::string &request_line)
-{
-	std::string method;
-	std::stringstream rl(request_line);
-	
-	rl >> method;
-
 	if (method == "GET")
 		this->request.method = GET;
 	else if (method == "POST")
@@ -48,16 +33,18 @@ void	HTTP_Request::setMethodType(std::string &request_line)
 		this->request.method = NONE;
 }
 
-void HTTP_Request::setPostContentType(void)
+void	HTTP_Request::setParams(std::string &path, std::string &query, std::string &version)
 {
-	if (this->checkChunked() && this->checkMultipartDataForm())
-		this->request.post.content_type = MUTIPART_DATA_FORM_WITH_CHUNKED_BODY;
-	else if (this->checkChunked())
-		this->request.post.content_type = REGULAR_CHUNKED_BODY;
-	else if (this->checkMultipartDataForm())
-		this->request.post.content_type = MULTIPART_FORM_DATA;
-	else if (this->checkContentLength())
-		this->request.post.content_type = REGULAR_BODY;
+	this->request.path = path;
+	if (path.find_last_of(".") != std::string::npos)
+		this->request.extension = path.substr(path.find_last_of(".") + 1);
 	else
-		this->request.post.content_type = _NONE;
+		this->request.extension = "";
+	this->request.version = version;
+	this->request.query = query;
+}
+
+void	HTTP_Request::setBody(void)
+{
+	this->request.body = this->content.substr(this->content.find("\r\n\r\n") + 4);
 }
