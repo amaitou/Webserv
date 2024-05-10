@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 17:02:41 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:14:51 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	TCP_Connection::setMultiplexer(void)
 int		TCP_Connection::addClient(void)
 {
 	std::cout << GREY << "[+] New Client Has Connected To The Server" << RESET << std::endl;
-	this->client_fd = accept(this->getServerFd(), (struct sockaddr *)&address_s, &address_len);
-	if (this->client_fd < 0)
+	int client_fd = accept(this->getServerFd(), (struct sockaddr *)&address_s, &address_len);
+	if (client_fd < 0)
 		return (1);
-	FD_SET(this->client_fd, &this->fds.current_read_fds);
-	std::pair<int, Client> pair(this->client_fd, Client(this->client_fd));
+	FD_SET(client_fd, &this->fds.current_read_fds);
+	std::pair<int, Client> pair(client_fd, Client(client_fd));
 	this->clients.insert(pair);
 	return (0);
 }

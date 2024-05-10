@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 15:31:30 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:13:12 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <cstring>
 #include <fcntl.h>
 #include <map>
 

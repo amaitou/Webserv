@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 15:34:27 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:14:19 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <unistd.h>
-#include <iostream>
-#include <cstring>
-#include <poll.h>
-#include <vector>
 
 // Buffer Size for reading from socket
 
@@ -52,9 +47,7 @@ class TCP_Connection
 		socklen_t					address_len;
 		_sockaddr_in				address_s;
 		int							server_fd;
-		t_fds						fds;
-		int							client_fd;
-		
+		t_fds						fds;		
 	
 	public:
 		// Constructors
