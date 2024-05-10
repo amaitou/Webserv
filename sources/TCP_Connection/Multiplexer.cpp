@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 09:48:24 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:22:36 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	TCP_Connection::setMultiplexer(void)
 
 int		TCP_Connection::addClient(void)
 {
-	std::cout << "New Connection\n" << std::endl;
+	std::cout << GREY << "[+] New Client Has Connected To The Server" << RESET << std::endl;
 	this->client_fd = accept(this->getServerFd(), (struct sockaddr *)&address_s, &address_len);
 	if (this->client_fd < 0)
 		return (1);
@@ -39,7 +39,8 @@ void	TCP_Connection::readClient(int fd)
 	if (!v)
 	{
 		clients[fd].request.parseRequest();
-		clients[fd].request.printRequest();
+		std::cout << ">> Request Has Been Received, " << "Method=<" <<  this->clients[fd].request.stringifyMethod()
+			<< ">, " << "Target=<" << this->clients[fd].request.getPath() << ">" << std::endl;
 		FD_CLR(fd, &this->fds.current_read_fds);
 		FD_SET(fd, &this->fds.current_write_fds);
 	}
@@ -50,6 +51,7 @@ void	TCP_Connection::writeClient(int fd)
 	std::string p = "<h1>Response Has Been Sent Successfully</h1>";
     std::string http_res = "HTTP/1.1 200 OK Content-Type: text/html\nContent-Length:" + std::to_string(p.length()) + "\n\n" + p + "\n";
 	write(fd, http_res.c_str(), http_res.length());
+	std::cout << ">> Responded" << std::endl;
 	memset(buffer, 0, BUFFER_SIZE);
 	FD_CLR(fd, &this->fds.current_write_fds);
 	close(fd);

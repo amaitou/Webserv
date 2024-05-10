@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 09:47:15 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:05:18 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@
 #include <cstring>
 #include <poll.h>
 #include <vector>
-
-// Colors
-
-#define RED     "\x1B[31m"
-#define BLUE    "\x1B[34m"
-#define GREEN   "\x1B[32m"
-#define GREY    "\x1B[90m"
-#define CYAN	"\x1b[36m"
-#define YELLOW  "\x1B[33m"
-#define RESET   "\x1B[0m"
 
 // Buffer Size for reading from socket
 

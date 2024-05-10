@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 06:02:26 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:15:18 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@
 #include <cstring>
 #include <fcntl.h>
 #include <map>
+
+// Colors
+
+#define RED     "\x1B[31m"
+#define BLUE    "\x1B[34m"
+#define GREEN   "\x1B[32m"
+#define GREY    "\x1B[90m"
+#define CYAN	"\x1b[36m"
+#define YELLOW  "\x1B[33m"
+#define RESET   "\x1B[0m"
 
 // Enum for the type of the request
 typedef enum e_method_type
@@ -71,6 +81,7 @@ class HTTP_Request
 		std::string		getBody(void) const;
 		std::map<std::string, std::string> getHeaders(void) const;
 		std::string		getFileExtension(void) const;
+		std::string		stringifyMethod(void) const;
 
 		// Setters
 		bool			addContent(char *content);

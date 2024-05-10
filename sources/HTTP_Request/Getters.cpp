@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:57:24 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 03:09:06 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:16:36 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,15 @@ std::map<std::string, std::string> HTTP_Request::getHeaders(void) const
 std::string HTTP_Request::getFileExtension(void) const
 {
 	return (this->request.extension);
+}
+
+std::string HTTP_Request::stringifyMethod(void) const
+{
+	if (this->request.method == GET)
+		return ("GET");
+	else if (this->request.method == POST)
+		return ("POST");
+	else if (this->request.method == DELETE)
+		return ("DELETE");
+	return ("NONE");
 }
