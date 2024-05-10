@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 16:23:09 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/10 17:02:41 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int		TCP_Connection::addClient(void)
 	if (this->client_fd < 0)
 		return (1);
 	FD_SET(this->client_fd, &this->fds.current_read_fds);
-	clients[client_fd] = Client(client_fd);
+	std::pair<int, Client> pair(this->client_fd, Client(this->client_fd));
+	this->clients.insert(pair);
 	return (0);
 }
 
@@ -55,5 +56,6 @@ void	TCP_Connection::writeClient(int fd)
 	std::cout << ">> Responded" << std::endl;
 	memset(buffer, 0, BUFFER_SIZE);
 	FD_CLR(fd, &this->fds.current_write_fds);
+	this->clients.erase(fd);
 	close(fd);
 }
