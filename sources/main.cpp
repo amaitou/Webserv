@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 03:45:06 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/13 15:09:27 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:46:54 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int main(int ac, char **ag)
 {
 	try
 	{
-		(void)ac;
+		if (ac != 2)
+			throw std::runtime_error("Usage: ./webserv [config_file]");
 		system("clear");
 		int checkError = 0;
 		std::cout << GREY << "[.] " << RESET << "Parsing configuration file..." << RESET << std::endl;

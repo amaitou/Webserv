@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/13 17:19:37 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:52:31 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int		TCP_Connection::addClient(int fd)
 		<< this->servers[fd].index << "]" << std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	std::pair<int, Client> pair(client_fd, Client(client_fd));
-	std::cout << "client_fd: " << client_fd << std::endl;
 	this->servers[fd].clients.insert(pair);
 	return (0);
 }

@@ -30,6 +30,6 @@ fclean: clean
 
 run: $(NAME)
 	@echo "\033[0;32m[*] running the $<\033[0m"
-	@clear && ./$(NAME)
+	@clear && ./$(NAME) ./sources/Config/webserv.config
 
 re: clean all run fclean
