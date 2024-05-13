@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/13 15:07:30 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:19:09 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 TCP_Connection::TCP_Connection(std::vector<Config> &config)
 {
-	std::cout << GREY << "[.] " << RESET << "Creating servers..." << std::endl;
+	std::cout << GREY << "[.] " << RESET << "Creating servers..."
+		<< std::endl;
 	for (size_t i = 0; i < config.size(); i++)
 	{
 		Server server;
@@ -35,7 +36,8 @@ TCP_Connection::TCP_Connection(std::vector<Config> &config)
 	}
 	FD_ZERO(&this->fds.current_read_fds);
 	FD_ZERO(&this->fds.current_write_fds);
-	for (auto it = this->servers.begin(); it != this->servers.end(); it++)
+	for (std::map<int, Server>::iterator it = this->servers.begin();
+		it != this->servers.end(); it++)
 	{
 		FD_SET(it->first, &this->fds.current_read_fds);
 		FD_SET(it->first, &this->fds.current_write_fds);
