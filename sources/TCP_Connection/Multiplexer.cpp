@@ -6,43 +6,41 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 17:18:40 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:46:12 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/TCP_Connection.hpp"
 
-void	TCP_Connection::setMultiplexer(void)
+int		TCP_Connection::addClient(int fd)
 {
-	FD_ZERO(&this->fds.current_read_fds);
-	FD_ZERO(&this->fds.current_write_fds);
-	FD_SET(server_fd, &this->fds.current_read_fds);
-	FD_SET(server_fd, &this->fds.current_write_fds);
-}
-
-int		TCP_Connection::addClient(void)
-{
-	std::cout << GREY << "[+] New Client Has Connected To The Server" << RESET << std::endl;
-	int client_fd = accept(this->getServerFd(), (struct sockaddr *)&address_s, &address_len);
+	int client_fd = accept(this->servers[fd].server_fd,
+		(struct sockaddr *)&this->servers[fd].address_s,
+		&this->servers[fd].address_len);
 	if (client_fd < 0)
 		return (1);
+	std::cout << CYAN << "[+] Server += " << RESET << "new client connected to server ["
+		<< this->servers[fd].index << "]" << std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	std::pair<int, Client> pair(client_fd, Client(client_fd));
-	this->clients.insert(pair);
+	std::cout << "client_fd: " << client_fd << std::endl;
+	this->servers[fd].clients.insert(pair);
 	return (0);
 }
 
 void	TCP_Connection::readClient(int fd)
 {
-	memset(buffer, 0, BUFFER_SIZE);
-	int r = read(fd, buffer, BUFFER_SIZE);
-	buffer[r] = '\0';
-	int v = this->clients[fd].request.addContent(buffer, r);
+	memset(this->buffer, 0, BUFFER_SIZE);
+	int r = read(fd, this->buffer, BUFFER_SIZE);
+	this->buffer[r] = '\0';
+	int v = this->servers[fd].clients[fd].request.addContent(this->buffer, r);
 	if (!v)
 	{
-		clients[fd].request.parseRequest();
-		std::cout << ">> Request Has Been Received, " << "Method=<" <<  this->clients[fd].request.stringifyMethod()
-			<< ">, " << "Target=<" << this->clients[fd].request.getPath() << ">" << std::endl;
+		this->servers[fd].clients[fd].request.parseRequest();
+		std::cout << GREEN << "[+] Server << " << RESET << "request received, [method <"
+			<< this->servers[fd].clients[fd].request.stringifyMethod()
+			<< ">], [target <" << this->servers[fd].clients[fd].request.getPath()
+			<< ">]" << std::endl;
 		FD_CLR(fd, &this->fds.current_read_fds);
 		FD_SET(fd, &this->fds.current_write_fds);
 	}
@@ -51,12 +49,12 @@ void	TCP_Connection::readClient(int fd)
 void	TCP_Connection::writeClient(int fd)
 {
 	std::string p = "<h1>Response Has Been Sent Successfully</h1>";
-    std::string http_res = "HTTP/1.1 200 OK Content-Type: text/html\nContent-Length:" + std::to_string(p.length()) + "\n\n" + p + "\n";
+	std::string http_res = "HTTP/1.1 200 OK Content-Type: text/html\nContent-Length:" + std::to_string(p.length()) + "\n\n" + p + "\n";
 	write(fd, http_res.c_str(), http_res.length());
-	std::cout << ">> Responded" << std::endl;
-	memset(buffer, 0, BUFFER_SIZE);
+	memset(this->buffer, 0, BUFFER_SIZE);
+	std::cout << RED << "[-] Server -= " << RESET << "client disconnected from server" << std::endl;
 	FD_CLR(fd, &this->fds.current_write_fds);
-	this->clients.erase(fd);
+	this->servers[fd].clients.erase(fd);
 	close(fd);
 }
 
@@ -66,22 +64,23 @@ void	TCP_Connection::serversMonitoring(void)
     {
 		this->fds.ready_read_fds = this->fds.current_read_fds;
 		this->fds.ready_write_fds = this->fds.current_write_fds;
+
 		if (select(FD_SETSIZE, &this->fds.ready_read_fds, &this->fds.ready_write_fds, NULL, NULL) < 0)
 		{
 			std::cout << "Failed to select" << std::endl;
-			continue;
 		}
-		for (int i = 0; i < FD_SETSIZE; i++)
+		for (int i = 0; i < FD_SETSIZE; ++i)
 		{
 			if (FD_ISSET(i, &this->fds.ready_read_fds))
 			{
-				if (i == this->getServerFd())
+				if (i == this->servers[i].server_fd)
 				{
-					if (this->addClient())
+					if (this->addClient(i))
 						std::cout << "Failed to add client" << std::endl;
 				}
 				else
 					this->readClient(i);
+					
 			}
 			else if (FD_ISSET(i, &this->fds.ready_write_fds))
 				this->writeClient(i);

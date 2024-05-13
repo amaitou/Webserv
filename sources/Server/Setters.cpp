@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Getters.cpp                                        :+:      :+:    :+:   */
+/*   Setters.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/04 04:08:37 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 09:47:38 by amait-ou         ###   ########.fr       */
+/*   Created: 2024/05/12 16:17:04 by amait-ou          #+#    #+#             */
+/*   Updated: 2024/05/12 19:35:29 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/TCP_Connection.hpp"
+#include "../../includes/Server.hpp"
 
-int TCP_Connection::getServerFd(void) const
-{
-	return (server_fd);
-}
+Server::Server(void) {}
 
-socklen_t TCP_Connection::getAddressLen(void) const
+void Server::setServerNonBlocking(void)
 {
-	return (address_len);
-}
-
-struct sockaddr_in TCP_Connection::getStructSockAddrIn(void) const
-{
-	return (address_s);
+	int flags = fcntl(server_fd, F_GETFL, 0);
+	if (flags == -1)
+		throw TCP_Exception::FailedToSetNonBlocking();
+	if (fcntl(server_fd, F_SETFL, flags | O_NONBLOCK) == -1)
+		throw TCP_Exception::FailedToSetNonBlocking();
 }

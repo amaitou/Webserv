@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 17:13:12 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/12 18:06:25 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include <fcntl.h>
 #include <map>
 #include <cstring>
+
+#ifndef HTTP_REQUEST_HPP
+#define HTTP_REQUEST_HPP
 
 // Colors
 
@@ -110,3 +113,5 @@ class HTTP_Request
 		void			printBody(void) const;
 		void			printRequest(void) const;
 };
+
+#endif

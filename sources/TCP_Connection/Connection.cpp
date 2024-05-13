@@ -6,26 +6,41 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 17:18:56 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:07:30 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/TCP_Connection.hpp"
 
-TCP_Connection::TCP_Connection(int domain, int service, int protocol, int port, t_ul interface)
+TCP_Connection::TCP_Connection(std::vector<Config> &config)
 {
-	memset((char *)&address_s, 0, sizeof(address_s));
-	memset(buffer, 0, BUFFER_SIZE);
-	address_s.sin_family = domain;
-	address_s.sin_port = htons(port);
-	address_s.sin_addr.s_addr = htonl(interface);
-	address_len = sizeof(address_s);
-	this->server_fd = socket(domain, service, protocol);
-	if (server_fd < 0)
-		throw TCP_Exception::FailedToCreateSocket();
-	this->setServerNonBlocking();
-	this->setMultiplexer();
-	
+	std::cout << GREY << "[.] " << RESET << "Creating servers..." << std::endl;
+	for (size_t i = 0; i < config.size(); i++)
+	{
+		Server server;
+		memset(&server.address_s, 0, sizeof(server.address_s));
+		memset(this->buffer, 0, BUFFER_SIZE);
+		server.address_s.sin_family = AF_INET;
+		server.address_s.sin_port = htons(config[i].listen()[0]);
+		server.address_s.sin_addr.s_addr = htonl(INADDR_ANY);
+		server.address_len = sizeof(server.address_s);
+		int socket_fd = socket(server.address_s.sin_family, SOCK_STREAM, 0);
+		if (socket_fd < 0)
+			throw TCP_Exception::FailedToCreateSocket();
+		server.server_fd = socket_fd;
+		server.setServerNonBlocking();
+		server.index = i + 1;
+		std::pair<int, Server> pair(socket_fd, server);
+		this->servers.insert(pair);
+	}
+	FD_ZERO(&this->fds.current_read_fds);
+	FD_ZERO(&this->fds.current_write_fds);
+	for (auto it = this->servers.begin(); it != this->servers.end(); it++)
+	{
+		FD_SET(it->first, &this->fds.current_read_fds);
+		FD_SET(it->first, &this->fds.current_write_fds);
+	}
+	std::cout << YELLOW << "[+] " << RESET << "Servers were created." << std::endl;
 }
 
 void TCP_Connection::socketAccept(void)
@@ -35,7 +50,7 @@ void TCP_Connection::socketAccept(void)
 
 void TCP_Connection::serve(void)
 {
-	setSocketOptions();
+	// setSocketOptions();
 	socketBind();
 	socketListen();
 	socketAccept();
