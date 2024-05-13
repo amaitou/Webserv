@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/13 17:52:31 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:53:37 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	TCP_Connection::readClient(int fd)
 	if (!v)
 	{
 		this->servers[fd].clients[fd].request.parseRequest();
-		std::cout << GREEN << "[+] Server << " << RESET
+		std::cout << GREEN << "[+] Webserv << " << RESET
 			<< "request received, [method <"
 			<< this->servers[fd].clients[fd].request.stringifyMethod()
 			<< ">], [target <" << this->servers[fd].clients[fd].request.getPath()
