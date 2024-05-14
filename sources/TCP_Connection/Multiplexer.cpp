@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 17:06:26 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:16:32 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	TCP_Connection::writeClient(int & fd)
 	FD_CLR(fd, &this->fds.current_write_fds);
 	std::cout << RED << "[-] Webserv -= " << RESET << "[server " << this->clients[fd].getServerFd() << "], client disconnected." << std::endl;
 	this->clients.erase(fd);
-	close(this->clients[fd].getServerFd());
+	close(fd);
 }
 
 void	TCP_Connection::serversMonitoring(void)
