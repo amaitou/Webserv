@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 11:13:36 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:47:10 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int		TCP_Connection::addClient(int fd)
 		&this->servers[fd].address_len);
 	if (client_fd < 0)
 		return (1);
-	std::cout << CYAN << "[+] Server += " << RESET
-		<< "[server <" << this->servers[fd].index << ">], new client connected."
+	std::cout << CYAN << "[+] Webserv += " << RESET
+		<< "[server " << this->servers[fd].index << "], new client connected."
 		<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	std::pair<int, Client> pair(client_fd, Client(client_fd));
@@ -38,8 +38,8 @@ void	TCP_Connection::readClient(int fd)
 	if (!v)
 	{
 		this->clients[fd].request.parseRequest();
-		std::cout << GREEN << "[<] Server << " << RESET << "[server <" << this->clients[fd].getServerFd()
-			<< ">], request received Successfully, [method <"
+		std::cout << GREEN << "[<] Webserv << " << RESET << "[server " << this->clients[fd].getServerFd()
+			<< "], request received Successfully, [method <"
 			<< this->clients[fd].request.stringifyMethod()
 			<< ">], [target <" << this->clients[fd].request.getPath()
 			<< ">]." << RESET << std::endl;
@@ -55,9 +55,9 @@ void	TCP_Connection::writeClient(int fd)
 		+ std::to_string(p.length()) + "\n\n" + p + "\n";
 	write(fd, http_res.c_str(), http_res.length());
 	memset(this->buffer, 0, BUFFER_SIZE);
-	std::cout << YELLOW << "[>] Server >> " << RESET << "[server <" << this->clients[fd].getServerFd() << ">], response sent Successfully." << std::endl;
+	std::cout << YELLOW << "[>] Webserv >> " << RESET << "[server " << this->clients[fd].getServerFd() << "], response sent Successfully." << std::endl;
 	FD_CLR(fd, &this->fds.current_write_fds);
-	std::cout << RED << "[-] Server -= " << RESET << "[server <" << this->clients[fd].getServerFd() << ">], client disconnected." << std::endl;
+	std::cout << RED << "[-] Webserv -= " << RESET << "[server " << this->clients[fd].getServerFd() << "], client disconnected." << std::endl;
 	this->clients.erase(fd);
 	close(fd);
 }
