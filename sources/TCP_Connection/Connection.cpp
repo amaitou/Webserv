@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 10:43:11 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:07:54 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 TCP_Connection::TCP_Connection(std::vector<Config> &config)
 {
+	this->displayBanner();
 	std::cout << GREY << "[.] " << RESET << "Creating servers..."
 		<< std::endl;
 	for (size_t i = 0; i < config.size(); i++)

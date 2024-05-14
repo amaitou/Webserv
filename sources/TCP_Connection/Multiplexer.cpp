@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 10:58:13 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:13:36 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	TCP_Connection::writeClient(int fd)
 
 void	TCP_Connection::serversMonitoring(void)
 {
+	std::cout << GREY << "[^] " << RESET << "Monitoring servers :\n" << std::endl;
 	while (true)
     {
 		this->fds.ready_read_fds = this->fds.current_read_fds;
