@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 11:04:21 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:05:25 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct fds
 class TCP_Connection
 {
 	private:
-			std::map<int, Server> servers;
+			std::map<int, Server>		servers;
 			std::map<int, Client>		clients;
 			t_fds						fds;
 			char						buffer[BUFFER_SIZE];
@@ -49,9 +49,9 @@ class TCP_Connection
 		void setSocketOptions(void);
 		void serversMonitoring(void);
 
-		int		addClient(int fd);
-		void	readClient(int fd);
-		void	writeClient(int fd);
+		int		addClient(int &);
+		void	readClient(int &);
+		void	writeClient(int &);
 
 		void 	displayBanner(void);
 

@@ -6,13 +6,13 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 03:58:18 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 15:38:11 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:09:03 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/HTTP_Request.hpp"
 
-bool	HTTP_Request::addContent(char *buffer, int size)
+bool	HTTP_Request::addContent(char *buffer, int & size)
 {
 	std::string _buffer(buffer, size);
 	this->content += _buffer;
@@ -22,7 +22,7 @@ bool	HTTP_Request::addContent(char *buffer, int size)
 	return (true);
 }
 
-void   HTTP_Request::setMethod(std::string &method)
+void   HTTP_Request::setMethod(std::string & method)
 {
 	if (method == "GET")
 		this->request.method = GET;
@@ -34,7 +34,7 @@ void   HTTP_Request::setMethod(std::string &method)
 		this->request.method = NONE;
 }
 
-void	HTTP_Request::setParams(std::string &path, std::string &query, std::string &version)
+void	HTTP_Request::setParams(std::string & path, std::string & query, std::string & version)
 {
 	this->request.path = path;
 	if (path.find_last_of(".") != std::string::npos)

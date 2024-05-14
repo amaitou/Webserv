@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:48 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 09:51:41 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:07:51 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ class Client
 
 	public:
 		Client(void);
-		Client(int fd);
+		Client(int &);
 
-		void	setClientFd(int fd);
-		void	setServerFd(int fd);
+		void	setClientFd(int &);
+		void	setServerFd(int &);
 		void	setClientNonBlocking(void);
 		int		getClientFd(void) const;
 		int		getServerFd(void) const;

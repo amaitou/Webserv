@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:03:17 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 10:43:06 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:09:53 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ class Server
 	public:
 		// Constructors
 		Server(void);
-		Server(int domain, int service, std::vector<int> ports, t_ul interface);
 
 		// Getters
 		int							getServerFd(void) const;

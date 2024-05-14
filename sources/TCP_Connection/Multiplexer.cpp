@@ -6,13 +6,13 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 11:47:10 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:06:26 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/TCP_Connection.hpp"
 
-int		TCP_Connection::addClient(int fd)
+int		TCP_Connection::addClient(int & fd)
 {
 	int client_fd = accept(this->servers[fd].server_fd,
 		(struct sockaddr *)&this->servers[fd].address_s,
@@ -29,7 +29,7 @@ int		TCP_Connection::addClient(int fd)
 	return (0);
 }
 
-void	TCP_Connection::readClient(int fd)
+void	TCP_Connection::readClient(int & fd)
 {
 	memset(this->buffer, 0, BUFFER_SIZE);
 	int r = read(fd, this->buffer, BUFFER_SIZE);
@@ -48,7 +48,7 @@ void	TCP_Connection::readClient(int fd)
 	}
 }
 
-void	TCP_Connection::writeClient(int fd)
+void	TCP_Connection::writeClient(int & fd)
 {
 	std::string p = "<h1>Response Has Been Sent Successfully</h1>";
 	std::string http_res = "HTTP/1.1 200 OK Content-Type: text/html\nContent-Length:"
@@ -59,7 +59,7 @@ void	TCP_Connection::writeClient(int fd)
 	FD_CLR(fd, &this->fds.current_write_fds);
 	std::cout << RED << "[-] Webserv -= " << RESET << "[server " << this->clients[fd].getServerFd() << "], client disconnected." << std::endl;
 	this->clients.erase(fd);
-	close(fd);
+	close(this->clients[fd].getServerFd());
 }
 
 void	TCP_Connection::serversMonitoring(void)

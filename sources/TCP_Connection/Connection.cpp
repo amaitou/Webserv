@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 11:07:54 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:57:52 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void TCP_Connection::socketAccept(void)
 
 void TCP_Connection::serve(void)
 {
-	// setSocketOptions();
+	setSocketOptions();
 	socketBind();
 	socketListen();
 	socketAccept();

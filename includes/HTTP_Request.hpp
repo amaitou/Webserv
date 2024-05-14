@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/12 18:06:25 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:08:39 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ class HTTP_Request
 		std::string		stringifyMethod(void) const;
 
 		// Setters
-		bool			addContent(char *content, int size);
-		void			setMethod(std::string &method);
-		void			setParams(std::string &path, std::string &query, std::string &version);
+		bool			addContent(char *, int &);
+		void			setMethod(std::string & method);
+		void			setParams(std::string & path, std::string & query, std::string & version);
 		void			setBody(void);
 
 		// Checkers
