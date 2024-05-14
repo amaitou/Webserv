@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 04:09:41 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 16:59:14 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:38:04 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	TCP_Connection::socketListen(void)
 
 void	TCP_Connection::setSocketOptions(void)
 {
-	std::cout << "Setting socket options..." << std::endl;
 	int opt = 1;
 	for (std::map<int, Server>::iterator it = servers.begin();
 		it != servers.end(); it++)
