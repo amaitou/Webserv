@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 16:57:52 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:50:24 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ TCP_Connection::TCP_Connection(std::vector<Config> &config)
 		int socket_fd = socket(server.address_s.sin_family, SOCK_STREAM, 0);
 		if (socket_fd < 0)
 			throw TCP_Exception::FailedToCreateSocket();
-		server.server_fd = socket_fd;
+		server.setSocketFd(socket_fd);
 		server.setServerNonBlocking();
 		server.index = i + 1;
-		std::pair<int, Server> pair(socket_fd, server);
+		std::pair<int, Server> pair(server.getSocketFd(), server);
 		this->servers.insert(pair);
 	}
 	FD_ZERO(&this->fds.current_read_fds);

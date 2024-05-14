@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 17:05:25 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:43:52 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "../includes/Config.hpp"
 #include "../includes/Parser.hpp"
 
-// File Descriptors for select
 typedef struct fds
 {
 	fd_set						ready_read_fds;
@@ -26,12 +25,10 @@ typedef struct fds
 	fd_set						current_write_fds;
 } 	t_fds;
 
-// Buffer Size for reading from socket
 #ifndef BUFFER_SIZE
 	#define BUFFER_SIZE 1024
 #endif
 
-// TCP Connection Class
 class TCP_Connection
 {
 	private:
@@ -41,7 +38,7 @@ class TCP_Connection
 			char						buffer[BUFFER_SIZE];
 
 	public:
-		TCP_Connection(std::vector<Config> &config);
+		TCP_Connection(std::vector<Config> &);
 
 		void socketBind(void);
 		void socketListen(void);

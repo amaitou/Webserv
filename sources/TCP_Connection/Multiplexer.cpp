@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 17:21:30 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:49:35 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		TCP_Connection::addClient(int & fd)
 {
-	int client_fd = accept(this->servers[fd].server_fd,
+	int client_fd = accept(this->servers[fd].getSocketFd(),
 		(struct sockaddr *)&this->servers[fd].address_s,
 		&this->servers[fd].address_len);
 	if (client_fd < 0)
@@ -80,7 +80,7 @@ void	TCP_Connection::serversMonitoring(void)
 				for (std::map<int, Server>::iterator it = this->servers.begin();
 					it != this->servers.end(); ++it)
 				{
-					if (i == it->second.server_fd)
+					if (i == it->second.getSocketFd())
 					{
 						if (this->addClient(i))
 							std::cout << "Failed to add client" << std::endl;

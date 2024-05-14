@@ -6,18 +6,18 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 17:08:39 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 18:37:59 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "TCP_Exceptions.hpp"
 #include <unistd.h>
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <fcntl.h>
-#include <map>
 #include <cstring>
+#include <sstream>
+#include <fcntl.h>
+#include <string>
+#include <map>
 
 #ifndef HTTP_REQUEST_HPP
 #define HTTP_REQUEST_HPP
@@ -88,8 +88,8 @@ class HTTP_Request
 
 		// Setters
 		bool			addContent(char *, int &);
-		void			setMethod(std::string & method);
-		void			setParams(std::string & path, std::string & query, std::string & version);
+		void			setMethod(std::string &);
+		void			setParams(std::string &, std::string &, std::string &);
 		void			setBody(void);
 
 		// Checkers
