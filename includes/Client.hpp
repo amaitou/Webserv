@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:48 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 03:11:04 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 09:51:41 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,18 @@
 class Client
 {
 	private:
-		int fd;
+		int client_fd;
+		int server_fd;
 
 	public:
 		Client(void);
 		Client(int fd);
 
 		void	setClientFd(int fd);
+		void	setServerFd(int fd);
 		void	setClientNonBlocking(void);
 		int		getClientFd(void) const;
+		int		getServerFd(void) const;
 		
 		HTTP_Request request;
 };

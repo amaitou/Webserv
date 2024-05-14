@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/13 17:53:37 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 10:58:13 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ int		TCP_Connection::addClient(int fd)
 	if (client_fd < 0)
 		return (1);
 	std::cout << CYAN << "[+] Server += " << RESET
-		<< "new client connected to server ["
-		<< this->servers[fd].index << "]" << std::endl;
+		<< "[server <" << this->servers[fd].index << ">], new client connected."
+		<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	std::pair<int, Client> pair(client_fd, Client(client_fd));
-	this->servers[fd].clients.insert(pair);
+	this->clients[client_fd].setServerFd(this->servers[fd].index);
+	this->clients.insert(pair);
 	return (0);
 }
 
@@ -33,15 +34,15 @@ void	TCP_Connection::readClient(int fd)
 	memset(this->buffer, 0, BUFFER_SIZE);
 	int r = read(fd, this->buffer, BUFFER_SIZE);
 	this->buffer[r] = '\0';
-	int v = this->servers[fd].clients[fd].request.addContent(this->buffer, r);
+	int v = this->clients[fd].request.addContent(this->buffer, r);
 	if (!v)
 	{
-		this->servers[fd].clients[fd].request.parseRequest();
-		std::cout << GREEN << "[+] Webserv << " << RESET
-			<< "request received, [method <"
-			<< this->servers[fd].clients[fd].request.stringifyMethod()
-			<< ">], [target <" << this->servers[fd].clients[fd].request.getPath()
-			<< ">]" << std::endl;
+		this->clients[fd].request.parseRequest();
+		std::cout << GREEN << "[<] Server << " << RESET << "[server <" << this->clients[fd].getServerFd()
+			<< ">], request received Successfully, [method <"
+			<< this->clients[fd].request.stringifyMethod()
+			<< ">], [target <" << this->clients[fd].request.getPath()
+			<< ">]." << RESET << std::endl;
 		FD_CLR(fd, &this->fds.current_read_fds);
 		FD_SET(fd, &this->fds.current_write_fds);
 	}
@@ -54,10 +55,10 @@ void	TCP_Connection::writeClient(int fd)
 		+ std::to_string(p.length()) + "\n\n" + p + "\n";
 	write(fd, http_res.c_str(), http_res.length());
 	memset(this->buffer, 0, BUFFER_SIZE);
-	std::cout << RED << "[-] Server -= " << RESET
-		<< "client disconnected from server" << std::endl;
+	std::cout << YELLOW << "[>] Server >> " << RESET << "[server <" << this->clients[fd].getServerFd() << ">], response sent Successfully." << std::endl;
 	FD_CLR(fd, &this->fds.current_write_fds);
-	this->servers[fd].clients.erase(fd);
+	std::cout << RED << "[-] Server -= " << RESET << "[server <" << this->clients[fd].getServerFd() << ">], client disconnected." << std::endl;
+	this->clients.erase(fd);
 	close(fd);
 }
 
@@ -70,19 +71,22 @@ void	TCP_Connection::serversMonitoring(void)
 
 		if (select(FD_SETSIZE, &this->fds.ready_read_fds,
 			&this->fds.ready_write_fds, NULL, NULL) < 0)
-		{
 			std::cout << "Failed to select" << std::endl;
-		}
 		for (int i = 0; i < FD_SETSIZE; ++i)
 		{
 			if (FD_ISSET(i, &this->fds.ready_read_fds))
 			{
-				if (i == this->servers[i].server_fd)
+				for (std::map<int, Server>::iterator it = this->servers.begin();
+					it != this->servers.end(); ++it)
 				{
-					if (this->addClient(i))
-						std::cout << "Failed to add client" << std::endl;
+					if (i == it->second.server_fd)
+					{
+						if (this->addClient(i))
+							std::cout << "Failed to add client" << std::endl;
+						break;
+					}
 				}
-				else
+				if (this->clients.find(i) != this->clients.end())
 					this->readClient(i);
 					
 			}

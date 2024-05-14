@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:34 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/10 11:53:49 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/14 09:58:44 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,34 @@
 
 Client::Client(void)
 {
-	this->fd = -1;
+	this->client_fd = -1;
+	this->server_fd = -1;
 }
 
 Client::Client(int fd)
 {
-	this->fd = fd;
+	this->client_fd = fd;
 }
 
 void	Client::setClientFd(int fd)
 {
-	this->fd = fd;
+	this->client_fd = fd;
 	this->setClientNonBlocking();
+}
+
+void	Client::setServerFd(int fd)
+{
+	this->server_fd = fd;
 }
 
 int	Client::getClientFd(void) const
 {
-	return (this->fd);
+	return (this->client_fd);
+}
+
+int Client::getServerFd(void) const
+{
+	return (this->server_fd);
 }
 
 void Client::setClientNonBlocking(void)
