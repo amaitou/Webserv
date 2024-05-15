@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:03:17 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 18:51:33 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:27:14 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define SERVER_HPP
 
 #include "Client.hpp"
+#include "Config.hpp"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -42,6 +43,7 @@ class Server
 		_sockaddr_in				address_s;
 		socklen_t					address_len;
 		int							index;
+		Config						config;
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 18:50:24 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:26:35 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ TCP_Connection::TCP_Connection(std::vector<Config> &config)
 		server.setSocketFd(socket_fd);
 		server.setServerNonBlocking();
 		server.index = i + 1;
+		server.config = config[i];
 		std::pair<int, Server> pair(server.getSocketFd(), server);
 		this->servers.insert(pair);
 	}
