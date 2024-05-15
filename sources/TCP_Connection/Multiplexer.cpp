@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/15 12:33:37 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/15 13:00:31 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		TCP_Connection::addClient(int & fd)
 	std::cout << CYAN << "- [+] Webserv += " << RESET
 			<< "[server " << this->servers[fd].index
 			<< "], new client connected - "
-			<< this->servers[fd].config.serverName()[0]
+			<< this->servers[fd].config.ip()
 			<< ":" << this->servers[fd].config.listen()[0]
 			<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
