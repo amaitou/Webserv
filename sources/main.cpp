@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 03:45:06 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/15 21:31:38 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:32:22 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int ac, char **ag)
 	{
 		if (ac != 2)
 		{
-			std::cerr << "Usage: ./webserv [config_file]" << std::endl;
+			std::cerr << RED << "Usage: ./webserv [config_file]" << std::endl;
 			return (EXIT_FAILURE);
 		}
 		system("clear");
