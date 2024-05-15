@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
+/*   Server_Instance.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:03:17 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/15 12:27:14 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:03:08 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include "Client.hpp"
+#include "Client_Instance.hpp"
 #include "Config.hpp"
 #include <sys/socket.h>
 #include <netinet/in.h>

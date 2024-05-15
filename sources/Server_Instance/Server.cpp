@@ -6,11 +6,11 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 16:53:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 18:51:07 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:03:52 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/Server.hpp"
+#include "../../includes/Server_Instance.hpp"
 
 int		Server::getSocketFd(void) const
 {

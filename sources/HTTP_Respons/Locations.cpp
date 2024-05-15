@@ -1,4 +1,4 @@
-#include "../../includes/Respons.hpp"
+#include "../../includes/HTTP_Respons.hpp"
 
 int Respons::checkTransferEncoding(void) {
     std::map<std::string, std::string>              headers = _request.getHeaders();    

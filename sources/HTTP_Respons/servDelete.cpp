@@ -1,4 +1,4 @@
-#include "../../includes/Respons.hpp"
+#include "../../includes/HTTP_Respons.hpp"
 
 void    Respons::servDelete(void) {
     std::string path = getCurrentPath();

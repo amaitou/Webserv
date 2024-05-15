@@ -1,6 +1,6 @@
 #include "../../includes/Parser.hpp"
 #include "../../includes/HTTP_Request.hpp"
-#include "../../includes/Respons.hpp"
+#include "../../includes/HTTP_Respons.hpp"
 
 Respons::Respons() {}
 Respons::~Respons() {}

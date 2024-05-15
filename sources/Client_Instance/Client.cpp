@@ -6,11 +6,11 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:34 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/15 10:42:05 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:55:41 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/Client.hpp"
+#include "../../includes/Client_Instance.hpp"
 
 Client::Client(void)
 {

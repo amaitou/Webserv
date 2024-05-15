@@ -6,16 +6,16 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 18:43:52 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:02:49 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TCP_CONNECTION_HPP
 #define TCP_CONNECTION_HPP
 
-#include "../includes/Server.hpp"
-#include "../includes/Config.hpp"
-#include "../includes/Parser.hpp"
+#include "./Server_Instance.hpp"
+#include "./Config.hpp"
+#include "./Parser.hpp"
 
 typedef struct fds
 {
