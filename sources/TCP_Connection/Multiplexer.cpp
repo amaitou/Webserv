@@ -26,7 +26,7 @@ int		TCP_Connection::addClient(int & fd)
 			<< ":" << this->servers[fd].config.listen()[0]
 			<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
-	this->clients[fd].setClientFd(client_fd);
+	this->clients[client_fd].setClientFd(client_fd);
 	std::pair<int, Client> pair(client_fd, Client(client_fd));
 	this->clients[client_fd].setServerFd(this->servers[fd].getSocketFd());
 	this->clients[client_fd].setServerIndex(this->servers[fd].index);
