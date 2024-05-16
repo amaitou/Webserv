@@ -26,6 +26,7 @@ int		TCP_Connection::addClient(int & fd)
 			<< ":" << this->servers[fd].config.listen()[0]
 			<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
+	this->clients[fd].setClientFd(client_fd);
 	std::pair<int, Client> pair(client_fd, Client(client_fd));
 	this->clients[client_fd].setServerFd(this->servers[fd].getSocketFd());
 	this->clients[client_fd].setServerIndex(this->servers[fd].index);
@@ -57,7 +58,6 @@ void	TCP_Connection::writeClient(int & fd)
 	std::string p = "<h1>Response Has Been Sent Successfully</h1>";
 	std::string http_res = "HTTP/1.1 200 OK Content-Type: text/html\nContent-Length:"
 		+ std::to_string(p.length()) + "\n\n" + p + "\n";
-	clients[fd].setClientFd(fd);
 	clients[fd].respons.sendRespons(clients[fd], servers[clients[fd].getServerFd()].config);
 	// write(fd, http_res.c_str(), http_res.length());
 	memset(this->buffer, 0, BUFFER_SIZE);
