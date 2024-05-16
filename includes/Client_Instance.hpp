@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HTTP_Request.hpp"
 
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
+#include "HTTP_Request.hpp"
+#include "HTTP_Respons.hpp"
+// class Respons;
 class Client
 {
 	private:
@@ -35,6 +37,7 @@ class Client
 		int		getServerIndex(void) const;
 		
 		HTTP_Request request;
+		Respons respons;
 };
 
 #endif

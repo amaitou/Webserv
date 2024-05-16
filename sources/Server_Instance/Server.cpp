@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../includes/Server_Instance.hpp"
+#include <fcntl.h>
+#include "../../includes/TCP_Exceptions.hpp"
 
 int		Server::getSocketFd(void) const
 {

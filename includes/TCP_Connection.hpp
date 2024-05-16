@@ -14,9 +14,9 @@
 #define TCP_CONNECTION_HPP
 
 #include "./Server_Instance.hpp"
+#include "./Client_Instance.hpp"
 #include "./Config.hpp"
 #include "./Parser.hpp"
-
 typedef struct fds
 {
 	fd_set						ready_read_fds;

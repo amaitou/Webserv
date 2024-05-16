@@ -14,11 +14,16 @@
 #ifndef RESPONS_HPP
 # define RESPONS_HPP
 
-# include "./TCP_Connection.hpp"
+// # include "./TCP_Connection.hpp"
+
+# include "./HTTP_Request.hpp"
+# include "./Config.hpp"
 # include <sys/stat.h>
 # include <dirent.h>
+# include <unistd.h>
 # include <sys/types.h>
 
+class Client;
 class Respons {
     private:
         HTTP_Request    _request; // contains servers
@@ -31,7 +36,7 @@ class Respons {
         Respons();
         ~Respons();
 
-        void        sendRespons(HTTP_Request http, int clientFd);
+        void        sendRespons(Client & http, Config config);
 
         // setters
         void    setCurrentPort(int value);
@@ -46,7 +51,7 @@ class Respons {
     protected:
         void        sendResponsContent(int fd, std::string content, int statusCode, std::string plain);
         void        servErrorPage(void);
-        int         foundCurrentServer(HTTP_Request http);
+        int         foundCurrentServer(HTTP_Request http, Config config);
         std::string getIp(std::string str);
         int         getPort(std::string str);
         void        sendRedirection(std::string url, int statusCode);

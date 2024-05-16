@@ -57,7 +57,8 @@ void	TCP_Connection::writeClient(int & fd)
 	std::string p = "<h1>Response Has Been Sent Successfully</h1>";
 	std::string http_res = "HTTP/1.1 200 OK Content-Type: text/html\nContent-Length:"
 		+ std::to_string(p.length()) + "\n\n" + p + "\n";
-	write(fd, http_res.c_str(), http_res.length());
+	clients[fd].respons.sendRespons(clients[fd], servers[clients[fd].getServerFd()].config);
+	// write(fd, http_res.c_str(), http_res.length());
 	memset(this->buffer, 0, BUFFER_SIZE);
 	std::cout << YELLOW << "- [<] Webserv << " << RESET << "[server " << this->clients[fd].getServerIndex() << "], response sent Successfully." << std::endl;
 	FD_CLR(fd, &this->fds.current_write_fds);

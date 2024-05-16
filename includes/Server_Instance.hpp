@@ -13,7 +13,6 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include "Client_Instance.hpp"
 #include "Config.hpp"
 #include <sys/socket.h>
 #include <netinet/in.h>

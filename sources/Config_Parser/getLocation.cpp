@@ -366,7 +366,7 @@ int checkValidLocatioContent(Location & location, std::string & allLine) {
 
 std::map<std::string, std::string>      getMimeTypes() {
     std::map<std::string, std::string>  mimeTypes;
-    std::ifstream                       file("sources/respons/mime.types");
+    std::ifstream                       file("sources/MimeTypes/mime.types");
     std::string                         line;
     std::string                         word;
     std::stringstream                   content;
@@ -375,7 +375,7 @@ std::map<std::string, std::string>      getMimeTypes() {
     std::string                         value;
     
     if (!file.is_open()) {
-        std::cout << "cant open file" << '\n';
+        std::cout << "cant open MimeTypes File." << '\n';
         return mimeTypes;
     }
     

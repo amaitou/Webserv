@@ -565,14 +565,14 @@ int getServers(std::vector<Config> & servers, std::stringstream & content) {
     if (checkFirstLine(server, content))
         return 1;
     
-    if (server.isDefault()) {
-        for (size_t i = 0; i < servers.size(); i++) {
-            if (servers[i].isDefault()) {
-                std::cerr << "Error: cant set default for two servers." << '\n';
-                return 1;
-            }
-        }
-    }
+    // if (server.isDefault()) {
+    //     for (size_t i = 0; i < servers.size(); i++) {
+    //         if (servers[i].isDefault()) {
+    //             std::cerr << "Error: cant set default for two servers." << '\n';
+    //             return 1;
+    //         }
+    //     }
+    // }
     
     if (getServerInfo(server, content))
         return 1;

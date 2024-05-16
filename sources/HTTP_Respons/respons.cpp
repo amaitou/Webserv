@@ -1,6 +1,7 @@
 #include "../../includes/Parser.hpp"
 #include "../../includes/HTTP_Request.hpp"
 #include "../../includes/HTTP_Respons.hpp"
+#include "../../includes/Client_Instance.hpp"
 
 Respons::Respons() {}
 Respons::~Respons() {}
@@ -26,7 +27,7 @@ int Respons::getPort(std::string str) {
         return 8080;
 }
 
-int Respons::foundCurrentServer(HTTP_Request http) {
+int Respons::foundCurrentServer(HTTP_Request http, Config config) {
     std::map<std::string, std::string>              headers = http.getHeaders();
     std::map<std::string, std::string>::iterator    it      = headers.begin();
     std::string                                     ip;
@@ -40,14 +41,10 @@ int Respons::foundCurrentServer(HTTP_Request http) {
         }
     }
 
-    for (size_t i = 0; i < http.servers.size(); i++) {
-        if (ip == http.servers[i].ip()) {
-            _server = http.servers[i];
-            setCurrentPort(port);
-            return 0;
-        }
-    }
-    return 1;
+    setStatusCode(200);
+    _server = config;
+    setCurrentPort(port);
+    return 0;
 }
 
 std::string Respons::generateErrorPage(int statusCode) {
@@ -156,30 +153,26 @@ void    Respons::servErrorPage(void) {
 
 void    Respons::sendResponsContent(int fd, std::string content, int statusCode, std::string plain) {
     std::string allContent = "HTTP/1.1 " + std::to_string(statusCode) + " " + "OK" + " Content-Type: " + plain + "\nContent-Length:" + std::to_string(content.length()) + "\n\n" + content + "\n"; 
-    send(fd, allContent.c_str(), allContent.length(), 0);
+    write(fd, allContent.c_str(), allContent.length());
 }
 
 void    Respons::sendRedirection(std::string url, int statusCode) {
     std::string allContent = "HTTP/1.1 " + std::to_string(statusCode) + " Moved Permanently\r\nLocation: " + url + "\r\n\r\n";
-
-    send(getClientFd(), allContent.c_str(), allContent.length(), 0);
+    write(getClientFd(), allContent.c_str(), allContent.length());
 }
 
-void    Respons::sendRespons(HTTP_Request http, int clientFd) {
-    setClientFd(clientFd);
-    _request = http;
-    if (foundCurrentServer(http)) {
-        setStatusCode(501);
+void    Respons::sendRespons(Client  & client, Config config) {
+    setClientFd(client.getClientFd());
+    std::cout << "Client fd: " << getClientFd() << std::endl;
+    _request = client.request;
+
+    foundCurrentServer(client.request, config);
+
+    if (checkValidUrl(client.request.getPath() + "?" + client.request.getQuery())) {
         servErrorPage();
         return ;
     }
 
-    setStatusCode(200);
-
-    if (checkValidUrl(http.getPath() + "?" + http.getQuery())) {
-        servErrorPage();
-        return ;
-    }
 
     if (_server.currentLocation().redirection().size() != 0) {
         std::map<std::string, int> redirection = _server.currentLocation().redirection();
