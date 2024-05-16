@@ -6,11 +6,11 @@
 /*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:09:55 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/16 13:21:53 by ael-amin         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:46:17 by ael-amin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "CGI_Handler.hpp"
+#include "../../includes/CGI_Handler.hpp"
 
 
 CgiHandler::CgiHandler(const std::string& path) : cgiPath(path) {}

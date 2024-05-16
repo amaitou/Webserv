@@ -1,4 +1,5 @@
 #include "../../includes/HTTP_Respons.hpp"
+#include "../../includes/CGI_Handler.hpp"
 
 std::string Respons::getCurrentPath(void) {
     std::string locationPath;
@@ -18,7 +19,7 @@ std::string Respons::getCurrentPath(void) {
     }
     if (locationPath.length() == 1 && locationPath[0] == '/')
         locationPath = "";
-    
+
     return root + locationPath + file;
 }
 
@@ -30,7 +31,7 @@ int Respons::checkResource(void) {
         setStatusCode(404);
         return 1;
     }
-    
+
     return 0;
 }
 
@@ -78,22 +79,25 @@ void    Respons::handleFolder() {
     }
 
     index = getIndexPath();
-    if (!index.empty()) 
+    if (!index.empty())
         return handleFile(index);
     else {
-        if (_server.currentLocation().autoIndex() == "on" && _request.getMethodType() != POST) 
+        if (_server.currentLocation().autoIndex() == "on" && _request.getMethodType() != POST)
             return servAutoIndex();
         setStatusCode(403);
         return servErrorPage();
     }
 }
 
-void    Respons::handleCgi(void) {}
+void    Respons::handleCgi(void) {
+    CgiHandler  cgi(_server.currentLocation().cgi());
+    cgi.handleRequest(getMethodString(_request.getMethodType()), _request.getPath(), _request.getBody());
+}
 
 void    Respons::handleFile(std::string path) {
-    if (_request.getFileExtension() == "py") 
+    if (_request.getFileExtension() == "php" || _request.getFileExtension() == "py")
         return handleCgi();
-    
+
     std::ifstream                                   file(path);
     std::string                                     content;
     std::map<std::string, std::string>              mimeType = _server.mimeType();
@@ -115,11 +119,11 @@ void    Respons::handleFile(std::string path) {
 }
 
 void    Respons::servGet(void) {
-    if (checkResource()) 
+    if (checkResource())
         return servErrorPage();
-    
-    if (_request.getFileExtension().empty()) 
+
+    if (_request.getFileExtension().empty())
         return handleFolder();
-    else 
+    else
         return handleFile(getCurrentPath());
 }
