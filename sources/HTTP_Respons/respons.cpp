@@ -163,7 +163,6 @@ void    Respons::sendRedirection(std::string url, int statusCode) {
 
 void    Respons::sendRespons(Client  & client, Config config) {
     setClientFd(client.getClientFd());
-    std::cout << "Client fd: " << getClientFd() << std::endl;
     _request = client.request;
 
     foundCurrentServer(client.request, config);
