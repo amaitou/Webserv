@@ -1,5 +1,5 @@
 #include "../../includes/HTTP_Respons.hpp"
-#include "../../includes/CGI_Handler.hpp"
+#include "../../includes/CommonGatewayInterface.hpp"
 
 std::string Respons::getCurrentPath(void) {
     std::string locationPath;
