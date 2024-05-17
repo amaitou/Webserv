@@ -71,8 +71,8 @@ void CgiHandler::executeCgi(const std::string& scriptPath, const std::string& re
 			std::cout << buffer;
 		}
 		close(pipeOut[0]);
-		}
 	}
+}
 
 void CgiHandler::handleRequest(const std::string& method, const std::string& url, const std::string& body)
 {
