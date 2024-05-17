@@ -92,14 +92,19 @@ void    Respons::handleFolder() {
 }
 
 void    Respons::handleCgi(void) {
-    CgiHandler  cgi(_server.currentLocation().cgi());
-    cgi.handleRequest(getMethodString(_request.getMethodType()), _request.getPath(), _request.getBody());
+    CgiHandler  cgi(getCurrentPath(), getMethodString(_request.getMethodType()), _request.getFileExtension(), _request.getBody());
+    cgi.handleRequest();
+    if (cgi.getStatusCode() == 200)
+        sendResponsContent(getClientFd(), cgi.getResponseBody(), 200, "text/html");
+    else {
+        setStatusCode(cgi.getStatusCode());
+        servErrorPage();
+    }
     
-    sendResponsContent(getClientFd(), cgi.getResponseBody(), 200, "text/html");
 }
 
 void    Respons::handleFile(std::string path) {
-    if (_request.getFileExtension() == "php" || _request.getFileExtension() == "py")
+    if (_request.getFileExtension() == "py")
         return handleCgi();
 
     std::ifstream                                   file(path);

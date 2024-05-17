@@ -28,17 +28,21 @@ class CgiHandler
 {
     private:
         std::string cgiPath;
+        std::string requestMethod;
+        std::string cgiExtention;
         std::string responseBody;
         std::string requestBody;
+        int         statusCode;
 
-        void executeCgi(const std::string &, const std::string &, const std::string &);
+        void executeCgi();
 
     public:
-        CgiHandler(const std::string &);
+        CgiHandler(std::string , std::string , std::string , std::string );
         ~CgiHandler();
-
+        
+        int             getStatusCode() const;
         std::string     getResponseBody() const;
-        void            handleRequest(const std::string &, const std::string &, const std::string &);
+        void            handleRequest();
 };
 
 #endif

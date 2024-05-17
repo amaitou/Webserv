@@ -13,13 +13,20 @@
 #include "../../includes/CommonGatewayInterface.hpp"
 
 
-CgiHandler::CgiHandler(const std::string& path) : cgiPath(path) {}
+CgiHandler::CgiHandler(std::string _path, std::string _method, std::string _extention, std::string _body) {
+    this->cgiPath = _path;
+    this->requestMethod = _method;
+    this->cgiExtention = _extention;
+    this->requestBody = _body;
+    this->statusCode = 200;
+}
 
 CgiHandler::~CgiHandler() {}
 
 std::string CgiHandler::getResponseBody() const { return responseBody; }
+int         CgiHandler::getStatusCode() const { return statusCode; }
 
-void CgiHandler::executeCgi(const std::string& scriptPath, const std::string& requestMethod, const std::string& requestBody) {
+void CgiHandler::executeCgi() {
     int pipeIn[2];
     int pipeOut[2];
     pid_t pid;
@@ -27,13 +34,13 @@ void CgiHandler::executeCgi(const std::string& scriptPath, const std::string& re
     int status;
 
     if (pipe(pipeIn) == -1 || pipe(pipeOut) == -1) {
-        std::cerr << "Error: pipe failed" << std::endl;
+        statusCode = 501;
         return;
     }
 
     pid = fork();
     if (pid == -1) {
-        std::cerr << "Error: fork failed" << std::endl;
+        statusCode = 501;
         return;
     }
     if (pid == 0) {
@@ -46,16 +53,18 @@ void CgiHandler::executeCgi(const std::string& scriptPath, const std::string& re
         close(pipeOut[1]);
 
         std::vector<const char*> args;
-        args.push_back(scriptPath.c_str());
+        args.push_back("/usr/bin/python3");
+        args.push_back(cgiPath.c_str());
         args.push_back(NULL);
 
         std::vector<const char*> env;
         env.push_back("GATEWAY_INTERFACE=CGI/1.1");
         env.push_back(("REQUEST_METHOD=" + requestMethod).c_str());
-        env.push_back(("SCRIPT_NAME=" + scriptPath).c_str());
+        env.push_back(("SCRIPT_NAME=" + cgiPath).c_str());
         env.push_back(NULL);
 
-        execve(scriptPath.c_str(), (char* const*)args.data(), (char* const*)env.data());
+        execve(args[0], (char* const*)args.data(), (char* const*)env.data());
+        statusCode = 405;
         std::cerr << "Error: execve failed" << std::endl;
         exit(1);
     } else {
@@ -79,13 +88,7 @@ void CgiHandler::executeCgi(const std::string& scriptPath, const std::string& re
     }
 }
 
-void CgiHandler::handleRequest(const std::string& method, const std::string& url, const std::string& body) {
-    std::string extension = url.substr(url.find_last_of('.') + 1);
+void CgiHandler::handleRequest() {
 
-    if (extension == "py" || extension == "php") {
-        std::string scriptPath = cgiPath + url;
-        executeCgi(scriptPath, method, body);
-    } else {
-        std::cerr << "Unsupported script type: " << extension << std::endl;
-    }
+    executeCgi();
 }
