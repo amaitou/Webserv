@@ -28,6 +28,9 @@ int Respons::checkResource(void) {
     struct stat buffer;
 
     if (stat(path.c_str(), &buffer) != 0) {
+        std::cout << path << '\n';
+        // exit(1);
+
         setStatusCode(404);
         return 1;
     }
@@ -121,7 +124,6 @@ void    Respons::handleFile(std::string path) {
 void    Respons::servGet(void) {
     if (checkResource())
         return servErrorPage();
-
     if (_request.getFileExtension().empty())
         return handleFolder();
     else

@@ -51,7 +51,7 @@ std::string Respons::generateErrorPage(int statusCode) {
     std::stringstream content;
 
     content << "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>" << '\n';
-    content << "<script src='ttps://kit.fontawesome.com/8c404414cb.js' crossorigin='anonymous'></script><link rel='stylesheet' href='style.css'><title>" << statusCode << " - " << getStatusCodeString(statusCode) << "</title>" << '\n';
+    content << "<script src='ttps://kit.fontawesome.com/8c404414cb.js' crossorigin='anonymous'></script><title>" << statusCode << " - " << getStatusCodeString(statusCode) << "</title>" << '\n';
     content << "<style>" << '\n';
     content << "@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');" << '\n';
     content << "* {padding: 0;margin: 0;box-sizing: border-box;font-family: 'Tajawal', sans-serif;}body {background-color: #0000000f;}a {text-decoration: none;}.container {width: 2000px;height: auto;margin: 400px auto;text-align: center;overflow: hidden;border-radius: 5px;}" << '\n';
