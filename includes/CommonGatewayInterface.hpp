@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CGI_Handler.hpp                                    :+:      :+:    :+:   */
+/*   CommonGatewayInterface.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 11:40:26 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/16 13:22:30 by ael-amin         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:12:20 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,21 @@
 #include <sstream>
 
 
-class CgiHandler {
-private:
-    std::string cgiPath;
-    std::string responseBody;
-    std::string requestBody;
+class CgiHandler
+{
+    private:
+        std::string cgiPath;
+        std::string responseBody;
+        std::string requestBody;
 
-    void executeCgi(const std::string& scriptPath, const std::string& requestMethod, const std::string& requestBody);
+        void executeCgi(const std::string &, const std::string &, const std::string &);
 
-public:
-    CgiHandler(const std::string& cgiPath);
-    ~CgiHandler();
+    public:
+        CgiHandler(const std::string &);
+        ~CgiHandler();
 
-    std::string   getResponseBody() const;
-    void handleRequest(const std::string& method, const std::string& url, const std::string& body);
+        std::string     getResponseBody() const;
+        void            handleRequest(const std::string &, const std::string &, const std::string &);
 };
 
 #endif
