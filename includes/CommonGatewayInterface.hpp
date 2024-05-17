@@ -26,16 +26,18 @@
 
 class CgiHandler {
 private:
-	std::string cgiPath;
-	std::string responseBody;
-	std::string requestBody;
+    std::string cgiPath;
+    std::string responseBody;
+    std::string requestBody;
 
-	void executeCgi(const std::string& scriptPath, const std::string& requestMethod, const std::string& requestBody);
+    void executeCgi(const std::string& scriptPath, const std::string& requestMethod, const std::string& requestBody);
 
 public:
-	CgiHandler(const std::string& cgiPath);
-	~CgiHandler();
-	void handleRequest(const std::string& method, const std::string& url, const std::string& body);
+    CgiHandler(const std::string& cgiPath);
+    ~CgiHandler();
+
+    std::string   getResponseBody() const;
+    void handleRequest(const std::string& method, const std::string& url, const std::string& body);
 };
 
 #endif

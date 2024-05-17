@@ -11,7 +11,6 @@ std::string Respons::getCurrentPath(void) {
     else
         locationPath = _server.currentLocation().alias();
 
-
     if (!_request.getFileExtension().empty()) {
         idx = _request.getPath().find_last_of('/');
         if (idx != std::string::npos)
@@ -95,6 +94,8 @@ void    Respons::handleFolder() {
 void    Respons::handleCgi(void) {
     CgiHandler  cgi(_server.currentLocation().cgi());
     cgi.handleRequest(getMethodString(_request.getMethodType()), _request.getPath(), _request.getBody());
+    
+    sendResponsContent(getClientFd(), cgi.getResponseBody(), 200, "text/html");
 }
 
 void    Respons::handleFile(std::string path) {
