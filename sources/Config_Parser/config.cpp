@@ -6,13 +6,16 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 11:44:22 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/18 10:43:22 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/18 13:05:25 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/Parser.hpp"
 
-Config::Config() {}
+Config::Config() {
+    this->_isDefault = false;
+    this->_listen = 80;
+}
 Config::~Config() {}
 
 size_t Config::locationsSize(void) const { return this->_location.size(); }
@@ -77,7 +80,7 @@ void    Config::setIndex(std::vector<std::string> value) { this->_index = value;
 void    Config::setIndex(std::map<std::string, std::string> value) { this->_errorPage = value; }
 void    Config::setMimeType(std::map<std::string, std::string> value) { this->_mimeType = value; }
 void    Config::setErrorPage(std::string key, std::string value) { this->_errorPage[key] = value; }
-void    Config::setListen(std::vector<int> value) { this->_listen = value; }
+void    Config::setListen(int value) { this->_listen = value; }
 void    Config::setBodySize(size_t value) { this->_bodySize = value; }
 void    Config::setIp(std::string value) { this->_ip = value; }
 void    Config::setCgi(std::string value) { this->_cgi = value; }
@@ -92,7 +95,7 @@ std::map<std::string, std::string>  Config::errorPage(void) { return this->_erro
 std::map<std::string, std::string>  Config::mimeType(void) { return this->_mimeType; }
 std::string                         Config::autoIndex(void) const { return this->_autoIndex; }
 bool                                Config::isDefault(void) const { return this->_isDefault; }
-std::vector<int>                    Config::listen(void) const { return this->_listen; }
+int                                 Config::listen(void) const { return this->_listen; }
 size_t                              Config::bodySize(void) const { return this->_bodySize; }
 std::string                         Config::ip(void) const { return this->_ip; }
 std::string                         Config::cgi(void) const { return this->_cgi; }

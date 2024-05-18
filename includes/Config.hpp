@@ -6,7 +6,7 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 11:44:25 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/18 10:42:44 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/18 13:04:42 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ private:
     std::string                         _errorLog;
     std::string                         _autoIndex;
     bool                                _isDefault;
-    std::vector<int>                    _listen;
+    int                                 _listen;
     size_t                              _bodySize;
     std::string                         _ip;
     std::string                         _alias;
@@ -96,7 +96,7 @@ public:
     void    setErrorPage(std::string key, std::string value);
     void    setAutoIndex(std::string value);
     void    setDefault(bool value);
-    void    setListen(std::vector<int> value);
+    void    setListen(int value);
     void    setBodySize(size_t value);
     void    setIp(std::string value);
     void    setCgi(std::string value);
@@ -115,7 +115,7 @@ public:
     std::map<std::string, std::string>  mimeType(void)  ;
     std::string                         autoIndex(void) const ;
     bool                                isDefault(void) const ;
-    std::vector<int>                    listen(void) const ;
+    int                                 listen(void) const ;
     size_t                              bodySize(void) const ;
     std::string                         ip(void) const ;
     std::string                         cgi(void) const ;

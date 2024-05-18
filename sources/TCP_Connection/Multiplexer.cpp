@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Multiplexer.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/15 13:00:31 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/18 13:06:07 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		TCP_Connection::addClient(int & fd)
 			<< "[server " << this->servers[fd].index
 			<< "], new client connected - "
 			<< this->servers[fd].config.ip()
-			<< ":" << this->servers[fd].config.listen()[0]
+			<< ":" << this->servers[fd].config.listen()
 			<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	this->clients[client_fd].setClientFd(client_fd);

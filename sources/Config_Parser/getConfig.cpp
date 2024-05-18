@@ -6,7 +6,7 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:32:36 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/18 10:56:32 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/18 13:04:01 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int checkDublePath(Config & server, Location & location) {
 int handleListen(Config & server, std::stringstream & line) {
     std::string         word;
     long                listen;
-    std::vector<int>    ports;
+    // std::vector<int>    ports;
 
     line >> word;
 
@@ -127,25 +127,15 @@ int handleListen(Config & server, std::stringstream & line) {
         std::cerr << "Error: not valid listen." << '\n';
         return 1;
     }
-    ports.push_back(listen);
+    server.setListen(static_cast<int>(listen));
     word.clear();
-    while (line >> word) {
-        for (size_t i = 0; i < word.length(); i++) {
-            if (!std::isdigit(word.at(i))) {
-                std::cerr << "Error: listen must contain just numbers." << '\n';
-                return 1;
-            }
-        }
-        listen = std::atol(word.c_str());
-        if (listen > std::numeric_limits<int>::max() || listen < 0) {
-            std::cerr << "Error: not valid listen." << '\n';
-            return 1;
-        }
-        ports.push_back(static_cast<int>(listen));
-        word.clear();
+    
+    line >> word;
+    if (!word.empty()) {
+        std::cerr << "Error: not valid listen." << '\n';
+        return 1;
     }
-
-    server.setListen(ports);    
+    
     return (0);
 }
 
@@ -559,6 +549,13 @@ int getServerInfo(Config & server, std::stringstream & content) {
     return 0;
 }
 
+void    setDefaultValues(Config server) {
+    if (server.ip().empty())
+        server.setIp("0.0.0.0");
+    if (server.cgi().empty())
+        server.setCgi("on");
+}
+
 int getServers(std::vector<Config> & servers, std::stringstream & content) {
     Config server;
     
@@ -577,6 +574,7 @@ int getServers(std::vector<Config> & servers, std::stringstream & content) {
     if (getServerInfo(server, content))
         return 1;
     
+    setDefaultValues(server);
     setDefualtLocation(server);
     
     if (server.isDefault())
