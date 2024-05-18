@@ -100,7 +100,7 @@ void    Respons::handleCgi(std::string path) {
         allPath = path;
 
     CgiHandler  cgi(allPath, getMethodString(_request.getMethodType()), _request.getFileExtension(), _request.getBody());
-    
+
     cgi.handleRequest();
     if (cgi.getStatusCode() == 200)
         sendResponsContent(getClientFd(), cgi.getResponseBody(), 200, "text/html");
@@ -108,7 +108,6 @@ void    Respons::handleCgi(std::string path) {
         setStatusCode(cgi.getStatusCode());
         servErrorPage();
     }
-    
 }
 
 std::string Respons::getExtentionOfFile(std::string path) {
@@ -123,7 +122,7 @@ std::string Respons::getExtentionOfFile(std::string path) {
 }
 
 void    Respons::handleFile(std::string path) {
-    if (_request.getFileExtension() == "py" || getExtentionOfFile(path) == "py")
+    if ((_request.getFileExtension() == "py" || getExtentionOfFile(path) == "py") && _server.currentLocation().cgi() == "on")
         return handleCgi(path);
 
     std::ifstream                                   file(path);
