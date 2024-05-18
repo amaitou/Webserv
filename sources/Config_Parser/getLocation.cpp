@@ -59,7 +59,7 @@ int checkFirstLocationLine(Location & location, std::stringstream & line) {
     return 0;
 }
 
-int handleLocationCgiPath(Location & location, std::stringstream & line) {
+int handleLocationCgi(Location & location, std::stringstream & line) {
     std::string word;
 
     line >> word;
@@ -69,16 +69,21 @@ int handleLocationCgiPath(Location & location, std::stringstream & line) {
     }
 
     if (location.cgi().length() != 0) {
-        std::cerr << "Error: cant set two cgi_path rule to location." << '\n';
+        std::cerr << "Error: cant set two cgi rule to location." << '\n';
         return 1;
     }
-    
+
+    if (word != "on" && word != "off") {
+        std::cerr << "Error: value of cgi must be on or off.";
+        return 1;
+    }
+
     location.setCgi(word);
     word.clear();
     
     line >> word;
     if (!word.empty()) {
-        std::cerr << "Error: cant set two cgi_path to location." << '\n';
+        std::cerr << "Error: cant set two cgi to location." << '\n';
         return 1;
     }
     
@@ -338,8 +343,8 @@ int checkValidLocatioContent(Location & location, std::string & allLine) {
 
     if (word == "root")
         return handleLocationRoot(location, line);
-    else if (word == "cgi_path")
-        return handleLocationCgiPath(location, line);
+    else if (word == "cgi")
+        return handleLocationCgi(location, line);
     else if (word == "upload_dir")
         return handleLocationUploadDir(location, line);
     else if (word == "alias")

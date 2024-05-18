@@ -6,7 +6,7 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:32:36 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/12 13:23:42 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/18 10:47:45 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -434,7 +434,7 @@ int handleLocation(Config & server, std::string allLine, std::stringstream & con
     return 0;
 }
 
-int handleCgiPath(Config & server, std::stringstream & line) {
+int handleCgi(Config & server, std::stringstream & line) {
     std::string     word;
 
     line >> word;
@@ -444,12 +444,12 @@ int handleCgiPath(Config & server, std::stringstream & line) {
     }
 
     if (server.cgi().length() != 0) {
-        std::cerr << "Error: cant set two cgi_path rule to server." << '\n';
+        std::cerr << "Error: cant set two cgi rule to server." << '\n';
         return 1;
     }
 
-    if (access(word.c_str(), F_OK) == -1) {
-        std::cerr << "Error: cant open the cgi File." << '\n';
+    if (word != "on" && word != "off") {
+        std::cerr << "Error: value of cgi must be on or off.";
         return 1;
     }
     
@@ -458,7 +458,7 @@ int handleCgiPath(Config & server, std::stringstream & line) {
     
     line >> word;
     if (!word.empty()) {
-        std::cerr << "Error: cant set two cgi_path to server." << '\n';
+        std::cerr << "Error: cant set two cgi to server." << '\n';
         return 1;
     }
     
@@ -505,8 +505,8 @@ int checkValidContent(Config & server, std::string & allLine) {
         return handleListen(server, line);
     else if (word == "server_name")
         return handleServerName(server, line);
-    else if (word == "cgi_path")
-        return handleCgiPath(server, line);
+    else if (word == "cgi")
+        return handleCgi(server, line);
     else if (word == "root")
         return handleRoot(server, line);
     else if (word == "index")

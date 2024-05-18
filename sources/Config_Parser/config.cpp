@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Config.cpp                                         :+:      :+:    :+:   */
+/*   config.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 11:44:22 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/12 13:23:35 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/18 10:43:22 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void    Location::setMethod(std::vector<std::string> value) { this->_method = va
 void    Location::setRedirection(std::map<std::string, int> value) { this->_redirection = value; }
 void    Location::setPath(std::string value) { this->_path = value; }
 void    Location::setRoot(std::string value) { this->_root = value; }
-void    Location::setCgi(std::string value) { this->_cgiPath = value; }
+void    Location::setCgi(std::string value) { this->_cgi = value; }
 void    Location::setUploadDir(std::string value) { this->_uploadDir = value; }
 void    Location::setAlias(std::string value) { this->_alias = value; }
 void    Location::setAutoIndex(std::string value) { this->_autoIndex = value; }
@@ -59,7 +59,7 @@ std::map<std::string, int>&         Location::redirection(void) { return this->_
 std::map<std::string, std::string>  Location::errorPage(void) const { return this->_errorPage; }
 std::string                         Location::root(void) const { return this->_root; }
 std::string                         Location::path(void) const { return this->_path; }
-std::string                         Location::cgi(void) const { return this->_cgiPath; }
+std::string                         Location::cgi(void) const { return this->_cgi; }
 std::string                         Location::uploadDir(void) const { return this->_uploadDir; }
 std::string                         Location::alias(void) const { return this->_alias; }
 std::string                         Location::autoIndex(void) const { return this->_autoIndex; }
@@ -80,7 +80,7 @@ void    Config::setErrorPage(std::string key, std::string value) { this->_errorP
 void    Config::setListen(std::vector<int> value) { this->_listen = value; }
 void    Config::setBodySize(size_t value) { this->_bodySize = value; }
 void    Config::setIp(std::string value) { this->_ip = value; }
-void    Config::setCgi(std::string value) { this->_cgiPath = value; }
+void    Config::setCgi(std::string value) { this->_cgi = value; }
 void    Config::setAlias(std::string value) { this->_alias = value; }
 
 std::vector<std::string>            Config::serverName(void) const { return this->_serverName; }
@@ -95,5 +95,5 @@ bool                                Config::isDefault(void) const { return this-
 std::vector<int>                    Config::listen(void) const { return this->_listen; }
 size_t                              Config::bodySize(void) const { return this->_bodySize; }
 std::string                         Config::ip(void) const { return this->_ip; }
-std::string                         Config::cgi(void) const { return this->_cgiPath; }
+std::string                         Config::cgi(void) const { return this->_cgi; }
 std::string                         Config::alias(void) const { return this->_alias; }

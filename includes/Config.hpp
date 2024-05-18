@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Config.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 11:44:25 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/12 18:10:21 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/18 10:42:44 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ private:
     std::string                         _path;
     std::string                         _uploadDir;
     std::string                         _alias;
-    std::string                         _cgiPath;
     std::string                         _root;
     size_t                              _bodySize;
     std::string                         _autoIndex;
@@ -28,6 +27,7 @@ private:
     std::vector<std::string>            _method;
     std::map<std::string, int>          _redirection;
     std::map<std::string, std::string>  _errorPage;
+    std::string                         _cgi;
 
 public:
     Location();
@@ -73,11 +73,11 @@ private:
     std::vector<int>                    _listen;
     size_t                              _bodySize;
     std::string                         _ip;
-    std::string                         _cgiPath;
     std::string                         _alias;
     std::map<std::string, std::string>  _mimeType;
     std::vector<Location>               _location;
     Location                            _currentLocation;
+    std::string                         _cgi;
 
 public:
     Config();
