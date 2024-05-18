@@ -6,7 +6,7 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 03:45:06 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/18 11:26:27 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/18 11:27:25 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int main(int ac, char **ag)
 		std::cout << GREY << "[.] " << RESET << "Parsing configuration file..." << RESET << std::endl;
 		std::vector<Config>	servers = getConfig(ag[1], &checkError);
 		if (checkError)
-			return ;
+			return 1;
 		std::cout << YELLOW << "[+] " << RESET << "Configuration file was parsed." << RESET << std::endl;
 		TCP_Connection HTTP(servers);
 		HTTP.serve();
