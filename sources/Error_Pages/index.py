@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-import cgi
-
-print("Content-Type: text/html")
-print()
 print("<html>")
 print("<head>")
 print("<title>Python CGI Script</title>")
