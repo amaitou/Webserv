@@ -74,7 +74,7 @@ int handleLocationCgi(Location & location, std::stringstream & line) {
     }
 
     if (word != "on" && word != "off") {
-        std::cerr << "Error: value of cgi must be on or off.";
+        std::cerr << "Error: value of cgi must be on or off." << '\n';
         return 1;
     }
 

@@ -6,7 +6,7 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 12:32:36 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/18 10:47:45 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/18 10:56:32 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -449,7 +449,7 @@ int handleCgi(Config & server, std::stringstream & line) {
     }
 
     if (word != "on" && word != "off") {
-        std::cerr << "Error: value of cgi must be on or off.";
+        std::cerr << "Error: value of cgi must be on or off." << '\n';
         return 1;
     }
     
