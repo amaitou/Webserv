@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Response.hpp                                       :+:      :+:    :+:   */
+/*   HTTP_Respons.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 09:57:19 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/15 19:07:45 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:52:06 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ class Respons {
         std::string getCurrentPath(void);
         void        handleFolder();
         void        handleFile(std::string path);
-        void        handleCgi(void);
+        void        handleCgi(std::string path="");
         std::string getIndexPath(void);
         void        servAutoIndex(void);
+        std::string getExtentionOfFile(std::string );
 
         // servPost
         void        servPost(void);
