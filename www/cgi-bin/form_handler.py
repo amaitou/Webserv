@@ -1,19 +1,37 @@
-from flask import Flask, request
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from urllib.parse import urlparse, parse_qs
 
-app = Flask(__name__)
+class FormHandler(BaseHTTPRequestHandler):
+    def do_POST(self):
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length).decode('utf-8')
+        parsed_data = parse_qs(post_data)
+        name = parsed_data.get('name', [''])[0]
+        
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+        
+        self.wfile.write(f"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
+</head>
+<body>
+    <h2>Form Submission Result</h2>
+    <p>Name: {name}</p>
+</body>
+</html>
+""".encode('utf-8'))
 
-@app.route('/cgi-bin', methods=['POST'])
-def submit():
-    if request.method == 'POST':
-        name = request.form.get('name')  # Get the value of the 'name' field from the POST request
-        if name:
-            print("Name:", name)  # Print the value of the 'name' field
-            return "Name received: " + name
-        else:
-            return "No name provided in the request"
-    else:
-        return "Only POST requests are accepted"
+def run(server_class=HTTPServer, handler_class=FormHandler, port=8000):
+    server_address = ('', port)
+    httpd = server_class(server_address, handler_class)
+    print(f'Starting server on port {port}...')
+    httpd.serve_forever()
 
 if __name__ == '__main__':
-    app.run(debug=True)  # Run the Flask app in debug mode
-
+    run()

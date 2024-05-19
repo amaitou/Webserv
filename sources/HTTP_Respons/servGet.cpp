@@ -84,11 +84,12 @@ void    Respons::handleFolder() {
     if (!index.empty())
         return handleFile(index);
     else {
-        if (_server.currentLocation().autoIndex() == "on" && _request.getMethodType() != POST)
+        if (_server.currentLocation().autoIndex() == "on") {
             return servAutoIndex();
-        setStatusCode(403);
-        return servErrorPage();
+        }
     }
+    setStatusCode(403);
+    return servErrorPage();
 }
 
 void    Respons::handleCgi(std::string path) {
