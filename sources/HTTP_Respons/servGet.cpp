@@ -69,7 +69,7 @@ void    Respons::servAutoIndex() {
     }
     content << "</ol></body></html>" << '\n';
     closedir(dir);
-    sendResponsContent(getClientFd(), content.str(), 200, "text/html");
+    sendResponsContent(content.str(), 200, "text/html");
 }
 
 void    Respons::handleFolder() {
@@ -104,7 +104,7 @@ void    Respons::handleCgi(std::string path) {
 
     cgi.handleRequest();
     if (cgi.getStatusCode() == 200)
-        sendResponsContent(getClientFd(), cgi.getResponseBody(), 200, "text/html");
+        sendResponsContent(cgi.getResponseBody(), 200, "text/html");
     else {
         setStatusCode(cgi.getStatusCode());
         servErrorPage();
@@ -144,10 +144,10 @@ void    Respons::handleFile(std::string path) {
     file.close();
     for(; it != mimeType.end(); it++) {
         if (it->first.find(_request.getFileExtension()) != std::string::npos) {
-            return sendResponsContent(getClientFd(), content, getStatusCode(), it->second);
+            return sendResponsContent(content, getStatusCode(), it->second);
         }
     }
-    sendResponsContent(getClientFd(), content, getStatusCode(), "text/plain");
+    sendResponsContent(content, getStatusCode(), "text/plain");
 }
 
 void    Respons::servGet(void) {

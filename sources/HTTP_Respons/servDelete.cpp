@@ -12,7 +12,7 @@ void    Respons::servDelete(void) {
             servErrorPage();
         } else {
             setStatusCode(204);
-            sendResponsContent(getClientFd(), "Remove Succufly", getStatusCode(), "text/plain");
+            sendResponsContent("Remove Succufly", getStatusCode(), "text/plain");
         }
     } else {
         if (_request.getPath()[_request.getPath().length() - 1] != '/') {
@@ -26,7 +26,7 @@ void    Respons::servDelete(void) {
                 servErrorPage();
             } else {
                 setStatusCode(204);
-                sendResponsContent(getClientFd(), "Remove Succufly", getStatusCode(), "text/plain");
+                sendResponsContent("Remove Succufly", getStatusCode(), "text/plain");
             }
         } else {
             setStatusCode(403);
