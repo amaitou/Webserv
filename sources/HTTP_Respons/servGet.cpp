@@ -125,6 +125,10 @@ std::string Respons::getExtentionOfFile(std::string path) {
 void    Respons::handleFile(std::string path) {
     if ((_request.getFileExtension() == "py" || getExtentionOfFile(path) == "py") && _server.currentLocation().cgi() == "on")
         return handleCgi(path);
+    else  if ((_request.getFileExtension() == "php" || getExtentionOfFile(path) == "php") && _server.currentLocation().cgi() == "on")
+        return handleCgi(path);
+    else  if ((_request.getFileExtension() == "bash" || getExtentionOfFile(path) == "bash") && _server.currentLocation().cgi() == "on")
+        return handleCgi(path); 
 
     std::ifstream                                   file(path);
     std::string                                     content;
