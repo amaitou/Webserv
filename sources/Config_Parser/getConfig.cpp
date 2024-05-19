@@ -276,6 +276,11 @@ int handleErrorPage(Config & server, std::stringstream & line) {
         return 1;
     }
 
+    if (value.find("/") != std::string::npos) {
+        std::cerr << "Error: value of error page cant contain '/', and accept just a file.\n";
+        return 1;
+    }
+
     if (value.back() == '/' && value.length() != 1)
         value.erase(--value.end());
     if (value.at(0) == '/'   && value.length())
