@@ -81,6 +81,9 @@ class Respons {
         // servPost
         void        servPost(void);
         int         locationSupportUpload(void);
+        void        handleUpload(void);
+        void        uploadFile(std::stringstream & body, std::string & boundary);
+        std::string getFileName(std::stringstream & body, std::string & line);
 
         // servDelete
         void        servDelete(void);
