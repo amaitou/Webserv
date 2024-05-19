@@ -34,13 +34,13 @@ void CgiHandler::executeCgi() {
     int status;
 
     if (pipe(pipeIn) == -1 || pipe(pipeOut) == -1) {
-        statusCode = 501;
+        statusCode = 500;
         return;
     }
 
     pid = fork();
     if (pid == -1) {
-        statusCode = 501;
+        statusCode = 500;
         return;
     }
     if (pid == 0) {

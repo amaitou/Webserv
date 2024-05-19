@@ -1,22 +1,19 @@
-#!/usr/bin/env python3
+from flask import Flask, request
 
-import cgi
-import cgitb
+app = Flask(__name__)
 
-cgitb.enable()  # Enable CGI error reporting
+@app.route('/cgi-bin', methods=['POST'])
+def submit():
+    if request.method == 'POST':
+        name = request.form.get('name')  # Get the value of the 'name' field from the POST request
+        if name:
+            print("Name:", name)  # Print the value of the 'name' field
+            return "Name received: " + name
+        else:
+            return "No name provided in the request"
+    else:
+        return "Only POST requests are accepted"
 
-form = cgi.FieldStorage()
-
-name = form.getvalue("name")
-
-print("Content-Type: text/html")
-print()
-print("<html><head>")
-print("<title>Form Handler</title>")
-print("</head><body>")
-if name:
-    print(f"<h1>Hello, {name}!</h1>")
-else:
-    print("<h1>Please enter your name.</h1>")
-print("</body></html>")
+if __name__ == '__main__':
+    app.run(debug=True)  # Run the Flask app in debug mode
 
