@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/19 21:55:10 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/19 22:40:19 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,9 @@ void	TCP_Connection::writeClient(int & fd)
 		clients[fd].respons.sendRespons(clients[fd], servers[clients[fd].getServerFd()].config);
 		this->clients[fd].responseContent = clients[fd].respons.getResponsContent();
 	}
-	FD_SET(fd, &this->fds.current_write_fds);
 	bool b = this->clients[fd].writeResponse();
 	if (!b)
 	{
-		std::cout << "Failed to write response" << std::endl;
 		std::cout << YELLOW << "- [<] Webserv << " << RESET << "[server " << this->clients[fd].getServerIndex() << "], response sent Successfully." << std::endl;
 		FD_CLR(fd, &this->fds.current_write_fds);
 		std::cout << RED << "- [-] Webserv -= " << RESET << "[server " << this->clients[fd].getServerIndex() << "], client disconnected." << std::endl;
