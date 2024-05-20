@@ -2,5 +2,6 @@
 a.out
 *.pdf
 .vscode
+.DS_Store
 webserv
 sources/Config_File/*.config
