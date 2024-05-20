@@ -6,15 +6,13 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 09:57:19 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/18 11:52:06 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/19 20:47:20 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #ifndef RESPONS_HPP
 # define RESPONS_HPP
-
-// # include "./TCP_Connection.hpp"
 
 # include "./HTTP_Request.hpp"
 # include "./Config.hpp"
@@ -26,11 +24,12 @@
 class Client;
 class Respons {
     private:
-        HTTP_Request    _request; // contains servers
+        HTTP_Request    _request;
         Config          _server;
         int             _clientFd;
         int             _currentPort;
         int             _statusCode;
+        std::string     _responsContent;
     
     public:
         Respons();
@@ -42,14 +41,16 @@ class Respons {
         void    setCurrentPort(int value);
         void    setStatusCode(int value);
         void    setClientFd(int value);
+        void    setResponsContent(std::string value);
 
         // Getters
-        int     getCurrentPort(void) const;
-        int     getStatusCode(void) const;
-        int     getClientFd(void) const;
+        int         getCurrentPort(void) const;
+        int         getStatusCode(void) const;
+        int         getClientFd(void) const;
+        std::string getResponsContent(void) const;
 
     protected:
-        void        sendResponsContent(int fd, std::string content, int statusCode, std::string plain);
+        void        sendResponsContent(std::string content, int statusCode, std::string plain);
         void        servErrorPage(void);
         int         foundCurrentServer(HTTP_Request http, Config config);
         std::string getIp(std::string str);

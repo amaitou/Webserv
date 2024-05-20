@@ -1,14 +1,22 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>CGI Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POST Form</title>
 </head>
 <body>
+<<<<<<< HEAD
     <h1>CGI Form</h1>
     <form action="form_handler.py" method="post">
+=======
+    <h2>Submit Name</h2>
+    <form action="/cgi-bin" method="POST">
+>>>>>>> f174c5c09c972c60997695be854350d75d9f801d
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
+        <input type="text" id="name" name="name" required>
+        <br><br>
         <input type="submit" value="Submit">
     </form>
 </body>
 </html>
-

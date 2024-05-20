@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:34 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/15 20:55:41 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/19 21:54:39 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,14 @@ void Client::setClientNonBlocking(void)
 		throw TCP_Exception::FailedToSetNonBlocking();
 	if (fcntl(this->getClientFd(), F_SETFL, flags | O_NONBLOCK) == -1)
 		throw TCP_Exception::FailedToSetNonBlocking();
+}
+
+bool Client::writeResponse(void)
+{
+	std::string s = this->responseContent.substr(0, 1024);
+	this->responseContent = this->responseContent.erase(0, s.length());
+	write(this->getClientFd(), s.c_str(), s.length());
+	if (this->responseContent.length() == 0)
+		return (false);
+	return (true);
 }

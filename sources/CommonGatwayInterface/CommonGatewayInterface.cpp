@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CommonGatewayInterface.cpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:09:55 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/16 16:51:22 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:12:31 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void CgiHandler::executeCgi() {
     int status;
 
     if (pipe(pipeIn) == -1 || pipe(pipeOut) == -1) {
-        statusCode = 501;
+        statusCode = 500;
         return;
     }
 
     pid = fork();
     if (pid == -1) {
-        statusCode = 501;
+        statusCode = 500;
         return;
     }
     if (pid == 0) {
@@ -53,7 +53,12 @@ void CgiHandler::executeCgi() {
         close(pipeOut[1]);
 
         std::vector<const char*> args;
-        args.push_back("/usr/bin/python3");
+        if (cgiExtention == "py")
+            args.push_back("/usr/bin/python3");
+        else if (cgiExtention == "php")
+            args.push_back("/usr/bin/php");
+        else if (cgiExtention == "bash")
+            args.push_back("/bin/bash");
         args.push_back(cgiPath.c_str());
         args.push_back(NULL);
 

@@ -69,7 +69,7 @@ void    Respons::servAutoIndex() {
     }
     content << "</ol></body></html>" << '\n';
     closedir(dir);
-    sendResponsContent(getClientFd(), content.str(), 200, "text/html");
+    sendResponsContent(content.str(), 200, "text/html");
 }
 
 void    Respons::handleFolder() {
@@ -84,11 +84,12 @@ void    Respons::handleFolder() {
     if (!index.empty())
         return handleFile(index);
     else {
-        if (_server.currentLocation().autoIndex() == "on" && _request.getMethodType() != POST)
+        if (_server.currentLocation().autoIndex() == "on") {
             return servAutoIndex();
-        setStatusCode(403);
-        return servErrorPage();
+        }
     }
+    setStatusCode(403);
+    return servErrorPage();
 }
 
 void    Respons::handleCgi(std::string path) {
@@ -103,7 +104,7 @@ void    Respons::handleCgi(std::string path) {
 
     cgi.handleRequest();
     if (cgi.getStatusCode() == 200)
-        sendResponsContent(getClientFd(), cgi.getResponseBody(), 200, "text/html");
+        sendResponsContent(cgi.getResponseBody(), 200, "text/html");
     else {
         setStatusCode(cgi.getStatusCode());
         servErrorPage();
@@ -124,6 +125,10 @@ std::string Respons::getExtentionOfFile(std::string path) {
 void    Respons::handleFile(std::string path) {
     if ((_request.getFileExtension() == "py" || getExtentionOfFile(path) == "py") && _server.currentLocation().cgi() == "on")
         return handleCgi(path);
+    else  if ((_request.getFileExtension() == "php" || getExtentionOfFile(path) == "php") && _server.currentLocation().cgi() == "on")
+        return handleCgi(path);
+    else  if ((_request.getFileExtension() == "bash" || getExtentionOfFile(path) == "bash") && _server.currentLocation().cgi() == "on")
+        return handleCgi(path); 
 
     std::ifstream                                   file(path);
     std::string                                     content;
@@ -139,10 +144,10 @@ void    Respons::handleFile(std::string path) {
     file.close();
     for(; it != mimeType.end(); it++) {
         if (it->first.find(_request.getFileExtension()) != std::string::npos) {
-            return sendResponsContent(getClientFd(), content, getStatusCode(), it->second);
+            return sendResponsContent(content, getStatusCode(), it->second);
         }
     }
-    sendResponsContent(getClientFd(), content, getStatusCode(), "text/plain");
+    sendResponsContent(content, getStatusCode(), "text/plain");
 }
 
 void    Respons::servGet(void) {

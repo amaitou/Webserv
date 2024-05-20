@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Tajawal", sans-serif;
+}
+
+body {
+    background-color: #0000000f;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container {
+    width: 2000px;
+    height: auto;
+    margin: 400px auto;
+    text-align: center;
+    /* border: 1px solid #00000030; */
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.container .title {
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.container .title h1 {
+    color: green;
+    font-size: 300%;
+}
+
+.client, .server {
+    width: 50%;
+    margin: 50px 0;
+}
+
+.client {
+    float: left;
+    border-right: 1px solid #00000030;
+}
+
+.server {
+    float: right;
+}
+
+.client h2, .server h2 {
+    color: #9e9e9e;
+    margin-bottom: 20px;
+    font-size: 200%;
+}
+
+.client div, .server div {
+    margin-top: 20px;
+}
+
+.client div a, .server div a {
+    font-size: 115%;
+}
+
+/* pages */
+
+.badRequest {
+    width: 800px;
+    height: auto;
+    margin: 300px auto;
+    text-align: center;
+}
+
+.badRequest i.logo {
+    font-size: 1200%;
+    color: #0000007d;
+    margin-bottom: 15px;
+}
+
+.badRequest h1 {
+    font-size: 600%;
+    color: #0000007d;
+}
+
+.badRequest h3 {
+    font-size: 200%;
+    color: #00000030;
+    margin-bottom: 15px;
+}
+
+.badRequest p {
+    font-size: 150%;
+    color: #00000030;
+    margin-bottom: 15px;
+}
+
+.links {
+    width: 100%;
+    border-top: 1px solid #00000030;
+    padding-top: 20px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.badRequest a {
+    margin-bottom: 15px;
+    display: block;
+    color: #0000007d;
+}
+
+.links h4 {
+    color: #00000030;
+    font-size: 120%;
+    margin-left: 28px;
+}

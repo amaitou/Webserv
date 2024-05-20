@@ -6,6 +6,14 @@
 Respons::Respons() {}
 Respons::~Respons() {}
 
+void    Respons::setResponsContent(std::string value) {
+    this->_responsContent = value;
+}
+
+std::string Respons::getResponsContent(void) const {
+    return this->_responsContent;
+}
+
 std::string Respons::getIp(std::string str) {
     size_t idx = str.find(':');
 
@@ -148,17 +156,15 @@ void    Respons::servErrorPage(void) {
         }
     }
 
-    sendResponsContent(getClientFd(), generateErrorPage(getStatusCode()), getStatusCode(), "text/html");
+    sendResponsContent(generateErrorPage(getStatusCode()), getStatusCode(), "text/html");
 }
 
-void    Respons::sendResponsContent(int fd, std::string content, int statusCode, std::string plain) {
-    std::string allContent = "HTTP/1.1 " + std::to_string(statusCode) + " " + "OK" + " Content-Type: " + plain + "\nContent-Length:" + std::to_string(content.length()) + "\n\n" + content + "\n"; 
-    write(fd, allContent.c_str(), allContent.length());
+void    Respons::sendResponsContent(std::string content, int statusCode, std::string plain) {
+    setResponsContent("HTTP/1.1 " + std::to_string(statusCode) + " " + "OK" + " Content-Type: " + plain + "\nContent-Length:" + std::to_string(content.length()) + "\n\n" + content + "\n");
 }
 
 void    Respons::sendRedirection(std::string url, int statusCode) {
-    std::string allContent = "HTTP/1.1 " + std::to_string(statusCode) + " Moved Permanently\r\nLocation: " + url + "\r\n\r\n";
-    write(getClientFd(), allContent.c_str(), allContent.length());
+    setResponsContent("HTTP/1.1 " + std::to_string(statusCode) + " Moved Permanently\r\nLocation: " + url + "\r\n\r\n");
 }
 
 void    Respons::sendRespons(Client  & client, Config config) {
@@ -187,5 +193,5 @@ void    Respons::sendRespons(Client  & client, Config config) {
     if (_request.getMethodType() == DELETE) 
         return servDelete();
 
-    sendResponsContent(getClientFd(), "correct", getStatusCode(), "text/plain");
+    sendResponsContent("correct", getStatusCode(), "text/plain");
 }
