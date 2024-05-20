@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Connection.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/18 13:05:57 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/20 14:15:03 by ael-amin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,9 @@ void TCP_Connection::serve(void)
 	socketBind();
 	socketListen();
 	socketAccept();
+}
+
+void TCP_Connection::ignoreSignPipe(int _signal)
+{
+	signal(_signal, SIG_IGN);
 }

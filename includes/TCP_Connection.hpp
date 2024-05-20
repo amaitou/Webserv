@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/15 21:02:49 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:14:25 by ael-amin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ class TCP_Connection
 		int		addClient(int &);
 		void	readClient(int &);
 		void	writeClient(int &);
+		void	ignoreSignPipe(int _signal);
 
 		void 	displayBanner(void);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Multiplexer.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/19 22:40:19 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:18:05 by ael-amin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	TCP_Connection::serversMonitoring(void)
 	std::cout << GREY << "[^] " << RESET << "Monitoring servers :\n" << std::endl;
 	while (true)
     {
+		this->ignoreSignPipe(SIGPIPE);
 		this->fds.ready_read_fds = this->fds.current_read_fds;
 		this->fds.ready_write_fds = this->fds.current_write_fds;
 
@@ -99,7 +100,7 @@ void	TCP_Connection::serversMonitoring(void)
 				}
 				if (this->clients.find(i) != this->clients.end())
 					this->readClient(i);
-					
+
 			}
 			else if (FD_ISSET(i, &this->fds.ready_write_fds))
 				this->writeClient(i);
