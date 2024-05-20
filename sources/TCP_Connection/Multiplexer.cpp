@@ -3,33 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   Multiplexer.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 14:18:05 by ael-amin         ###   ########.fr       */
+/*   Updated: 2024/05/20 18:06:19 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/TCP_Connection.hpp"
 
-int		TCP_Connection::addClient(int & fd)
+int		TCP_Connection::addClient(int & fd, int & index)
 {
-	int client_fd = accept(this->servers[fd].getSocketFd(),
-		(struct sockaddr *)&this->servers[fd].address_s,
-		&this->servers[fd].address_len);
-	if (client_fd < 0)
-		return (1);
+	int client_fd;
+	int tracker;
+	for (size_t i = 0; i < this->servers[index].sockets.size(); i++)
+	{
+		tracker = i;
+		if (this->servers[index].sockets[i].socket_fd == fd)
+		{
+			client_fd = accept(this->servers[index].sockets[i].socket_fd,
+				(struct sockaddr *)&this->servers[index].sockets[i].address_s,
+				&this->servers[index].sockets[i].address_len);
+			if (client_fd < 0)
+				TCP_Exception::FailedToAcceptConnections();
+		}
+	}
 	std::cout << CYAN << "- [+] Webserv += " << RESET
-			<< "[server " << this->servers[fd].index
-			<< "], new client connected - "
-			<< this->servers[fd].config.ip()
-			<< ":" << this->servers[fd].config.listen()[0]
-			<< std::endl;
+		<< "[server " << this->servers[index].index
+		<< "], new client connected - "
+		<< this->servers[index].config.ip()
+		<< ":" << this->servers[index].config.listen()[0]
+		<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	this->clients[client_fd].setClientFd(client_fd);
+	this->clients[client_fd].config = this->servers[index].config;
 	std::pair<int, Client> pair(client_fd, Client(client_fd));
-	this->clients[client_fd].setServerFd(this->servers[fd].getSocketFd());
-	this->clients[client_fd].setServerIndex(this->servers[fd].index);
+	this->clients[client_fd].setServerFd(this->servers[index].sockets[tracker].socket_fd);
+	this->clients[client_fd].setServerIndex(index);
 	this->clients.insert(pair);
 	return (0);
 }
@@ -57,7 +67,7 @@ void	TCP_Connection::writeClient(int & fd)
 {
 	if (clients[fd].responseContent.length() == 0)
 	{
-		clients[fd].respons.sendRespons(clients[fd], servers[clients[fd].getServerFd()].config);
+		clients[fd].respons.sendRespons(clients[fd], this->clients[fd].config);
 		this->clients[fd].responseContent = clients[fd].respons.getResponsContent();
 	}
 	bool b = this->clients[fd].writeResponse();
@@ -91,11 +101,14 @@ void	TCP_Connection::serversMonitoring(void)
 				for (std::map<int, Server>::iterator it = this->servers.begin();
 					it != this->servers.end(); ++it)
 				{
-					if (i == it->second.getSocketFd())
+					for (size_t j = 0; j < it->second.sockets.size(); j++)
 					{
-						if (this->addClient(i))
-							std::cout << "Failed to add client" << std::endl;
-						break;
+						if (i == it->second.sockets[j].socket_fd)
+						{
+							int index = it->first;
+							if (this->addClient(i, index))
+								break;
+						}
 					}
 				}
 				if (this->clients.find(i) != this->clients.end())

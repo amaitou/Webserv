@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Connection.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 14:15:03 by ael-amin         ###   ########.fr       */
+/*   Updated: 2024/05/20 16:56:05 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,27 @@ TCP_Connection::TCP_Connection(std::vector<Config> &config)
 	for (size_t i = 0; i < config.size(); i++)
 	{
 		Server server;
-		memset(&server.address_s, 0, sizeof(server.address_s));
-		memset(this->buffer, 0, BUFFER_SIZE);
-		server.address_s.sin_family = AF_INET;
-		server.address_s.sin_port = htons(config[i].listen()[0]);
-		server.address_s.sin_addr.s_addr = htonl(INADDR_ANY);
-		server.address_len = sizeof(server.address_s);
-		int socket_fd = socket(server.address_s.sin_family, SOCK_STREAM, 0);
-		if (socket_fd < 0)
-			throw TCP_Exception::FailedToCreateSocket();
-		server.setSocketFd(socket_fd);
-		server.setServerNonBlocking();
-		server.index = i + 1;
 		server.config = config[i];
-		std::pair<int, Server> pair(server.getSocketFd(), server);
+		server.index = i + 1;
+		std::vector<t_socket> sockets;
+		for (size_t j = 0; j < config[i].listen().size(); j++)
+		{
+			t_socket _socket;
+			memset(&_socket.address_s, 0, sizeof(_socket.address_s));
+			_socket.address_s.sin_family = AF_INET;
+			_socket.address_s.sin_port = htons(config[i].listen()[j]);
+			_socket.address_s.sin_addr.s_addr = htonl(INADDR_ANY);
+			_socket.address_len = sizeof(_socket.address_s);
+			_socket.socket_fd = socket(_socket.address_s.sin_family, SOCK_STREAM, 0);
+			if (_socket.socket_fd < 0)
+				throw TCP_Exception::FailedToCreateSocket();
+			sockets.push_back(_socket);
+		}
+		memset(this->buffer, 0, BUFFER_SIZE);
+		server.index = i + 1;
+		server.sockets = sockets;
+		server.setSocketsNonBlocking();
+		std::pair<int, Server> pair = std::make_pair(i + 1, server);
 		this->servers.insert(pair);
 	}
 	FD_ZERO(&this->fds.current_read_fds);
@@ -41,8 +48,11 @@ TCP_Connection::TCP_Connection(std::vector<Config> &config)
 	for (std::map<int, Server>::iterator it = this->servers.begin();
 		it != this->servers.end(); it++)
 	{
-		FD_SET(it->first, &this->fds.current_read_fds);
-		FD_SET(it->first, &this->fds.current_write_fds);
+		for (size_t i = 0; i < it->second.sockets.size(); i++)
+		{
+			FD_SET(it->second.sockets[i].socket_fd, &this->fds.current_read_fds);
+			FD_SET(it->second.sockets[i].socket_fd, &this->fds.current_write_fds);
+		}
 	}
 	std::cout << YELLOW << "[+] " << RESET << "Servers were created." << std::endl;
 }

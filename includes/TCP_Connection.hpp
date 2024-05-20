@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   TCP_Connection.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-amin <ael-amin@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 14:14:25 by ael-amin         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:07:30 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class TCP_Connection
 		void setSocketOptions(void);
 		void serversMonitoring(void);
 
-		int		addClient(int &);
+		int		addClient(int &, int &);
 		void	readClient(int &);
 		void	writeClient(int &);
 		void	ignoreSignPipe(int _signal);
