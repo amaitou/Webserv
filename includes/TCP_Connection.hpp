@@ -15,6 +15,7 @@
 
 #include "./Server_Instance.hpp"
 #include "./Client_Instance.hpp"
+#include <csignal>
 #include "./Config.hpp"
 #include "./Parser.hpp"
 typedef struct fds

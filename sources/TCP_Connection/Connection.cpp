@@ -62,5 +62,5 @@ void TCP_Connection::serve(void)
 
 void TCP_Connection::ignoreSignPipe(int _signal)
 {
-	signal(_signal, SIG_IGN);
+	std::signal(_signal, SIG_IGN);
 }
