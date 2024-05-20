@@ -9,7 +9,6 @@ form = cgi.FieldStorage()
 
 name = form.getvalue("name")
 
-print("Content-Type: text/html")
 print()
 print("<html><head>")
 print("<title>Form Handler</title>")
