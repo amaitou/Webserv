@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 22:32:30 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/20 22:55:49 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int		TCP_Connection::addClient(int & fd, int & index)
 			break;
 		}
 	}
-	std::cout << CYAN << "- [+] Webserv += " << RESET
+	std::cout << CYAN << "- " << "[" << current_time->tm_hour
+		<< ":" << current_time->tm_min << ":"
+		<< current_time->tm_sec << "] "
+		<<  "+= Webserv += " << RESET
 		<< "[server " << this->servers[index].index
 		<< "], new client connected - "
 		<< this->servers[index].config.ip()
@@ -53,7 +56,11 @@ void	TCP_Connection::readClient(int & fd)
 	if (!v)
 	{
 		this->clients[fd].request.parseRequest();
-		std::cout << GREEN << "- [>] Webserv >> " << RESET << "[server " << this->clients[fd].getServerIndex()
+		std::cout << GREEN << "- " << "[" << current_time->tm_hour
+			<< ":" << current_time->tm_min << ":"
+			<< current_time->tm_sec << "] "
+			<< ">> Webserv >> " << RESET
+			<< "[server " << this->clients[fd].getServerIndex()
 			<< "], request received Successfully, [method <"
 			<< this->clients[fd].request.stringifyMethod()
 			<< ">], [target <" << this->clients[fd].request.getPath()
@@ -73,9 +80,19 @@ void	TCP_Connection::writeClient(int & fd)
 	bool b = this->clients[fd].writeResponse();
 	if (!b)
 	{
-		std::cout << YELLOW << "- [<] Webserv << " << RESET << "[server " << this->clients[fd].getServerIndex() << "], response sent Successfully." << std::endl;
+		std::cout << YELLOW << "- " << "[" << current_time->tm_hour
+			<< ":" << current_time->tm_min << ":"
+			<< current_time->tm_sec << "] "
+			<< "<< Webserv << " << RESET
+			<< "[server " << this->clients[fd].getServerIndex()
+			<< "], response sent Successfully." << std::endl;
 		FD_CLR(fd, &this->fds.current_write_fds);
-		std::cout << RED << "- [-] Webserv -= " << RESET << "[server " << this->clients[fd].getServerIndex() << "], client disconnected." << std::endl;
+		std::cout << RED << "- " << "[" << current_time->tm_hour
+			<< ":" << current_time->tm_min << ":"
+			<< current_time->tm_sec << "] "
+			<<  "-= Webserv -= " << RESET
+			<< "[server " << this->clients[fd].getServerIndex()
+			<< "], client disconnected." << std::endl;
 		this->clients.erase(fd);
 		close(fd);
 	}
@@ -90,6 +107,9 @@ void	TCP_Connection::serversMonitoring(void)
 		this->ignoreSignPipe(SIGPIPE);
 		this->fds.ready_read_fds = this->fds.current_read_fds;
 		this->fds.ready_write_fds = this->fds.current_write_fds;
+
+		gettimeofday(&this->log_time, NULL);
+		this->current_time = localtime(&this->log_time.tv_sec);
 
 		if (select(FD_SETSIZE, &this->fds.ready_read_fds,
 			&this->fds.ready_write_fds, NULL, NULL) < 0)

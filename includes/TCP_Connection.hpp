@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 17:07:30 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/20 22:44:39 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 
 #include "./Server_Instance.hpp"
 #include "./Client_Instance.hpp"
-#include <csignal>
 #include "./Config.hpp"
 #include "./Parser.hpp"
+#include <csignal>
+#include <sys/time.h>
 typedef struct fds
 {
 	fd_set						ready_read_fds;
@@ -33,6 +34,8 @@ typedef struct fds
 class TCP_Connection
 {
 	private:
+			timeval						log_time;
+			struct tm					*current_time;
 			std::map<int, Server>		servers;
 			std::map<int, Client>		clients;
 			t_fds						fds;
