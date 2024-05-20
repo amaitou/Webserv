@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 04:09:41 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 16:58:07 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/20 23:28:27 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,15 @@ void	TCP_Connection::socketListen(void)
 	for (std::map<int, Server>::iterator it = servers.begin();
 		it != servers.end(); it++)
 	{
+		std::cout << YELLOW << "[+] " << RESET << "Server " << it->first << " is listening on port ";
 		for (size_t i = 0; i < it->second.config.listen().size(); i++)
 		{
 			if (listen(it->second.sockets[i].socket_fd, it->second.config.listen().size()) < 0)
 				throw TCP_Exception::FailedToListenForConnections();
+			if (i + 1 == it->second.config.listen().size())
+				std::cout << it->second.config.listen()[i] << std::endl;
+			else
+				std::cout << it->second.config.listen()[i] << ", ";
 		}
 	}
 	std::cout << "\n\n" << std::endl;

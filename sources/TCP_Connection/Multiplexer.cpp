@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 22:55:49 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/20 23:31:12 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		TCP_Connection::addClient(int & fd, int & index)
 	std::cout << CYAN << "- " << "[" << current_time->tm_hour
 		<< ":" << current_time->tm_min << ":"
 		<< current_time->tm_sec << "] "
-		<<  "+= Webserv += " << RESET
+		<<  "- Webserv += " << RESET
 		<< "[server " << this->servers[index].index
 		<< "], new client connected - "
 		<< this->servers[index].config.ip()
@@ -59,7 +59,7 @@ void	TCP_Connection::readClient(int & fd)
 		std::cout << GREEN << "- " << "[" << current_time->tm_hour
 			<< ":" << current_time->tm_min << ":"
 			<< current_time->tm_sec << "] "
-			<< ">> Webserv >> " << RESET
+			<< "- Webserv >> " << RESET
 			<< "[server " << this->clients[fd].getServerIndex()
 			<< "], request received Successfully, [method <"
 			<< this->clients[fd].request.stringifyMethod()
@@ -83,14 +83,14 @@ void	TCP_Connection::writeClient(int & fd)
 		std::cout << YELLOW << "- " << "[" << current_time->tm_hour
 			<< ":" << current_time->tm_min << ":"
 			<< current_time->tm_sec << "] "
-			<< "<< Webserv << " << RESET
+			<< "- Webserv << " << RESET
 			<< "[server " << this->clients[fd].getServerIndex()
 			<< "], response sent Successfully." << std::endl;
 		FD_CLR(fd, &this->fds.current_write_fds);
 		std::cout << RED << "- " << "[" << current_time->tm_hour
 			<< ":" << current_time->tm_min << ":"
 			<< current_time->tm_sec << "] "
-			<<  "-= Webserv -= " << RESET
+			<<  "- Webserv -= " << RESET
 			<< "[server " << this->clients[fd].getServerIndex()
 			<< "], client disconnected." << std::endl;
 		this->clients.erase(fd);
