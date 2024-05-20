@@ -14,6 +14,9 @@
 
 Config::Config() {
     this->_isDefault = false;
+    this->_bodySize = 1024;
+    this->_isNoServer = false;
+    this->_root = "";
 }
 Config::~Config() {}
 
@@ -75,6 +78,7 @@ void    Config::setAccessLog(std::string value) { this->_accessLog = value; }
 void    Config::setErrorLog(std::string value) { this->_errorLog = value; }
 void    Config::setAutoIndex(std::string value) { this->_autoIndex = value; }
 void    Config::setDefault(bool value) { this->_isDefault = value; }
+void    Config::setNoServer(bool value) { this->_isNoServer = value; }
 void    Config::setIndex(std::vector<std::string> value) { this->_index = value; }
 void    Config::setIndex(std::map<std::string, std::string> value) { this->_errorPage = value; }
 void    Config::setMimeType(std::map<std::string, std::string> value) { this->_mimeType = value; }
@@ -94,6 +98,7 @@ std::map<std::string, std::string>  Config::errorPage(void) { return this->_erro
 std::map<std::string, std::string>  Config::mimeType(void) { return this->_mimeType; }
 std::string                         Config::autoIndex(void) const { return this->_autoIndex; }
 bool                                Config::isDefault(void) const { return this->_isDefault; }
+bool                                Config::isNoServer(void) const { return this->_isNoServer; }
 std::vector<int>                    Config::listen(void) const { return this->_listen; }
 size_t                              Config::bodySize(void) const { return this->_bodySize; }
 std::string                         Config::ip(void) const { return this->_ip; }

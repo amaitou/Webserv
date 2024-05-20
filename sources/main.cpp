@@ -14,17 +14,16 @@
 
 int main(int ac, char **ag)
 {
+	std::vector<Config>	servers;
 	try
 	{
-		if (ac != 2)
-		{
-			std::cerr << RED << "Usage: ./webserv [config_file]" << std::endl;
-			return (EXIT_FAILURE);
-		}
 		system("clear");
 		int checkError = 0;
 		std::cout << GREY << "[.] " << RESET << "Parsing configuration file..." << RESET << std::endl;
-		std::vector<Config>	servers = getConfig(ag[1], &checkError);
+		if (ac > 1)
+			servers = getConfig(ag[1], &checkError);
+		else
+			servers = getConfig("", &checkError);
 		if (checkError)
 			return 1;
 		std::cout << YELLOW << "[+] " << RESET << "Configuration file was parsed." << RESET << std::endl;

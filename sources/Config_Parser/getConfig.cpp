@@ -605,13 +605,37 @@ int getServers(std::vector<Config> & servers, std::stringstream & content) {
     return 0;
 }
 
+Config getDefaulServer(void) {
+    Config server;
+    Location location;
+
+    location.setPath("/");
+    location.setRoot("");
+    location.setMethod({"GET", "POST", "DELETE"});
+    server.setDefault(true);
+    server.setRoot("");
+    server.setIp("0.0.0.0");
+    server.setListen({8085});
+    server.setSeverName({"localhost"});
+    server.setLocation(location);
+    server.setCurrentLocation(location);
+    server.setNoServer(true);
+    return server;
+}
+
 std::vector<Config> getConfig(const char * str, int *error) {
     std::vector<Config>                 servers;
-    std::ifstream                       file(str);
+    std::ifstream                       file;
     std::string                         oldLine;
     std::stringstream                   content;
     std::map<std::string, std::string>  mimeType;
     
+    if (std::string(str).empty()) {
+        servers.push_back(getDefaulServer());
+        return servers;
+    }
+
+    file.open(str);
     if (!file.is_open()) {
         std::cerr << "Error: cant open the config file: " << str << '\n';
         *error = 1;

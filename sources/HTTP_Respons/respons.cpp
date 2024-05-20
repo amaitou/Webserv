@@ -167,9 +167,14 @@ void    Respons::sendRedirection(std::string url, int statusCode) {
     setResponsContent("HTTP/1.1 " + std::to_string(statusCode) + " Moved Permanently\r\nLocation: " + url + "\r\n\r\n");
 }
 
+void    Respons::servTheDefaultPage(void) {
+    sendResponsContent("defaul page", 200, "text/html");
+}
 void    Respons::sendRespons(Client  & client, Config config) {
-    setClientFd(client.getClientFd());
     _request = client.request;
+
+    if (config.isNoServer()) 
+        return servTheDefaultPage();
 
     foundCurrentServer(client.request, config);
 
@@ -192,6 +197,4 @@ void    Respons::sendRespons(Client  & client, Config config) {
         return servPost();
     if (_request.getMethodType() == DELETE) 
         return servDelete();
-
-    sendResponsContent("correct", getStatusCode(), "text/plain");
 }

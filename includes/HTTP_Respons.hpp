@@ -58,6 +58,7 @@ class Respons {
         void        sendRedirection(std::string url, int statusCode);
         std::string getStatusCodeString(int statusCode);
         std::string getStatusCodeDescription(int statusCode);
+        void        servTheDefaultPage(void);
 
         // locations
         int         checkValidUrl(std::string path);

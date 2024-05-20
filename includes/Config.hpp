@@ -70,6 +70,7 @@ private:
     std::string                         _errorLog;
     std::string                         _autoIndex;
     bool                                _isDefault;
+    bool                                _isNoServer;    
     std::vector<int>                    _listen;
     size_t                              _bodySize;
     std::string                         _ip;
@@ -96,6 +97,7 @@ public:
     void    setErrorPage(std::string key, std::string value);
     void    setAutoIndex(std::string value);
     void    setDefault(bool value);
+    void    setNoServer(bool value);
     void    setListen(std::vector<int> value);
     void    setBodySize(size_t value);
     void    setIp(std::string value);
@@ -115,6 +117,7 @@ public:
     std::map<std::string, std::string>  mimeType(void)  ;
     std::string                         autoIndex(void) const ;
     bool                                isDefault(void) const ;
+    bool                                isNoServer(void) const ;
     std::vector<int>                    listen(void) const ;
     size_t                              bodySize(void) const ;
     std::string                         ip(void) const ;
