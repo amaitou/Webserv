@@ -106,7 +106,7 @@ int checkDublePath(Config & server, Location & location) {
 int handleListen(Config & server, std::stringstream & line) {
     std::string         word;
     long                listen;
-    // std::vector<int>    ports;
+    std::vector<int>    ports;
 
     line >> word;
 
@@ -127,15 +127,25 @@ int handleListen(Config & server, std::stringstream & line) {
         std::cerr << "Error: not valid listen." << '\n';
         return 1;
     }
-    server.setListen(static_cast<int>(listen));
+    ports.push_back(listen);
     word.clear();
     
-    line >> word;
-    if (!word.empty()) {
-        std::cerr << "Error: not valid listen." << '\n';
-        return 1;
+    while (line >> word) {
+        for (size_t i = 0; i < word.length(); i++) {
+            if (!std::isdigit(word.at(i))) {
+                std::cerr << "Error: listen must contain just numbers." << '\n';
+                return 1;
+            }
+        }
+        listen = std::atol(word.c_str());
+        if (listen > std::numeric_limits<int>::max() || listen < 0) {
+            std::cerr << "Error: not valid listen." << '\n';
+            return 1;
+        }
+        ports.push_back(static_cast<int>(listen));
+        word.clear();
     }
-    
+    server.setListen(ports);     
     return (0);
 }
 

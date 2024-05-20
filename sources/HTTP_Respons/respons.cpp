@@ -39,7 +39,7 @@ int Respons::foundCurrentServer(HTTP_Request http, Config config) {
     std::map<std::string, std::string>              headers = http.getHeaders();
     std::map<std::string, std::string>::iterator    it      = headers.begin();
     std::string                                     ip;
-    int                                             port = config.listen();
+    int                                             port = config.listen()[0];
 
     for (; it != headers.end(); it++) {
         if (it->first == "Host") {
