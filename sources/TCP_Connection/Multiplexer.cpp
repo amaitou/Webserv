@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 18:06:19 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/20 22:32:30 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int		TCP_Connection::addClient(int & fd, int & index)
 {
-	int client_fd;
-	int tracker;
+	int client_fd = -1;
+	size_t tracker = 0;
 	for (size_t i = 0; i < this->servers[index].sockets.size(); i++)
 	{
 		tracker = i;
@@ -26,13 +26,13 @@ int		TCP_Connection::addClient(int & fd, int & index)
 				&this->servers[index].sockets[i].address_len);
 			if (client_fd < 0)
 				TCP_Exception::FailedToAcceptConnections();
+			break;
 		}
 	}
 	std::cout << CYAN << "- [+] Webserv += " << RESET
 		<< "[server " << this->servers[index].index
 		<< "], new client connected - "
 		<< this->servers[index].config.ip()
-		<< ":" << this->servers[index].config.listen()[0]
 		<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	this->clients[client_fd].setClientFd(client_fd);
