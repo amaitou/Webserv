@@ -23,7 +23,7 @@ TCP_Connection::TCP_Connection(std::vector<Config> &config)
 		memset(&server.address_s, 0, sizeof(server.address_s));
 		memset(this->buffer, 0, BUFFER_SIZE);
 		server.address_s.sin_family = AF_INET;
-		server.address_s.sin_port = htons(config[i].listen());
+		server.address_s.sin_port = htons(config[i].listen()[0]);
 		server.address_s.sin_addr.s_addr = htonl(INADDR_ANY);
 		server.address_len = sizeof(server.address_s);
 		int socket_fd = socket(server.address_s.sin_family, SOCK_STREAM, 0);

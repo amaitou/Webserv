@@ -23,7 +23,7 @@ int		TCP_Connection::addClient(int & fd)
 			<< "[server " << this->servers[fd].index
 			<< "], new client connected - "
 			<< this->servers[fd].config.ip()
-			<< ":" << this->servers[fd].config.listen()
+			<< ":" << this->servers[fd].config.listen()[0]
 			<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	this->clients[client_fd].setClientFd(client_fd);
