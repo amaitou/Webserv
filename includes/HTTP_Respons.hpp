@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   HTTP_Respons.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 09:57:19 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/19 20:47:20 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/21 01:44:24 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifndef RESPONS_HPP
-# define RESPONS_HPP
+#ifndef HTTP_RESPONS_HPP
+# define HTTP_RESPONS_HPP
 
 # include "./HTTP_Request.hpp"
 # include "./Config.hpp"

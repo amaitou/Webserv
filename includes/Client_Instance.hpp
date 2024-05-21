@@ -6,13 +6,13 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:48 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 18:04:59 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:43:06 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifndef CLIENT_HPP
-#define CLIENT_HPP
+#ifndef CLIENT_INSTANCE_HPP
+#define CLIENT_INSTANCE_HPP
 
 #include "HTTP_Request.hpp"
 #include "HTTP_Respons.hpp"

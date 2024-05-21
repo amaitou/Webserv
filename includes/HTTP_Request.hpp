@@ -6,9 +6,12 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 05:24:11 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/14 18:37:59 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:44:07 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef HTTP_REQUEST_HPP
+#define HTTP_REQUEST_HPP
 
 #include "TCP_Exceptions.hpp"
 #include <unistd.h>
@@ -19,11 +22,6 @@
 #include <string>
 #include <map>
 
-#ifndef HTTP_REQUEST_HPP
-#define HTTP_REQUEST_HPP
-
-// Colors
-
 #define RED     "\x1B[31m"
 #define BLUE    "\x1B[34m"
 #define GREEN   "\x1B[32m"
@@ -32,7 +30,6 @@
 #define YELLOW  "\x1B[33m"
 #define RESET   "\x1B[0m"
 
-// Enum for the type of the request
 typedef enum e_method_type
 {
 	NONE,
@@ -41,17 +38,6 @@ typedef enum e_method_type
 	DELETE
 }	t_method_type;
 
-// Enum for the type of the post request
-typedef enum e_post_content_type
-{
-	_NONE,
-	RAW_BODY,
-	MULTIPART_FORM_DATA,
-	MULTIPART_DATA_FORM_WITH_CHUNKED_BODY,
-	CHUNKED_BODY
-}	t_content_type;
-
-// Struct for the get request
 typedef struct s_request
 {
 	t_method_type	method;
@@ -75,7 +61,6 @@ class HTTP_Request
 		HTTP_Request(void);
 		~HTTP_Request(void);
 
-		// Getters
 		t_method_type	getMethodType(void) const;
 		std::string		getContent(void) const;
 		std::string		getPath(void) const;
@@ -86,13 +71,11 @@ class HTTP_Request
 		std::string		getFileExtension(void) const;
 		std::string		stringifyMethod(void) const;
 
-		// Setters
 		bool			addContent(char *, int &);
 		void			setMethod(std::string &);
 		void			setParams(std::string &, std::string &, std::string &);
 		void			setBody(void);
 
-		// Checkers
 		bool			checkCRLF(void) const;
 		bool			checkGetRequest(void) const;
 		bool			checkPostRequest(void) const;
@@ -101,13 +84,11 @@ class HTTP_Request
 		bool			checkChunked(void) const;
 		bool			checkContentLength(void) const;
 
-		// Parsers
 		void 			parseRequestLine(void);
 		void			parseHeaders(void);
 		void			parseBody(void);
 		void			parseRequest(void);
 
-		// Printers
 		void			printRequestLine(void) const;
 		void			printHeaders(void) const;
 		void			printBody(void) const;

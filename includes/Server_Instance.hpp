@@ -6,12 +6,12 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:03:17 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 01:37:56 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:44:40 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_HPP
-#define SERVER_HPP
+#ifndef SERVER_INSTANCE_HPP
+#define SERVER_INSTANCE_HPP
 
 #include "Config.hpp"
 #include <sys/socket.h>

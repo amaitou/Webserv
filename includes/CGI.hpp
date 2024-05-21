@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CommonGatewayInterface.hpp                         :+:      :+:    :+:   */
+/*   CGI.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 11:40:26 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/17 20:12:20 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:42:49 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CGI_Handler_HPP
-#define CGI_Handler_HPP
+#ifndef CGI_HPP
+#define CGI_HPP
 
 #include <iostream>
 #include <string>
