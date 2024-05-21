@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 15:03:17 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 01:44:40 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:51:37 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_socket
 	_sockaddr_in				address_s;
 	socklen_t					address_len;
 	int							socket_fd;
+	int							port;
 } t_socket;
 
 class Server

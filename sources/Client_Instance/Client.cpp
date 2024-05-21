@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:34 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/19 21:54:39 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 02:06:35 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,24 @@ bool Client::writeResponse(void)
 	if (this->responseContent.length() == 0)
 		return (false);
 	return (true);
+}
+
+void	Client::setPort(int port)
+{
+	this->port = port;
+}
+
+int	Client::getPort(void) const
+{
+	return (this->port);
+}
+
+void	Client::setIp(std::string ip)
+{
+	this->ip = ip;
+}
+
+std::string	Client::getIp(void) const
+{
+	return (this->ip);
 }

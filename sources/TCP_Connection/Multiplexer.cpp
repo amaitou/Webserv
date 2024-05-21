@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 01:40:28 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 02:11:31 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ int		TCP_Connection::addClient(int & fd, int & index)
 		<< current_time->tm_sec << "] "
 		<<  "- Webserv += " << RESET
 		<< "[server " << this->servers[index].index
-		<< "], new client connected - "
-		<< this->servers[index].config.ip()
+		<< "], [" << this->servers[index].config.ip()
+		<< ":" <<  this->servers[index].sockets[tracker].port
+		<< "] - " << "new client connected."
 		<< std::endl;
 	FD_SET(client_fd, &this->fds.current_read_fds);
 	this->clients[client_fd].setClientFd(client_fd);
 	this->clients[client_fd].config = this->servers[index].config;
+	this->clients[client_fd].setPort(this->servers[index].sockets[tracker].port);
+	this->clients[client_fd].setIp(this->servers[index].config.ip());
 	std::pair<int, Client> pair(client_fd, Client(client_fd));
 	this->clients[client_fd].setServerFd(this->servers[index].sockets[tracker].socket_fd);
 	this->clients[client_fd].setServerIndex(index);
@@ -61,7 +64,9 @@ void	TCP_Connection::readClient(int & fd)
 			<< current_time->tm_sec << "] "
 			<< "- Webserv >> " << RESET
 			<< "[server " << this->clients[fd].getServerIndex()
-			<< "], request received Successfully, [method <"
+			<< "], [" << this->clients[fd].getIp()
+			<< ":" << this->clients[fd].getPort()
+			<< "] - request received Successfully, [method <"
 			<< this->clients[fd].request.stringifyMethod()
 			<< ">], [target <" << this->clients[fd].request.getPath()
 			<< ">]." << RESET << std::endl;
@@ -85,14 +90,18 @@ void	TCP_Connection::writeClient(int & fd)
 			<< current_time->tm_sec << "] "
 			<< "- Webserv << " << RESET
 			<< "[server " << this->clients[fd].getServerIndex()
-			<< "], response sent Successfully." << std::endl;
+			<< "], [" << this->clients[fd].getIp()
+			<< ":" << this->clients[fd].getPort()
+			<< "] - response sent Successfully." << std::endl;
 		FD_CLR(fd, &this->fds.current_write_fds);
 		std::cout << RED << "- " << "[" << current_time->tm_hour
 			<< ":" << current_time->tm_min << ":"
 			<< current_time->tm_sec << "] "
 			<<  "- Webserv -= " << RESET
 			<< "[server " << this->clients[fd].getServerIndex()
-			<< "], client disconnected." << std::endl;
+			<< "], [" << this->clients[fd].getIp()
+			<< ":" << this->clients[fd].getPort()
+			<< "] - client disconnected." << std::endl;
 		this->clients.erase(fd);
 		close(fd);
 	}

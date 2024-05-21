@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:02:48 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 01:43:06 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 02:04:45 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,28 @@
 class Client
 {
 	private:
-		int		client_fd;
-		int		server_fd;
-		int		server_index;
+		int			client_fd;
+		int			server_fd;
+		int			server_index;
+		int			port;
+		std::string ip;
 
 	public:
 		Client(void);
 		Client(int &);
 
-		void	setClientFd(int);
-		void	setServerFd(int);
-		void	setServerIndex(int);
-		void	setClientNonBlocking(void);
-		int		getClientFd(void) const;
-		int		getServerFd(void) const;
-		int		getServerIndex(void) const;
-		bool	writeResponse(void);
+		void		setClientFd(int);
+		void		setServerFd(int);
+		void		setServerIndex(int);
+		void		setPort(int);
+		void		setIp(std::string);
+		void		setClientNonBlocking(void);
+		int			getClientFd(void) const;
+		int			getServerFd(void) const;
+		int			getServerIndex(void) const;
+		int			getPort(void) const;
+		std::string getIp(void) const;
+		bool		writeResponse(void);
 		
 		HTTP_Request request;
 		Respons respons;
