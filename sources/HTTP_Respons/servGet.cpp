@@ -94,7 +94,6 @@ Result    Respons::handleFolder() {
 }
 
 Result    Respons::handleCgi(std::string path) {
-    std::cout << "handling cgi" << std::endl;
     std::string allPath;
 
     if (path.empty())
