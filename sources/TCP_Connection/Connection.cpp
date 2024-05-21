@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 22:48:51 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:40:21 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void TCP_Connection::serve(void)
 	socketAccept();
 }
 
-void TCP_Connection::ignoreSignPipe(int _signal)
+void TCP_Connection::ignoreSIGPIPE(int _signal)
 {
 	std::signal(_signal, SIG_IGN);
 }

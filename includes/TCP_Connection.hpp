@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 01:36:40 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:40:11 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class TCP_Connection
 		int		addClient(int &, int &);
 		void	readClient(int &);
 		void	writeClient(int &);
-		void	ignoreSignPipe(int _signal);
+		void	ignoreSIGPIPE(int _signal);
 
 		void 	displayBanner(void);
 
