@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   CommonGatewayInterface.cpp                         :+:      :+:    :+:   */
+/*   CGI.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:09:55 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/19 16:12:31 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/21 01:27:10 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/CommonGatewayInterface.hpp"
+#include "../../includes/CGI.hpp"
 
 
 CgiHandler::CgiHandler(std::string _path, std::string _method, std::string _extention, std::string _body) {
