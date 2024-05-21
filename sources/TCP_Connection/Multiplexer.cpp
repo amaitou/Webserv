@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Multiplexer.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 17:31:30 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/21 18:48:03 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,13 @@ void	TCP_Connection::writeClient(int & fd)
 			
 		else {
 			CGI_Response* res = result.cgi_response;
-			std::cout << "cgi response for client: " << res->fd_client << std::endl;
+			// std::cout << "cgi response for client: " << res->fd_client << std::endl;
 			FD_SET(res->fd_read, &fds.current_read_fds);
 			FD_SET(res->fd_write, &fds.current_write_fds);
 			FD_CLR(res->fd_client, &fds.current_read_fds);
 			FD_CLR(res->fd_client, &fds.current_write_fds);
 			cgi_responses.push_back(res);
-			std::cout << "returning" << std::endl;
+			// std::cout << "returning" << std::endl;
 			return;
 		}
 	}
@@ -156,7 +156,7 @@ void	TCP_Connection::writeClient(int & fd)
 			<< ":" << this->clients[fd].getPort()
 			<< "] - client disconnected." << std::endl;
 		this->clients.erase(fd);
-		std::cout << "closing: " << fd << std::endl;
+		// std::cout << "closing: " << fd << std::endl;
 		close(fd);
 	}
 	memset(this->buffer, 0, BUFFER_SIZE);
@@ -181,8 +181,8 @@ void	TCP_Connection::serversMonitoring(void)
 		for (int i = 0; i < FD_SETSIZE && r > 0; ++i)
 		{
 			// if cgi read
-			if (FD_ISSET(i, &fds.ready_read_fds) || FD_ISSET(i, &fds.ready_write_fds))
-				std::cout << i << std::endl;
+			// if (FD_ISSET(i, &fds.ready_read_fds) || FD_ISSET(i, &fds.ready_write_fds))
+			// 	std::cout << i << std::endl;
 				
 			CGI_Response* res_read = this->get_cgi_read(i);
 			CGI_Response* res_write = this->get_cgi_write(i);
@@ -212,7 +212,7 @@ void	TCP_Connection::serversMonitoring(void)
 			}
 			else if (FD_ISSET(i, &this->fds.ready_read_fds))
 			{
-				std::cout << "read normal request" << std::endl;
+				// std::cout << "read normal request" << std::endl;
 				for (std::map<int, Server>::iterator it = this->servers.begin();
 					it != this->servers.end(); ++it)
 				{
@@ -231,9 +231,9 @@ void	TCP_Connection::serversMonitoring(void)
 
 			}
 			else if (FD_ISSET(i, &this->fds.ready_write_fds)) {
-				std::cout << "write normal response" << std::endl;
+				// std::cout << "write normal response" << std::endl;
 				this->writeClient(i);
-				std::cout << "wrote client" << std::endl;
+				// std::cout << "wrote client" << std::endl;
 			}
 		}
     }

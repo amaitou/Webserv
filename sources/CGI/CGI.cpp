@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CGI.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:09:55 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/21 17:20:17 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/21 18:39:11 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ CGI_Response* CgiHandler::handleRequest() {
         return NULL;
     }
 
-    std::cout << "pipe read: " << pipeIn[0] << ' ' << pipeOut[0] << std::endl;
-    std::cout << "pipe write: " << pipeIn[1] << ' ' << pipeOut[1] << std::endl;
+    // std::cout << "pipe read: " << pipeIn[0] << ' ' << pipeOut[0] << std::endl;
+    // std::cout << "pipe write: " << pipeIn[1] << ' ' << pipeOut[1] << std::endl;
 
     pid = fork();
     if (pid == -1) {
@@ -80,9 +80,9 @@ CGI_Response* CgiHandler::handleRequest() {
     close(pipeIn[0]);
     close(pipeOut[1]);
     
-    std::cout << "closed: " << pipeIn[0] << " " << pipeOut[1] << std::endl;
+    // std::cout << "closed: " << pipeIn[0] << " " << pipeOut[1] << std::endl;
 
-    std::cout << "returning cgi_response" << std::endl;
+    // std::cout << "returning cgi_response" << std::endl;
     return new CGI_Response(fd_client, pid, pipeIn[1], pipeOut[0], requestBody);
 }
 

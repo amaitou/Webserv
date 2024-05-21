@@ -12,7 +12,7 @@ CGI_Response::CGI_Response(int client, int pid, int writefd, int readfd, std::st
     fd_write(writefd),
     fd_read(readfd)
 {
-    std::cout << "new cgi response " << fd_client << " " << pid << " " << fd_write << " " << fd_read << std::endl;
+    // std::cout << "new cgi response " << fd_client << " " << pid << " " << fd_write << " " << fd_read << std::endl;
     setNonBlocking(fd_write);
     setNonBlocking(fd_read);
 
@@ -35,7 +35,7 @@ bool CGI_Response::is_done() {
 
 
 bool CGI_Response::readCgi() {
-    std::cout << "reading from cgi " << fd_read << std::endl;
+    // std::cout << "reading from cgi " << fd_read << std::endl;
     char buffer[4096];
     int bytesRead = read(fd_read, buffer, sizeof(buffer));
     if (bytesRead == -1) {
@@ -45,11 +45,11 @@ bool CGI_Response::readCgi() {
         output += "\r\n\r\n" + body;
         return true;
     }
-    std::cout << bytesRead << std::endl;
+    // std::cout << bytesRead << std::endl;
     if (bytesRead > 0)
         output += std::string(buffer, bytesRead);
     
-    std::cout << output << std::endl;
+    // std::cout << output << std::endl;
 
     if (bytesRead == 0)
         return true;
@@ -93,7 +93,7 @@ std::string CGI_Response::getResponsContent() {
     else 
         output = "HTTP/1.1 200 Ok\r\nConnection: close\r\n" + output;
 
-    std::cout << "out: " << output << std::endl;
+    // std::cout << "out: " << output << std::endl;
     
     return output;
 }
