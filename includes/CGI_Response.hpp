@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -16,15 +18,18 @@ class CGI_Response {
     private:
         std::string output;
         std::string input;
+        int         pid;
         std::map<std::string, std::string> headers;
+        bool        done;
 
     public:
-        CGI_Response(int , int , int , std::string );
+        CGI_Response(int fd_client, int cgi_pid, int fd_read, int fd_write, std::string input);
         ~CGI_Response();
 
-        bool            readCgi(int, char *, std::string &);
-        void            writeCgi(int, std::string &);
-        std::string     getResponsContent(std::string &);
+        bool            readCgi();
+        void            writeCgi();
+        std::string     getResponsContent();
+        bool            is_done();
 
 
     public:

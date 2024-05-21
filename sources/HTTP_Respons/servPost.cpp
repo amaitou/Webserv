@@ -75,12 +75,16 @@ void    Respons::handleUpload(void) {
     }
 }
 
-void    Respons::servPost(void) {
-    if (checkResource()) 
-        return servErrorPage();
+Result    Respons::servPost(void) {
+    if (checkResource()) {
+        servErrorPage();
+        return Result(this->_responsContent);
+    }
 
-    if (locationSupportUpload()) 
-        return handleUpload();
+    if (locationSupportUpload()) {
+        handleUpload();
+        return Result(this->_responsContent);
+    }
 
     if (_request.getFileExtension().empty()) 
         return handleFolder();

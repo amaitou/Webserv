@@ -6,7 +6,7 @@
 /*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 11:40:26 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/21 13:21:05 by rlabbiz          ###   ########.fr       */
+/*   Updated: 2024/05/21 14:50:51 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@
 #include <sstream>
 #include <map>
 
+#include "CGI_Response.hpp"
+
 
 class CgiHandler
 {
     private:
+        int         fd_client;
         std::string cgiPath;
         std::string requestMethod;
         std::string cgiExtention;
@@ -35,15 +38,13 @@ class CgiHandler
         std::string requestBody;
         int         statusCode;
 
-        void executeCgi();
-
     public:
-        CgiHandler(std::string , std::string , std::string , std::string );
+        CgiHandler(int fd_client, std::string , std::string , std::string , std::string );
         ~CgiHandler();
         
         int             getStatusCode() const;
         std::string     getResponseBody() const;
-        void            handleRequest();
+        CGI_Response*   handleRequest();
         bool            readCgi(int, char *, std::string &);
         void            writeCgi(int, std::string &);
         std::string     getResponsContent(std::string &);

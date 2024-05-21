@@ -3,6 +3,18 @@
 #include "../../includes/HTTP_Respons.hpp"
 #include "../../includes/Client_Instance.hpp"
 
+
+Result::Result(std::string response):
+responseContent(response),
+cgi_response(NULL)
+{}
+Result::Result(CGI_Response* response):
+cgi_response(response)
+{}
+
+
+
+
 Respons::Respons() {}
 Respons::~Respons() {}
 
@@ -170,17 +182,22 @@ void    Respons::sendRedirection(std::string url, int statusCode) {
 void    Respons::servTheDefaultPage(void) {
     sendResponsContent("defaul page", 200, "text/html");
 }
-void    Respons::sendRespons(Client  & client, Config config) {
+
+Result    Respons::sendRespons(Client  & client, Config config) {
+
+    _clientFd = client.getClientFd();
     _request = client.request;
 
-    if (config.isNoServer()) 
-        return servTheDefaultPage();
+    if (config.isNoServer()) {
+        servTheDefaultPage();
+        return Result(this->_responsContent);
+    }
 
     foundCurrentServer(client.request, config);
 
     if (checkValidUrl(client.request.getPath() + "?" + client.request.getQuery())) {
         servErrorPage();
-        return ;
+        return Result(this->_responsContent);
     }
 
 
@@ -188,13 +205,19 @@ void    Respons::sendRespons(Client  & client, Config config) {
         std::map<std::string, int> redirection = _server.currentLocation().redirection();
         sendRedirection(redirection.begin()->first, redirection.begin()->second);
         setStatusCode(301);
-        return ;
+        return Result(this->_responsContent);
     }
 
     if (_request.getMethodType() == GET) 
         return servGet();
     if (_request.getMethodType() == POST) 
         return servPost();
-    if (_request.getMethodType() == DELETE) 
-        return servDelete();
+
+    if (_request.getMethodType() == DELETE) {
+        servDelete();
+        return Result(this->_responsContent);
+    }
+    
+    setStatusCode(400);
+    return Result(this->_responsContent);
 }
