@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CGI.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:09:55 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/21 01:27:10 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 10:23:21 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,11 @@ void CgiHandler::executeCgi() {
         return;
     }
     if (pid == 0) {
-        // Child process
         close(pipeIn[1]);
         close(pipeOut[0]);
-        dup2(pipeIn[0], 0);  // STDIN
+        dup2(pipeIn[0], 0);
         close(pipeIn[0]);
-        dup2(pipeOut[1], 1);  // STDOUT
+        dup2(pipeOut[1], 1);
         close(pipeOut[1]);
 
         std::vector<const char*> args;
@@ -71,9 +70,8 @@ void CgiHandler::executeCgi() {
         execve(args[0], (char* const*)args.data(), (char* const*)env.data());
         statusCode = 405;
         std::cerr << "Error: execve failed" << std::endl;
-        exit(1);
+        std::exit(1);
     } else {
-        // Parent process
         close(pipeIn[0]);
         close(pipeOut[1]);
         write(pipeIn[1], requestBody.c_str(), requestBody.size());
