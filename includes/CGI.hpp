@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   CGI.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 11:40:26 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/21 01:42:49 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:21:05 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <fcntl.h>
 #include <vector>
 #include <sstream>
+#include <map>
 
 
 class CgiHandler
@@ -43,6 +44,9 @@ class CgiHandler
         int             getStatusCode() const;
         std::string     getResponseBody() const;
         void            handleRequest();
+        bool            readCgi(int, char *, std::string &);
+        void            writeCgi(int, std::string &);
+        std::string     getResponsContent(std::string &);
 };
 
 #endif

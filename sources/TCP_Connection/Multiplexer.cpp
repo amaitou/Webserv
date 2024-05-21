@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Multiplexer.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 02:11:31 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 11:49:01 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,9 @@ void	TCP_Connection::serversMonitoring(void)
 			std::cout << "Failed to select" << std::endl;
 		for (int i = 0; i < FD_SETSIZE; ++i)
 		{
+			// if cgi read
+			// else if cgi write
+			// else 
 			if (FD_ISSET(i, &this->fds.ready_read_fds))
 			{
 				for (std::map<int, Server>::iterator it = this->servers.begin();
