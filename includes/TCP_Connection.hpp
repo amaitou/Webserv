@@ -6,7 +6,7 @@
 /*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 22:44:39 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/21 01:36:40 by amait-ou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ class TCP_Connection
 	public:
 		TCP_Connection(std::vector<Config> &);
 
-		void socketBind(void);
-		void socketListen(void);
-		void socketAccept(void);
-		void setSocketOptions(void);
-		void serversMonitoring(void);
+		void	socketBind(void);
+		void	socketListen(void);
+		void	socketAccept(void);
+		void	setSocketOptions(void);
+		void	serversMonitoring(void);
 
 		int		addClient(int &, int &);
 		void	readClient(int &);
@@ -57,7 +57,7 @@ class TCP_Connection
 
 		void 	displayBanner(void);
 
-		void serve(void);
+		void	serve(void);
 };
 
 #endif
