@@ -4,6 +4,8 @@ int Respons::locationSupportUpload(void) {
     std::map<std::string, std::string> headers = _request.getHeaders();
     std::map<std::string, std::string>::iterator it = headers.begin();
 
+    if (_request.getFileExtension() == "py" || _request.getFileExtension() == "bash" || _request.getFileExtension() == "php")
+        return 0;
     for (; it != headers.end(); it++) {
         if (it->first == "Content-Type" && it->second.find("multipart/form-data") != std::string::npos) {
             return 1;
@@ -38,7 +40,7 @@ void    Respons::uploadFile(std::stringstream & body, std::string & boundary) {
     std::string allPathOfFile;
 
     if (std::getline(body, line)) {
-        filename = getFileName(body, line); 
+        filename = getFileName(body, line);
         line.clear();
         if (!std::getline(body, line))
             return ;
@@ -47,8 +49,12 @@ void    Respons::uploadFile(std::stringstream & body, std::string & boundary) {
             if (!std::getline(body, line))
                 return ;
         }
-        if (_server.currentLocation().uploadDir().empty())
-            allPathOfFile = getCurrentPath() + "/" + filename;
+        if (_server.currentLocation().uploadDir().empty()) {
+            allPathOfFile = getCurrentPath();
+            if (allPathOfFile.rfind('.') != std::string::npos)
+                allPathOfFile = allPathOfFile.substr(0, allPathOfFile.rfind('/'));
+            allPathOfFile += "/" + filename;
+        }
         else
             allPathOfFile = _server.currentLocation().uploadDir() + "/" + filename;
         
