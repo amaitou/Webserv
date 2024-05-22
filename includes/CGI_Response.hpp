@@ -21,13 +21,14 @@ class CGI_Response {
         int         pid;
         std::map<std::string, std::string> headers;
         bool        done;
+        bool        write_done;
 
     public:
         CGI_Response(int fd_client, int cgi_pid, int fd_read, int fd_write, std::string input);
         ~CGI_Response();
 
         bool            readCgi();
-        void            writeCgi();
+        bool            writeCgi();
         std::string     getResponsContent();
         bool            is_done();
 

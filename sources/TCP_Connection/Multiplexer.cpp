@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Multiplexer.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 09:33:46 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 18:48:03 by amait-ou         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:45:39 by rlabbiz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,8 @@ void	TCP_Connection::serversMonitoring(void)
 			else if ( res_write ) {
 				if (!FD_ISSET(res_write->fd_write, &fds.ready_write_fds))
 					continue;
-				res_write->writeCgi();
+				if (res_write->writeCgi())
+					FD_CLR(res_write->fd_write, &fds.current_write_fds);
 			}
 			else if (FD_ISSET(i, &this->fds.ready_read_fds))
 			{

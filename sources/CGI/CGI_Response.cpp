@@ -17,6 +17,7 @@ CGI_Response::CGI_Response(int client, int pid, int writefd, int readfd, std::st
     setNonBlocking(fd_read);
 
     done = false;
+    write_done = false;
 }
 
 CGI_Response::~CGI_Response() {
@@ -26,7 +27,8 @@ CGI_Response::~CGI_Response() {
         ::waitpid(pid, NULL, WNOHANG);
     }
     close(fd_read);
-    close(fd_write);
+    if (!write_done)
+        close(fd_write);
 }
 
 bool CGI_Response::is_done() {
@@ -56,13 +58,19 @@ bool CGI_Response::readCgi() {
     return false;
 }
 
-void CGI_Response::writeCgi() {
-    if (input.empty())
-        return ;
+bool CGI_Response::writeCgi() {
+    if (input.empty()) {
+        if (!write_done) {
+            close(fd_write);
+            write_done = true;
+        }
+        return true;
+    }
     
     int r = ::write(fd_write, input.data(), input.length());
     if (r > 0)
         input.erase(0, r);
+    return false;
 }
 
 std::string CGI_Response::getResponsContent() {
@@ -84,7 +92,7 @@ std::string CGI_Response::getResponsContent() {
         std::string status = it->second;
         if (status[status.length() - 1] == '\r') status.pop_back();
         headers.erase(it);
-        std::string newHeader = "HTTP/1.1 " + status + "\r\n"; // HTTP/1.1 201 Created
+        std::string newHeader = "HTTP/1.1 " + status + "\r\n";
         output.erase(0, end_header_pos + 2);
         for (it = headers.begin(); it != headers.end(); ++it)
             newHeader += it->first + ": " + it->second + "\r\n";
@@ -92,9 +100,6 @@ std::string CGI_Response::getResponsContent() {
     }
     else 
         output = "HTTP/1.1 200 Ok\r\nConnection: close\r\n" + output;
-
-    // std::cout << "out: " << output << std::endl;
-    
     return output;
 }
 
