@@ -32,6 +32,12 @@ class CGI_Response {
         std::string     getResponsContent();
         bool            is_done();
 
+    public:
+        std::string     serverError(int code);
+        bool            isValidStatusCode(const std::string& status);
+        bool            isValidContentLength(const std::string& contentlength);
+        bool            checkHeaderValidity(const std::map<std::string, std::string>& headers);
+        int             parseHeader(const std::string& header, std::map<std::string, std::string>& headers);
 
     public:
         const int   fd_client;

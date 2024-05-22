@@ -5,7 +5,7 @@ void setNonBlocking(int fd) {
 		throw std::invalid_argument("can't set fd to non blocking mode");
 }
 
-CGI_Response::CGI_Response(int client, int pid, int writefd, int readfd, std::string _input) : 
+CGI_Response::CGI_Response(int client, int pid, int writefd, int readfd, std::string _input) :
     input(_input),
     pid(pid),
     fd_client(client),
@@ -50,8 +50,8 @@ bool CGI_Response::readCgi() {
     // std::cout << bytesRead << std::endl;
     if (bytesRead > 0)
         output += std::string(buffer, bytesRead);
-    
-    // std::cout << output << std::endl;
+
+    std::cout << output << std::endl;
 
     if (bytesRead == 0)
         return true;
@@ -59,18 +59,79 @@ bool CGI_Response::readCgi() {
 }
 
 bool CGI_Response::writeCgi() {
-    if (input.empty()) {
-        if (!write_done) {
-            close(fd_write);
-            write_done = true;
-        }
-        return true;
-    }
-    
+    if (input.empty())
+        return false;
+
     int r = ::write(fd_write, input.data(), input.length());
     if (r > 0)
         input.erase(0, r);
     return false;
+}
+
+std::string CGI_Response::serverError(int code)
+{
+    return "HTTP/1.1 " + std::to_string(code) + " Bad Gateway\r\nConnection: close\r\n\r\n<h1>" + std::to_string(code) + "</h1>\r\n\r\n";
+}
+
+bool CGI_Response::isValidStatusCode(const std::string& status)
+{
+    return(status.size() >= 3 && isdigit(status[0]) && isdigit(status[1] && isdigit(status[2])));
+}
+
+bool CGI_Response::isValidContentLength(const std::string& contentlength)
+{
+    for (size_t i = 0; i < contentlength.size(); ++i)
+    {
+        if(!isdigit(contentlength[i]))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool CGI_Response::checkHeaderValidity(const std::map<std::string, std::string>& headers)
+{
+    std::map<std::string, std::string>::const_iterator it = headers.find("Content-Type");
+    if(it == headers.end())
+    {
+        std::cerr << "Error: Missing Content-Type header" << std::endl;
+        return false;
+    }
+
+    it = headers.find("Status");
+    if (it != headers.end() && !isValidStatusCode(it->second))
+    {
+        std::cerr << "Error: Invalid Status header" << std::endl;
+        return false;
+    }
+
+    it = headers.find("Content-Length");
+    if(it != headers.end() && !isValidContentLength(it->second))
+    {
+        std::cerr << "Error: Invalid Content-Length header" << std::endl;
+        return false;
+    }
+    return true;
+}
+
+int CGI_Response::parseHeader(const std::string &header, std::map<std::string, std::string>& headers)
+{
+	std::istringstream headerStream(header);
+
+	std::string line;
+
+	while(std::getline(headerStream, line) && !line.empty())
+	{
+		size_t pos = line.find(':');
+		if (pos != std::string::npos)
+		{
+			std::string key = line.substr(0, pos);
+			std::string value = line.substr(pos + 1);
+            headers[key] = value;
+		}
+	}
+    return 0;
 }
 
 std::string CGI_Response::getResponsContent() {
@@ -80,13 +141,13 @@ std::string CGI_Response::getResponsContent() {
     size_t end_header_pos = output.find("\r\n\r\n");
     if (end_header_pos == std::string::npos)
         end_header_pos = output.find("\n\n");
-    // if (end_header_pos == npos) 
-        // return serverError(502);
-        
+    if (end_header_pos == std::string::npos)
+        return serverError(502);
+
     std::string header = output.substr(0, end_header_pos);
-    // int err = parseHeader(header)
-    // if (err || !checkHeaderValidity())
-    //     return serverError(502);
+    int err = parseHeader(header, headers);
+    if (err || !checkHeaderValidity(headers))
+        return serverError(502);
     std::map<std::string, std::string>::iterator it = headers.find("status");
     if (it != headers.end()) {
         std::string status = it->second;
@@ -98,8 +159,10 @@ std::string CGI_Response::getResponsContent() {
             newHeader += it->first + ": " + it->second + "\r\n";
         output = newHeader + output;
     }
-    else 
+    else
         output = "HTTP/1.1 200 Ok\r\nConnection: close\r\n" + output;
+
+    std::cout << "out: " << output << std::endl;
+
     return output;
 }
-
