@@ -1,3 +1,8 @@
+---
+<img width="2560" alt="Screen Shot 2024-05-29 at 12 37 00 AM" src="https://github.com/amaitou/Webserv/assets/49293816/4b28e375-b0e2-4003-8575-3e20b6ba3b2c">
+
+---
+
 # Webserv
 This project is here to make you write your own HTTP server. You will be able to test it with a real browser. HTTP is one of the most used protocol on internet. Knowing its arcane will be useful, even if you won't be working on a website.
 
