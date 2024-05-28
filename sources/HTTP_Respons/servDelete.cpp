@@ -8,7 +8,7 @@ void    Respons::servDelete(void) {
     
     if (!_request.getFileExtension().empty()) {
         if (remove(path.c_str()) != 0) {
-            setStatusCode(500);
+            setStatusCode(403);
             servErrorPage();
         } else {
             setStatusCode(204);
@@ -22,7 +22,7 @@ void    Respons::servDelete(void) {
 
         if (access(path.c_str(), F_OK) == 0) {
             if (remove(path.c_str()) != 0) {
-                setStatusCode(500);
+                setStatusCode(403);
                 servErrorPage();
             } else {
                 setStatusCode(204);

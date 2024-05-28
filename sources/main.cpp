@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/05 03:45:06 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/18 11:27:25 by rlabbiz          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../includes/TCP_Connection.hpp"
 
@@ -17,7 +6,6 @@ int main(int ac, char **ag)
 	std::vector<Config>	servers;
 	try
 	{
-		system("clear");
 		int checkError = 0;
 		std::cout << GREY << "[.] " << RESET << "Parsing configuration file..." << RESET << std::endl;
 		if (ac > 1)

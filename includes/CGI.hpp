@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   CGI.hpp                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/05 11:40:26 by ael-amin          #+#    #+#             */
-/*   Updated: 2024/05/21 14:50:51 by rlabbiz          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CGI_HPP
 #define CGI_HPP
 
@@ -22,32 +10,34 @@
 #include <fcntl.h>
 #include <vector>
 #include <sstream>
+#include <signal.h>
 #include <map>
-
-#include "CGI_Response.hpp"
-
+#include <cstdlib>
+#include <ctime>
 
 class CgiHandler
 {
-    private:
-        int         fd_client;
-        std::string cgiPath;
-        std::string requestMethod;
-        std::string cgiExtention;
-        std::string responseBody;
-        std::string requestBody;
-        int         statusCode;
+	private:
+		std::string cgiPath;
+		std::string requestMethod;
+		std::string cgiExtention;
+		std::string responseBody;
+		std::string requestBody;
+		int         statusCode;
+		pid_t       cgiPid;
+		time_t      startTime;
+		std::map<std::string, std::string> headers;
 
-    public:
-        CgiHandler(int fd_client, std::string , std::string , std::string , std::string );
-        ~CgiHandler();
-        
-        int             getStatusCode() const;
-        std::string     getResponseBody() const;
-        CGI_Response*   handleRequest();
-        bool            readCgi(int, char *, std::string &);
-        void            writeCgi(int, std::string &);
-        std::string     getResponsContent(std::string &);
+		void executeCgi();
+
+	public:
+		CgiHandler(std::string _path, std::string _method, std::string _extension, std::string _body , std::map<std::string, std::string> _headers);
+		~CgiHandler();
+
+		int             getStatusCode() const;
+		std::string     getResponseBody() const;
+		void            handleRequest();
+		void            checkTimeout();
 };
 
 #endif

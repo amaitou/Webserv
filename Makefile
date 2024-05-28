@@ -1,8 +1,9 @@
 GPP = g++
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-VFLAG = -std=c++11
+VFLAG = -std=c++98
 NAME = webserv
 SOURCE_DIR = ./sources
+HF = ./includes/*.hpp
 
 CPPFILES = $(wildcard $(SOURCE_DIR)/*/*.cpp) $(wildcard $(SOURCE_DIR)/main.cpp)
 OBJECTS = $(CPPFILES:.cpp=.o)
@@ -13,11 +14,11 @@ $(NAME): $(OBJECTS)
 	@echo "\033[0;32m[*] linking $@\033[0m"
 	@$(GPP) $(CFLAGS) $(VFLAG) $^ -o $@
 
-$(SOURCE_DIR)/%.o: $(SOURCE_DIR)/%.cpp
+$(SOURCE_DIR)/%.o: $(SOURCE_DIR)/%.cpp  $(HF)
 	@echo "\033[0;33m[*] compiling $<\033[0m"
 	@$(GPP) $(CFLAGS) $(VFLAG) -c $< -o $@
 
-main.o: main.cpp
+main.o: main.cpp  ../includes/*.hpp
 	@echo "\033[0;33m[*] compiling $<\033[0m"
 	@$(GPP) $(CFLAGS) $(VFLAG) -c $< -o $@
 
@@ -32,4 +33,4 @@ run: $(NAME)
 	@echo "\033[0;32m[*] running the $<\033[0m"
 	@clear && make clean &&  ./$(NAME) ~/Desktop/Config_File/webserv.config
 
-re: clean all run fclean
+re: clean all run

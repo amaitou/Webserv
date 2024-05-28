@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Config.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/03 11:44:25 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/18 13:04:42 by rlabbiz          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
@@ -62,7 +50,7 @@ public:
 
 class Config {
 private:
-    std::vector<std::string>            _serverName;
+    std::string                         _serverName;
     std::vector<std::string>            _index;
     std::map<std::string, std::string>  _errorPage;
     std::string                         _root;
@@ -79,16 +67,17 @@ private:
     std::vector<Location>               _location;
     Location                            _currentLocation;
     std::string                         _cgi;
+    std::string                         _uploadDir;
 
 public:
     Config();
     ~Config();
-
     
     void    setLocation(Location value);
     void    setCurrentLocation(Location value);
-    void    setSeverName(std::vector<std::string> value);
+    void    setSeverName(std::string value);
     void    setRoot(std::string value);
+    void    setUploadDir(std::string value);
     void    setAccessLog(std::string value);
     void    setErrorLog(std::string value);
     void    setIndex(std::vector<std::string> value);
@@ -108,8 +97,9 @@ public:
     size_t                              locationsSize(void) const ;
     std::vector<Location>               location(void) const ;
     Location                            currentLocation(void) const ;
-    std::vector<std::string>            serverName(void) const ;
+    std::string                         serverName(void) const ;
     std::string                         root(void) const ;
+    std::string                         uploadDir(void) const ;
     std::string                         accessLog(void) const ;
     std::string                         errorLog(void) const ;
     std::vector<std::string>            index(void) const ;

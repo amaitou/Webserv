@@ -6,6 +6,7 @@ int Respons::locationSupportUpload(void) {
 
     if (_request.getFileExtension() == "py" || _request.getFileExtension() == "bash" || _request.getFileExtension() == "php")
         return 0;
+
     for (; it != headers.end(); it++) {
         if (it->first == "Content-Type" && it->second.find("multipart/form-data") != std::string::npos) {
             return 1;
@@ -40,7 +41,7 @@ void    Respons::uploadFile(std::stringstream & body, std::string & boundary) {
     std::string allPathOfFile;
 
     if (std::getline(body, line)) {
-        filename = getFileName(body, line);
+        filename = getFileName(body, line); 
         line.clear();
         if (!std::getline(body, line))
             return ;
@@ -64,9 +65,11 @@ void    Respons::uploadFile(std::stringstream & body, std::string & boundary) {
                 file << line << std::endl;
             }
             file.close();
+            return sendResponsContent("<h1>file uploaded</h1>", 201, "text/html");
         }
         else {
-            std::cout << "Error cant open file" << std::endl;
+            setStatusCode(500);
+            servErrorPage();
         }
     }
 }
@@ -81,16 +84,12 @@ void    Respons::handleUpload(void) {
     }
 }
 
-Result    Respons::servPost(void) {
-    if (checkResource()) {
-        servErrorPage();
-        return Result(this->_responsContent);
-    }
+void    Respons::servPost(void) {
+    if (checkResource()) 
+        return servErrorPage();
 
-    if (locationSupportUpload()) {
-        handleUpload();
-        return Result(this->_responsContent);
-    }
+    if (locationSupportUpload()) 
+        return handleUpload();
 
     if (_request.getFileExtension().empty()) 
         return handleFolder();

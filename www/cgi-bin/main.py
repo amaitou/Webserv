@@ -26,7 +26,7 @@ def handle_upload(request_body, upload_dir):
             continue
     
         filename, file_extension = os.path.splitext(filename)
-        filename = f"{filename}-{str(uuid.uuid4())}{file_extension}"
+        filename = f"{filename}{file_extension}"
         file_path = os.path.join(upload_dir,filename)
 
         try:
@@ -51,7 +51,8 @@ def main():
         print("Error: Invalid request")
         exit(0)
 
-    upload_dir = os.environ.get("UPLOAD_DIR", "")
+    upload_dir = "/Users/rlabbiz/Desktop/branch/www/"
+
     if not upload_dir:
         print("Error: Upload directory not set")
         exit(0)
@@ -72,12 +73,6 @@ def main():
         status = "400 Bad Request"
     response_body += data
     response_body += "</body></html>"
-
-    # print(f"HTTP/1.1 {status}\r\n", end="")
-    # print("Content-Type: text/html\r\n", end="")
-    # print("Content-Length: " + str(len(response_body)) + "\r\n", end="")
-    # print("Connection: keep-alive\r\n", end="")
-    # print("\r\n", end="")
     print(response_body)
 
 if __name__ == "__main__":

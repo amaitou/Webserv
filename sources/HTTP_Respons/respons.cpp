@@ -3,18 +3,6 @@
 #include "../../includes/HTTP_Respons.hpp"
 #include "../../includes/Client_Instance.hpp"
 
-
-Result::Result(std::string response):
-responseContent(response),
-cgi_response(NULL)
-{}
-Result::Result(CGI_Response* response):
-cgi_response(response)
-{}
-
-
-
-
 Respons::Respons() {}
 Respons::~Respons() {}
 
@@ -104,12 +92,16 @@ std::string Respons::getStatusCodeString(int statusCode) {
             return "Not Found";
         case 405:
             return "Method Not Allowed";
+        case 408:
+            return "TimeOut";
         case 413:
             return "Payload Too Large";
         case 500:
             return "Internal Server Error";
         case 501:
             return "Not Implemented";
+        case 502:
+            return "Bad Gatway";
         default:
             return "Not Found";
     }
@@ -131,12 +123,16 @@ std::string Respons::getStatusCodeDescription(int statusCode) {
             return "The server has not found anything matching the Request-URI.";
         case 405:
             return "The method specified in the Request-Line is not allowed for the resource identified by the Request-URI.";
+        case 408:
+            return "Your browser did'nt send a complate request in time.";
         case 413:
             return "The server is refusing to process a request because the request entity is larger than the server is willing or able to process.";
         case 500:
             return "The server encountered an unexpected condition that prevented it from fulfilling the request.";
         case 501:
             return "The server does not support the functionality required to fulfill the request.";
+        case 502:
+            return "The server encountered a temporary error and could not complate your request.";
         default:
             return "The request has succeeded.";
     }
@@ -180,44 +176,46 @@ void    Respons::sendRedirection(std::string url, int statusCode) {
 }
 
 void    Respons::servTheDefaultPage(void) {
-    sendResponsContent("defaul page", 200, "text/html");
+    std::stringstream content;
+
+    content << "<!DOCTYPE html><html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>" << '\n';
+    content << "<title>Webserv - Defualt Page</title><style>body {background-color: #0000000f;}.container {display: block;overflow: hidden;width: 880px;margin: 50px auto;}" << '\n';
+    content << ".container p {font-size: 20px;margin: 25px 0;}p.copyRight {font-size: 16px !important;margin: 35px 0;display: block;color: #00000050;}</style></head><body>" << '\n';
+    content << "<div class='container'><h1>Welcome to Webserver!</h1><p>If you see this page the webserver seb server is working fine. <br />Further configration required.</p><p>For online documentation and support please visite this repo in github, " << '\n';
+    content << "<a href='https://github.com/amaitou/Webserv'>Webserver</a></p><p>Webserv devoloper by <a href='https://www.linkedin.com/in/rida-labbiz-320b661b8/'>Rida Labbiz</a>, <a href='https://www.linkedin.com/in/el-amine-ali-0650b1181/'>Ali El Amine</a> and <a href='https://www.linkedin.com/in/amaitou/'>Amine Ait Ouazghour</a></p><p class='copyRight'>Please feel free to use or devolop this project and contact us if foucing a problem.</p></div></body></html>" << '\n';
+
+    sendResponsContent(content.str(), 200, "text/html");
 }
 
-Result    Respons::sendRespons(Client  & client, Config config) {
-
-    _clientFd = client.getClientFd();
+void    Respons::sendRespons(Client  & client, Config config) {
     _request = client.request;
 
-    if (config.isNoServer()) {
-        servTheDefaultPage();
-        return Result(this->_responsContent);
+    if (_request.getMethodType() != POST && _request.getMethodType() != GET && _request.getMethodType() != DELETE) {
+        setStatusCode(405);
+        servErrorPage();
     }
+
+    if (config.isNoServer()) 
+        return servTheDefaultPage();
 
     foundCurrentServer(client.request, config);
 
     if (checkValidUrl(client.request.getPath() + "?" + client.request.getQuery())) {
         servErrorPage();
-        return Result(this->_responsContent);
+        return ;
     }
-
 
     if (_server.currentLocation().redirection().size() != 0) {
         std::map<std::string, int> redirection = _server.currentLocation().redirection();
         sendRedirection(redirection.begin()->first, redirection.begin()->second);
         setStatusCode(301);
-        return Result(this->_responsContent);
+        return ;
     }
 
     if (_request.getMethodType() == GET) 
         return servGet();
     if (_request.getMethodType() == POST) 
         return servPost();
-
-    if (_request.getMethodType() == DELETE) {
-        servDelete();
-        return Result(this->_responsContent);
-    }
-    
-    setStatusCode(400);
-    return Result(this->_responsContent);
+    if (_request.getMethodType() == DELETE) 
+        return servDelete();
 }

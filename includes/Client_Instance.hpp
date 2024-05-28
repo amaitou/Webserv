@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Client_Instance.hpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 21:02:48 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 02:04:45 by amait-ou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 
 #ifndef CLIENT_INSTANCE_HPP
@@ -16,7 +5,7 @@
 
 #include "HTTP_Request.hpp"
 #include "HTTP_Respons.hpp"
-// class Respons;
+
 class Client
 {
 	private:

@@ -1,6 +1,0 @@
-this notes to let you know where we are,
-and know whats problem we are foucsing on and working on to handle it.
-
-1 - we need to handle vedio in respons. (word on it...)
-2 - we need to handle the error of cgi. Done...
-3 - we need to handle server without listen or host or root. Done...

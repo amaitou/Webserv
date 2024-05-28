@@ -25,18 +25,7 @@ int Respons::checkTransferEncoding(void) {
     return 0;
 }
 
-int Respons::checkUrl(std::string path) {
-    std::string allowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/?#[]@!$&'()*+,;=%";
-    size_t      idx;
-    
-    for (size_t i = 0; i < path.length(); i++) {
-        idx = allowedCharacters.find(path[i]);
-        if (idx == std::string::npos) {
-            setStatusCode(400);
-            return 1;
-        }
-    }
-
+int Respons::checkUrl(std::string path) {    
     if (path.length() > 2048) {
         setStatusCode(414);
         return 1;

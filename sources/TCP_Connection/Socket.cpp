@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Socket.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/04 04:09:41 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/20 23:28:27 by amait-ou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../includes/TCP_Connection.hpp"
 
@@ -23,7 +12,8 @@ void	TCP_Connection::socketBind(void)
 			if (bind(it->second.sockets[i].socket_fd,
 				(struct sockaddr *)&it->second.sockets[i].address_s,
 				it->second.sockets[i].address_len) < 0)
-				throw TCP_Exception::FailedToBindSocket();
+				std::cout << RED << "[-] " << RESET << "Failed to bind server "
+					<< it->first << ": " << it->second.config.serverName() << " on port " << it->second.sockets[i].port << std::endl;
 		}
 	}
 	std::cout << YELLOW << "[+] " << RESET << "Servers were bound." << std::endl;
@@ -37,8 +27,9 @@ void	TCP_Connection::socketListen(void)
 		std::cout << YELLOW << "[+] " << RESET << "Server " << it->first << " is listening on port ";
 		for (size_t i = 0; i < it->second.config.listen().size(); i++)
 		{
-			if (listen(it->second.sockets[i].socket_fd, it->second.config.listen().size()) < 0)
-				throw TCP_Exception::FailedToListenForConnections();
+			if (listen(it->second.sockets[i].socket_fd, 100000) < 0)
+				std::cout << RED << "[-] " << RESET << "Failed to listen on port "
+					<< it->second.sockets[i].port << std::endl;
 			if (i + 1 == it->second.config.listen().size())
 				std::cout << it->second.config.listen()[i] << std::endl;
 			else
@@ -58,7 +49,8 @@ void	TCP_Connection::setSocketOptions(void)
 		{
 			if (setsockopt(it->second.sockets[i].socket_fd, SOL_SOCKET, SO_REUSEADDR,
 				&opt, sizeof(opt)) < 0)
-				throw TCP_Exception::FailedToSetOptions();
+				std::cout << RED << "[-] " << RESET << "Failed to bind server "
+					<< it->first << " on port " << it->second.sockets[i].port << std::endl;
 		}
 	}
 }

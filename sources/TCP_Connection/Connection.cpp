@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Connection.cpp                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: amait-ou <amait-ou@student.1337.ma>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 17:02:08 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 01:53:08 by amait-ou         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../includes/TCP_Connection.hpp"
 
@@ -29,7 +18,7 @@ TCP_Connection::TCP_Connection(std::vector<Config> &config)
 			memset(&_socket.address_s, 0, sizeof(_socket.address_s));
 			_socket.address_s.sin_family = AF_INET;
 			_socket.address_s.sin_port = htons(config[i].listen()[j]);
-			_socket.address_s.sin_addr.s_addr = htonl(INADDR_ANY);
+			_socket.address_s.sin_addr.s_addr = inet_addr(config[i].ip().c_str());
 			_socket.address_len = sizeof(_socket.address_s);
 			_socket.socket_fd = socket(_socket.address_s.sin_family, SOCK_STREAM, 0);
 			_socket.port = config[i].listen()[j];

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   getConfig.cpp                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/03 12:32:36 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/18 13:04:01 by rlabbiz          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../includes/Parser.hpp"
 
 std::string getNewLine(std::string oldLine) {
@@ -151,7 +139,6 @@ int handleListen(Config & server, std::stringstream & line) {
 
 int handleServerName(Config & server, std::stringstream & line) {
     std::string                 word;
-    std::vector<std::string>    vector;
     
     line >> word;
     
@@ -159,16 +146,21 @@ int handleServerName(Config & server, std::stringstream & line) {
         std::cerr << "Error: missing the value of 'server_name'" << '\n';
         return 1;
     }
-    
-    vector.push_back(word);
-    word.clear();
 
-    while (line >> word) {
-        vector.push_back(word);
-        word.clear();
+    if (server.serverName().length() != 0) {
+        std::cerr << "Error: cant set two server name rule to server." << '\n';
+        return 1;
     }
     
-    server.setSeverName(vector);
+    server.setSeverName(word);
+    word.clear();
+
+    line >> word;
+    if (!word.empty()) {
+        std::cerr << "Error: cant set two server names." << '\n';
+        return 1;
+    }
+    
     return (0);
 }
 
@@ -501,6 +493,37 @@ int handleAlias(Config & server, std::stringstream & line) {
     return (0);
 }
 
+int handleUploadDir(Config & server, std::stringstream & line) {
+    std::string word;
+
+    line >> word;
+    if (word.empty()) {
+        std::cerr << "Error: missing the value of 'server_upload_dir'." << '\n';
+        return 1;
+    }
+
+    if (server.uploadDir().length() != 0) {
+        std::cerr << "Error: cant set two uplaod_dir rule to server." << '\n';
+        return 1;
+    }
+
+    if (word.back() == '/' && word.length() != 1)
+        word.erase(--word.end());
+    if (word.at(0) != '/')
+        word.insert(0, "/");
+    
+    server.setUploadDir(word);
+    word.clear();
+    
+    line >> word;
+    if (!word.empty()) {
+        std::cerr << "Error: cant set two upload_dir to server." << '\n';
+        return 1;
+    }
+    
+    return (0);
+}
+
 int checkValidContent(Config & server, std::string & allLine) {
     std::stringstream   line(allLine);
     std::string         word;
@@ -530,6 +553,8 @@ int checkValidContent(Config & server, std::string & allLine) {
         return handleHost(server, line);
     else if (word == "autoindex")
         return handleAutoIndex(server, line);
+    else if (word == "upload_dir")
+        return handleUploadDir(server, line);
     else {
         std::cerr << "Error: we dont know '" << word << "'.\n";
         return 1;
@@ -572,7 +597,8 @@ void    setDefaultValues(Config server) {
 }
 
 int getServers(std::vector<Config> & servers, std::stringstream & content) {
-    Config server;
+    Config              server;
+    std::vector<int>    listen;
     
     if (checkFirstLine(server, content))
         return 1;
@@ -588,7 +614,12 @@ int getServers(std::vector<Config> & servers, std::stringstream & content) {
     
     if (getServerInfo(server, content))
         return 1;
-    
+
+    if (server.listen().size() == 0) {
+        listen.push_back(8085);
+        server.setListen(listen);
+    }
+
     setDefaultValues(server);
     setDefualtLocation(server);
     
@@ -606,17 +637,23 @@ int getServers(std::vector<Config> & servers, std::stringstream & content) {
 }
 
 Config getDefaulServer(void) {
-    Config server;
-    Location location;
+    Config                      server;
+    Location                    location;
+    std::vector<int>            listen;
+    std::vector<std::string>    methods;
 
     location.setPath("/");
     location.setRoot("");
-    location.setMethod({"GET", "POST", "DELETE"});
+    methods.push_back("GET");
+    methods.push_back("POST");
+    methods.push_back("DELETE");
+    location.setMethod(methods);
     server.setDefault(true);
     server.setRoot("");
     server.setIp("0.0.0.0");
-    server.setListen({8085});
-    server.setSeverName({"localhost"});
+    listen.push_back(8085);
+    server.setListen(listen);
+    server.setSeverName("localhost");
     server.setLocation(location);
     server.setCurrentLocation(location);
     server.setNoServer(true);
@@ -654,6 +691,7 @@ std::vector<Config> getConfig(const char * str, int *error) {
 
     for (size_t i = 0; i < servers.size(); i++)
         servers[i].setMimeType(mimeType);
+
     file.close();
     *error = 0;
     return servers;

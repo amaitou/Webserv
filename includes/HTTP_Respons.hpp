@@ -1,16 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   HTTP_Respons.hpp                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/02 09:57:19 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/21 15:18:39 by rlabbiz          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
 #ifndef HTTP_RESPONS_HPP
 # define HTTP_RESPONS_HPP
 
@@ -21,20 +8,7 @@
 # include <unistd.h>
 # include <sys/types.h>
 
-# include "CGI_Response.hpp"
-
 class Client;
-
-struct Result {
-    std::string     responseContent;
-    CGI_Response*   cgi_response;
-
-
-    Result(std::string response);
-    Result(CGI_Response* response);
-};
-
-
 class Respons {
     private:
         HTTP_Request    _request;
@@ -48,7 +22,7 @@ class Respons {
         Respons();
         ~Respons();
 
-        Result  sendRespons(Client & http, Config config);
+        void        sendRespons(Client & http, Config config);
 
         // setters
         void    setCurrentPort(int value);
@@ -83,18 +57,18 @@ class Respons {
         std::string generateErrorPage(int statusCode);
 
         // servGet
-        Result        servGet(void);
+        void        servGet(void);
         int         checkResource(void);
         std::string getCurrentPath(void);
-        Result        handleFolder();
-        Result        handleFile(std::string path);
-        Result        handleCgi(std::string path="");
+        void        handleFolder();
+        void        handleFile(std::string path);
+        void        handleCgi(std::string path="");
         std::string getIndexPath(void);
         void        servAutoIndex(void);
         std::string getExtentionOfFile(std::string );
 
         // servPost
-        Result        servPost(void);
+        void        servPost(void);
         int         locationSupportUpload(void);
         void        handleUpload(void);
         void        uploadFile(std::stringstream & body, std::string & boundary);
@@ -102,8 +76,6 @@ class Respons {
 
         // servDelete
         void        servDelete(void);
-
-
 };
 
 #endif

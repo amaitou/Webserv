@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   config.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/03 11:44:22 by rlabbiz           #+#    #+#             */
-/*   Updated: 2024/05/18 13:05:25 by rlabbiz          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../includes/Parser.hpp"
 
 Config::Config() {
@@ -17,6 +5,7 @@ Config::Config() {
     this->_bodySize = 1024;
     this->_isNoServer = false;
     this->_root = "";
+    this->_ip  = "0.0.0.0";
 }
 Config::~Config() {}
 
@@ -36,6 +25,8 @@ void    Config::setCurrentLocation(Location value) {
         value.setErrorPages(this->errorPage());
     if (value.alias().empty())
         value.setAlias(this->alias());
+    if (value.uploadDir().empty())
+        value.setUploadDir(this->uploadDir());
     this->_currentLocation = value;
 }
 
@@ -72,8 +63,9 @@ size_t                              Location::bodySize(void) const { return this
 
 
 
-void    Config::setSeverName(std::vector<std::string> value) { this->_serverName = value; }
+void    Config::setSeverName(std::string value) { this->_serverName = value; }
 void    Config::setRoot(std::string value) { this->_root = value; }
+void    Config::setUploadDir(std::string value) { this->_uploadDir = value; }
 void    Config::setAccessLog(std::string value) { this->_accessLog = value; }
 void    Config::setErrorLog(std::string value) { this->_errorLog = value; }
 void    Config::setAutoIndex(std::string value) { this->_autoIndex = value; }
@@ -89,7 +81,8 @@ void    Config::setIp(std::string value) { this->_ip = value; }
 void    Config::setCgi(std::string value) { this->_cgi = value; }
 void    Config::setAlias(std::string value) { this->_alias = value; }
 
-std::vector<std::string>            Config::serverName(void) const { return this->_serverName; }
+std::string                         Config::serverName(void) const { return this->_serverName; }
+std::string                         Config::uploadDir(void) const { return this->_uploadDir; }
 std::string                         Config::root(void) const { return this->_root; }
 std::string                         Config::accessLog(void) const { return this->_accessLog; }
 std::string                         Config::errorLog(void) const { return this->_errorLog; }

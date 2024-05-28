@@ -27,9 +27,6 @@ int Respons::checkResource(void) {
     struct stat buffer;
 
     if (stat(path.c_str(), &buffer) != 0) {
-        std::cout << path << '\n';
-        // exit(1);
-
         setStatusCode(404);
         return 1;
     }
@@ -72,28 +69,27 @@ void    Respons::servAutoIndex() {
     sendResponsContent(content.str(), 200, "text/html");
 }
 
-Result    Respons::handleFolder() {
+void    Respons::handleFolder() {
     std::string index;
 
     if (_request.getPath()[_request.getPath().length() - 1] != '/') {
         setStatusCode(301);
-        sendRedirection(_request.getPath() + "/", 301);
-        return Result(this->_responsContent);
+        return sendRedirection(_request.getPath() + "/", 301);
     }
 
     index = getIndexPath();
     if (!index.empty())
         return handleFile(index);
-    else if (_server.currentLocation().autoIndex() == "on") {
-        servAutoIndex();
-        return Result(this->_responsContent);
+    else {
+        if (_server.currentLocation().autoIndex() == "on") {
+            return servAutoIndex();
+        }
     }
     setStatusCode(403);
-    servErrorPage();
-    return Result(this->_responsContent);
+    return servErrorPage();
 }
 
-Result    Respons::handleCgi(std::string path) {
+void    Respons::handleCgi(std::string path) {
     std::string allPath;
 
     if (path.empty())
@@ -101,9 +97,15 @@ Result    Respons::handleCgi(std::string path) {
     else 
         allPath = path;
 
-    CgiHandler  cgi(_clientFd ,allPath, getMethodString(_request.getMethodType()), _request.getFileExtension(), _request.getBody());
+    CgiHandler  cgi(allPath, getMethodString(_request.getMethodType()), _request.getFileExtension(), _request.getBody(), _request.getHeaders());
 
-    return Result(cgi.handleRequest());
+    cgi.handleRequest();
+    if (cgi.getStatusCode() == 200)
+        sendResponsContent(cgi.getResponseBody(), 200, "text/html");
+    else {
+        setStatusCode(cgi.getStatusCode());
+        servErrorPage();
+    }
 }
 
 std::string Respons::getExtentionOfFile(std::string path) {
@@ -117,7 +119,7 @@ std::string Respons::getExtentionOfFile(std::string path) {
     return extention;
 }
 
-Result    Respons::handleFile(std::string path) {
+void    Respons::handleFile(std::string path) {
     if ((_request.getFileExtension() == "py" || getExtentionOfFile(path) == "py") && _server.currentLocation().cgi() == "on")
         return handleCgi(path);
     else  if ((_request.getFileExtension() == "php" || getExtentionOfFile(path) == "php") && _server.currentLocation().cgi() == "on")
@@ -132,31 +134,24 @@ Result    Respons::handleFile(std::string path) {
 
     if (!file.is_open()) {
         setStatusCode(404);
-        servErrorPage();
-        return Result(this->_responsContent);
+        return servErrorPage();
     }
     setStatusCode(200);
     content.assign((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     file.close();
     for(; it != mimeType.end(); it++) {
         if (it->first.find(_request.getFileExtension()) != std::string::npos) {
-            sendResponsContent(content, getStatusCode(), it->second);
-            return Result(this->_responsContent);
+            return sendResponsContent(content, getStatusCode(), it->second);
         }
     }
     sendResponsContent(content, getStatusCode(), "text/plain");
-    return Result(this->_responsContent);
 }
 
-Result    Respons::servGet(void) {
-    if (checkResource()) {
-        servErrorPage();
-        return Result(this->_responsContent);
-    }
-    if (_request.getFileExtension().empty()) {
-        handleFolder();
-        return Result(this->_responsContent);
-    }
-
-    return handleFile(getCurrentPath());
+void    Respons::servGet(void) {
+    if (checkResource())
+        return servErrorPage();
+    if (_request.getFileExtension().empty())
+        return handleFolder();
+    else
+        return handleFile(getCurrentPath());
 }

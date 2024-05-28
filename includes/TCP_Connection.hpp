@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   TCP_Connection.hpp                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rlabbiz <rlabbiz@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 16:56:53 by amait-ou          #+#    #+#             */
-/*   Updated: 2024/05/21 16:03:35 by rlabbiz          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef TCP_CONNECTION_HPP
 #define TCP_CONNECTION_HPP
@@ -18,6 +7,7 @@
 #include "./Config.hpp"
 #include "./Parser.hpp"
 #include <csignal>
+#include <netdb.h>
 #include <sys/time.h>
 typedef struct fds
 {
@@ -40,11 +30,7 @@ class TCP_Connection
 			std::map<int, Client>		clients;
 			t_fds						fds;
 			char						buffer[BUFFER_SIZE];
-			std::vector<CGI_Response*>	cgi_responses;
 
-		CGI_Response*	get_cgi_read(int fd);
-		CGI_Response*	get_cgi_write(int fd);
-		bool			client_has_cgi(int fd);
 	public:
 		TCP_Connection(std::vector<Config> &);
 
