@@ -106,7 +106,7 @@ HTTPS is the secure version of HTTP. It adds a layer of encryption using SSL/TLS
 
 - project files structure
 
-```mathematica
+```
 |____.gitignore
 |____includes
 | |____CGI.hpp
