@@ -1,5 +1,5 @@
 ---
-<img width="2560" alt="Screen Shot 2024-05-29 at 12 38 35 AM" src="https://github.com/amaitou/Webserv/assets/49293816/2536f0da-303e-4011-94e1-d40281d78089">
+<img width="2560" alt="Screen Shot 2024-05-30 at 3 08 25 AM" src="https://github.com/amaitou/Webserv/assets/49293816/8311fefc-e3e9-4d66-8667-253299a47938">
 
 ---
 # Overview
