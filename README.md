@@ -81,8 +81,8 @@ HTTPS is the secure version of HTTP. It adds a layer of encryption using SSL/TLS
                           Webserver
                         (project name)
                               │
-       ┌───────────────┬───────────────┬───────────────┐
-       │               │               │               │
+       ┌───────────────┬───────────────┬
+       │               │               │
     Config       TCP_Exceptions  TCP_Connection
                      (class)       (class)
                                        │
