@@ -104,3 +104,14 @@ Their combined efforts and expertise significantly contributed to the success an
 |__________________________
 ```
 ---
+
+# Usage
+
+```sh
+# make the project first
+make
+# run the program
+./webserv <config file>
+```
+
+---
