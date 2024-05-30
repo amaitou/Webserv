@@ -2,6 +2,14 @@
 <img width="2560" alt="Screen Shot 2024-05-29 at 12 38 35 AM" src="https://github.com/amaitou/Webserv/assets/49293816/2536f0da-303e-4011-94e1-d40281d78089">
 
 ---
+# Overview
+
+- [Webserv](https://github.com/amaitou/Webserv?tab=readme-ov-file#webserv)
+  - [Contribution](https://github.com/amaitou/Webserv?tab=readme-ov-file#contribution)
+- [Structure](https://github.com/amaitou/Webserv?tab=readme-ov-file#structure)
+- [Usage](https://github.com/amaitou/Webserv?tab=readme-ov-file#usage)
+
+---
 
 # Webserv
 This project is here to make you write your own HTTP server. You will be able to test it with a real browser. HTTP is one of the most used protocol on internet. Knowing its arcane will be useful, even if you won't be working on a website.
