@@ -29,7 +29,7 @@ Their combined efforts and expertise significantly contributed to the success an
 
 # Structure
 
-- code structre (this is the structure which we have followed to coomplete the project.)
+- Code structre (this is the structure which we have followed to complete the project.)
 ```mathematica
                           Webserver
                         (project name)
@@ -57,7 +57,7 @@ Their combined efforts and expertise significantly contributed to the success an
                                                          (Class)                  (Class)
 ```
 
-- project files structure
+- Project files structure (PFS)
 
 ```
 |____.gitignore
