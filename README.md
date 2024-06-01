@@ -123,3 +123,74 @@ make
 ```
 
 ---
+
+# Config File
+
+**Webserv** config file defines the behavior of the server, just create your website config file, place it whenever you want and give it as an argument to the compiled program so it can parse it and serve your website properly.
+
+```
+server {
+    listen 8080 8082 8083 8084 8085 8086 8087
+    server_name www.ExtraJuice.com
+    host        127.0.0.1
+    index       Index.html
+    cgi         on
+    client_max_body_size 1g
+    root        /Users/amait-ou/Desktop/webserv/www
+    error_page  404 notFound.html
+    autoindex   on
+
+	location /new_page {
+		method GET POST DELETE
+	}
+
+    
+    location /cgi-bin {
+        method GET POST DELETE
+		upload_dir /Users/amait-ou/Desktop/webserv/www
+    }
+    
+    location /ExtraJuice {
+        method GET POST DELETE
+    }
+    
+    location /ExtraJuice/imgs {
+        method GET POST DELETE
+    }
+
+    location /Error_Pages {
+        method GET POST DELETE
+    }
+
+}
+```
+
+### Server Configuration:
+
+- **listen**: Defines the ports that the server will listen on.
+- **server_name**: Sets the domain name for the server.
+- **host**: Specifies the IP address the server will bind to.
+- **index**: Specifies the default file to serve if no file is specified in the URL.
+- **cgi**: Enables CGI scripts.
+- **client_max_body_size**: Sets the maximum allowed size of the client request body.
+- **root**: Defines the root directory where files will be served from.
+- **error_page**: Specifies the page to display for 404 errors.
+- **autoindex**: Enables directory listing if no index file is found.
+
+   ---
+
+### Location Blocks:
+
+- **location /new_page**: Defines settings for requests to /new_page URI.
+   - **method**: Specifies the allowed HTTP methods for this location block.
+- **location /cgi-bin**: Defines settings for requests to /cgi-bin URI.
+   - **method**: Specifies the allowed HTTP methods for this location block.
+   - **upload_dir**: Specifies the directory where uploaded files will be stored.
+- **location /ExtraJuice**: Defines settings for requests to /ExtraJuice URI.
+   - **method**: Specifies the allowed HTTP methods for this location block.
+- **location /ExtraJuice/imgs**: Defines settings for requests to /ExtraJuice/imgs URI.
+   - **method**: Specifies the allowed HTTP methods for this location block.
+- **location /Error_Pages**: Defines settings for requests to /Error_Pages URI.
+   - **method**: Specifies the allowed HTTP methods for this location block.
+
+---
