@@ -8,6 +8,9 @@
   - [Contribution](https://github.com/amaitou/Webserv?tab=readme-ov-file#contribution)
 - [Structure](https://github.com/amaitou/Webserv?tab=readme-ov-file#structure)
 - [Usage](https://github.com/amaitou/Webserv?tab=readme-ov-file#usage)
+- [Config File](https://github.com/amaitou/Webserv?tab=readme-ov-file#config-file)
+   - [Server Configuration](https://github.com/amaitou/Webserv?tab=readme-ov-file#server-configuration)
+   - [Location Blocks](https://github.com/amaitou/Webserv?tab=readme-ov-file#location-blocks)
 
 ---
 
