@@ -198,7 +198,7 @@ server {
 
 ---
 
-- # **Contact Me**
+# **Contact Me**
 
 * [Twitter][_1]
 
